@@ -21,6 +21,7 @@ module Sinatra
 				session['location'] = resp["city"].downcase!
 				# c = GeoIP.new('GeoLiteCity.dat').country('94.197.121.225')
 				# puts c.to_hash
+				logger.info ap ENV.to_hash
 
 				erb :index
 			end

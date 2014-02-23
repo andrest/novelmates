@@ -11,6 +11,10 @@ class MyApp < Sinatra::Application
 		set :session_secret, ENV['SESSION_SECRET']
 		Mongoid.load!("mongoid.yml")
 
+		file = File.new("#{settings.root}/log/#{settings.environment}.log", 'a+')
+  		file.sync = true
+  		use Rack::CommonLogger, file
+
 		use Warden::Manager do |manager|
 		    manager.default_strategies :password, :facebook
 		    manager.failure_app = MyApp

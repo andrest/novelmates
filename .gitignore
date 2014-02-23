@@ -6,8 +6,12 @@ GeoLiteCity.dat
 hash.rb
 mongoid.yml
 novelmates.sublime-project
+.env*
+.powenv
 
+/log/
+/logs/
 /tmp/
 /node_modules/
 /bower_components/
-/data/
+/data/*

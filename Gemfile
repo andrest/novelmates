@@ -13,3 +13,5 @@ gem "awesome_print"
 
 gem 'uuid'
 gem 'bcrypt'
+
+gem 'dotenv'
