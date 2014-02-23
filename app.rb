@@ -11,6 +11,7 @@ require 'geoip'
 
 require 'warden'
 require 'mongoid'
+require "awesome_print"
 
 #set :raise_errors, true
 #set :dump_errors, false
