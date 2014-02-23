@@ -1,0 +1,59 @@
+<script type="text/javascript">
+  $.ajax({
+    url: '/mosaic'
+  })
+  .done(function(mosaic) {
+    //console.log($.parseHTML(mosaic)[1]);
+    $($.parseHTML(mosaic)).insertAfter('#book-search');
+    if ($(document).width() >= 1200) {
+      $('a:last-child', ".gallery").remove();
+      $('a:last-child', ".gallery").remove();
+    }
+    else if ($(document).width() >= 992) {
+      $('a:last-child', ".gallery").remove();
+    }
+    else if ($(document).width() >= 768) {
+      $('a:last-child', ".gallery").remove();
+    }
+
+    $('.gallery img').load(function() {
+      var container = document.querySelector('.gallery');
+      var msnry = new Masonry( container, {
+        // options
+        "gutter": 40,
+        itemSelector: '.cover-container',
+        "isFitWidth": true,
+        columnWidth: 250
+      }); 
+    });
+
+  })
+  .fail(function() {
+    console.log("error getting the mosaic");
+  });
+  
+</script>
+<div id="book-search" class="row">
+  <div class="search-box col-lg-offset-2 col-lg-8">
+    <div class="input-group">      
+    
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        By Title <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">By Title</a></li>
+          <li><a href="#">By Author</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+      
+      <input type="text" id="book-input" class="form-control">
+      <span id="spinner"></span>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+      
+    </div><!-- /input-group -->
+    <ul class="row" id="books"></ul>
+  </div><!-- /.col-lg-6 -->
+	 
+</div>

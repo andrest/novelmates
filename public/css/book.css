@@ -1,0 +1,147 @@
+/* Book description */
+.book-description {
+  border-right: 1px solid #e0e5e9;
+  float: left;
+  max-width: 250px;
+  padding: 0px 10px 0px 10px;
+  margin-right: 5px;
+}
+.book-cover {
+  max-width: 100%;
+  max-height: 100%;
+  margin-bottom: 5px;
+}
+/* Right widget section */
+#right {
+  float: right;
+  height: 600px;
+  padding-right: 10px;
+  padding-left: 5px;
+  border-left: 1px solid #e0e5e9;
+  margin-left: 5px;
+  /* Border box for widgets */
+
+  /* Location buttons */
+
+  /* Add new location [ + | Location ] */
+
+  /* Advert widget */
+
+}
+#right #locations,
+#right #suggested-titles,
+#right #advert {
+  border: 1px rgba(209, 209, 209, 0.5) solid;
+  padding: 5px;
+  background-color: #f7f7f7;
+  margin-bottom: 5px;
+}
+#right a.add-city.btn {
+  display: block;
+  text-align: left;
+  width: 150px;
+  max-width: auto;
+  margin-bottom: 3px;
+  /* Active locations */
+
+}
+#right a.add-city.btn p {
+  display: inline;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+}
+#right a.add-city.btn span.divider {
+  display: inline;
+  border-left: 1px solid rgba(2, 2, 2, 0.18);
+  padding: 6px 0px;
+  margin: 2px 5px;
+}
+#right a.add-city.btn.selected {
+  position: relative;
+  color: #333333;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #EFF3FF;
+  background-repeat: repeat-x;
+}
+#right a.add-city.btn.selected i.icon-remove,
+#right a.add-city.btn.selected span.divider {
+  float: right;
+  opacity: 0;
+}
+#right a.add-city.btn.selected:hover,
+#right a.add-city.btn.selected:active,
+#right a.add-city.btn.selected.active,
+#right a.add-city.btn.selected.disabled,
+#right a.add-city.btn.selected[disabled] {
+  color: #333333;
+  background-color: #CFE3CF;
+  *background-color: #003bb3;
+}
+#right a.add-city.btn.selected:hover span.divider,
+#right a.add-city.btn.selected:active span.divider,
+#right a.add-city.btn.selected.active span.divider,
+#right a.add-city.btn.selected.disabled span.divider,
+#right a.add-city.btn.selected[disabled] span.divider,
+#right a.add-city.btn.selected:hover i.icon-remove,
+#right a.add-city.btn.selected:active i.icon-remove,
+#right a.add-city.btn.selected.active i.icon-remove,
+#right a.add-city.btn.selected.disabled i.icon-remove,
+#right a.add-city.btn.selected[disabled] i.icon-remove {
+  -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  opacity: 1 !important;
+}
+#right a.add-city.btn.suggested {
+  background-color: #EFF3FF;
+}
+#right form#new-location {
+  margin: 0;
+}
+#right form#new-location span.add-on.btn {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+#right form#new-location .input-prepend {
+  margin: 0;
+}
+#right form#new-location .location-input {
+  width: 129px;
+}
+#right #advert {
+  height: 150px;
+}
+#right hr {
+  margin: 8px 0;
+}
+/* Breadcrumb and new Search */
+.breadcrumb {
+  margin-bottom: 5px;
+}
+.book-search {
+  position: absolute;
+  top: 13px;
+  right: 20px;
+}
+#panel {
+  position: relative;
+  background-color: rgba(240, 240, 240, 0.54);
+  /* background: -webkit-linear-gradient(45deg, #FFF, #F9F9F9); */
+
+  background-image: none;
+  box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+  height: auto;
+}
+#middle p {
+  padding: 5px;
+}
+i.icon-plus,
+i.icon-ok {
+  color: #56c160;
+}
+i.icon-remove {
+  color: #7B3628;
+  position: absolute;
+  right: 5px;
+  bottom: 7px;
+}

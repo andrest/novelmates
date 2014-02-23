@@ -1,0 +1,14 @@
+{
+  "name": "novelmates",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "description": "ERROR: No README data found!",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andres Tuul",
+  "license": "BSD"
+}

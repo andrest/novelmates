@@ -1,0 +1,298 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+/* ==========================================================================
+   Layout styles
+   ========================================================================== */
+html {
+  height: 100%;
+}
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  min-width: 320px;
+  width: 100%;
+  height: 100%;
+  border-spacing: 0;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+#wrapper {
+  padding: 10px;
+  background: white;
+  min-height: 796px;
+  position: relative;
+  max-width: 1170px;
+  -webkit-border-radius: 5px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 5px;
+  -moz-background-clip: padding;
+  border-radius: 5px;
+  background-clip: padding-box;
+  padding-top: 0px;
+}
+.serif {
+  font-family: "Lora", Georgia, "Times New Roman", Times, serif;
+  font-size: 17px;
+  line-height: 26px;
+  color: #333;
+}
+/* ==========================================================================
+   Navbar styles
+   ========================================================================== */
+.navbar a {
+  text-decoration: none;
+}
+.navbar .signup.highlight {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  color: white;
+  padding: 6px 12px;
+}
+.navbar .signup.highlight:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+.navbar .brand {
+  font-family: 'Satisfy', cursive;
+  font-size: 30px;
+  color: #664F4C;
+}
+.navbar-inner {
+  background-image: linear-gradient(to bottom, #d6d2d2, #f1f1f1);
+}
+.login.dropdown > .dropdown-menu {
+  font-size: 1em;
+  padding: 20px 10px;
+  width: 250px;
+}
+.login.dropdown form label {
+  color: #88818d;
+  font-weight: normal !important;
+}
+.login.dropdown form > input {
+  margin-bottom: 5px;
+}
+.btn-fb {
+  background-color: #3b5998;
+  color: white;
+  padding: 5px 10px;
+}
+.divider-stroked {
+  padding-top: 11px;
+  text-align: center;
+}
+.divider-stroked .divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+.divider-stroked .or {
+  color: #cfccd0;
+  background-color: white;
+  display: inline-block;
+  padding: 0 10px;
+  font-size: 12px;
+  margin: 0 auto;
+  position: relative;
+  top: -21px;
+}
+/* ==========================================================================
+   Index page styles
+   ========================================================================== */
+/* ==========================================================================
+   Book Search styles
+   ========================================================================== */
+#book-search {
+  z-index: 3;
+  position: absolute;
+  top: 300px;
+  margin: 25px 0px 35px 0px;
+  display: block;
+}
+#book-search .search-box {
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  padding-top: 15px;
+  min-height: 100px;
+  background: white;
+  border-radius: 8px;
+}
+#book-search .spinner {
+  float: right;
+}
+#input-helper {
+  display: block;
+  overflow: hidden;
+}
+#search-type {
+  display: inline;
+  width: 80px;
+  height: 40px;
+}
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.cover-wrapper {
+  width: 80px;
+  float: left;
+  height: 100%;
+  text-align: center;
+  padding-right: 5px;
+}
+#books {
+  list-style-type: none;
+  padding: 0;
+  margin: 0px;
+  background: white;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+#books a,
+#books a:hover,
+#books a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+#books li {
+  overflow: hidden;
+  height: 100px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+#books li .book-description {
+  display: block;
+  padding: 5px;
+}
+#books li .book-description > * {
+  display: block !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.1;
+}
+#books li .book-author,
+#books li .isbn {
+  margin: 0;
+  display: inline;
+}
+#books li .book-cover {
+  max-width: 71px;
+  max-height: 80px;
+}
+/* ==========================================================================
+   Background cover mosaic styles
+   ========================================================================== */
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.gallery {
+  -webkit-animation: fadeIn 750ms;
+  -moz-animation: fadeIn 750ms;
+  -o-animation: fadeIn 750ms;
+  animation: fadeIn 750ms;
+  width: 100%;
+  height: 100%;
+}
+.gallery .cover-container {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: perspective(1000px);
+  -moz-transform-style: preserve-3d;
+}
+.gallery .cover-container:hover .cover {
+  -webkit-transform: rotateY(-180deg);
+  -moz-transform: rotateY(-180deg);
+  -o-transform: rotateY(-180deg);
+  -ms-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+.gallery .front,
+.gallery .back {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.gallery .front:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.27);
+}
+.gallery .front {
+  -webkit-transform: translate3d(0, 0, 0);
+  z-index: 2;
+  cursor: pointer;
+}
+.gallery .back {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  -webkit-transform: rotateY(-180deg);
+  -moz-transform: rotateY(-180deg);
+  -o-transform: rotateY(-180deg);
+  -ms-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+  background: lightgrey;
+  z-index: 1;
+  color: black;
+  cursor: pointer;
+}
+.gallery .cover {
+  position: relative;
+  margin-bottom: 20px;
+  vertical-align: middle;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: 0.5s;
+}
+.gallery .cover .title {
+  text-align: center;
+}
+h1 {
+  font-family: 'Satisfy', cursive;
+  font-size: 90px;
+  line-height: 90px;
+  margin-left: 20px;
+  text-align: left;
+  color: #664F4C;
+}
+footer {
+  background-color: white;
+}
+.center {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}

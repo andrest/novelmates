@@ -1,0 +1,51 @@
+<li><a href="/signup">Sign up</a></li>
+<!-- <li><button type="button" data-toggle="dropdown" class="btn btn-default navbar-btn">Sign up</button></li> -->
+<li class="login dropdown">
+  <button type="button" data-toggle="dropdown" class="btn btn-default navbar-btn">Log in</button>
+
+  <ul class="dropdown-menu dropdown-form hidden-phone">
+    <li>
+
+      <div class="btn btn-fb btn-block btn-icon icon-left" style="cursor: pointer;">
+        <i class="fa fa-facebook"></i>
+        Login with Facebook
+      </div>
+
+      <div class="divider-stroked">
+        <div class="divider"></div>
+        <div class="h6 or">or</div>
+      </div>
+
+
+      <form action="/login" acceptcharset="UTF-8" name="signupForm" id="signupForm" data-bind="signup-form" method="post">
+        <div class="form-group text-left">
+          <label for="email" class="control-label">E-mail</label>
+          <input type="text" id="email" class="form-control" name="email" value="">
+        </div>
+
+        <div class="form-group text-left">
+          <label for="password" class="control-label">Password</label>
+          <input type="password" id="password" class="form-control" name="password" value="">
+        </div>
+
+        <button type="submit" class="btn btn-default btn-block">Submit</button>
+      </form>               
+
+        <!-- <form action="/login" method="post" acceptcharset="UTF-8" name="loginForm" id="loginForm" data-bind="login-form">
+        <div class="form-group">
+          <label for="username">Username&nbsp;/&nbsp;E-mail</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="Enter username or E-mail" value="">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="Password" value="">
+        </div>
+        <button type="submit" class="btn btn-default btn-block">Submit</button>
+      </form> -->
+
+      <div class="h6 text-center mt2">
+        New here? <a href="/signup">Sign up here</a></div>
+
+    </li>
+  </ul>
+</li>

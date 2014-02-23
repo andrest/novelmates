@@ -1,0 +1,13 @@
+.DS_Store
+
+environment.rb
+crossdomain.xml
+GeoLiteCity.dat
+hash.rb
+mongoid.yml
+novelmates.sublime-project
+
+/tmp/
+/node_modules/
+/bower_components/
+/data/

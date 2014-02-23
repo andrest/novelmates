@@ -1,0 +1,199 @@
+
+/* ==========================================================================
+   Index page styles
+   ========================================================================== */
+
+
+/* ==========================================================================
+   Book Search styles
+   ========================================================================== */
+
+#book-search {
+	z-index:3;
+	position: absolute;
+	top: 300px;
+	margin: 25px 0px 35px 0px;
+	display:block;
+	.search-box {
+		.transition(0.5s);
+		padding-top:15px;
+		min-height:100px;
+		background:white;
+		border-radius: 8px;
+	}
+	.spinner {
+		float:right;
+	}
+}
+
+// #book-search:hover + .gallery {
+// 	.backface-visibility(hidden);
+// 	.transform-style(preserve-3d); 
+// 	.transition(0.9s);
+// 	.animation-timing-function(cubic-bezier(0.250, 0.100, 0.250, 1.000));
+// 	.blur(4px);
+//     //box-shadow: 0 0 15px 5px red;
+//     //background: red;
+// }
+
+#search-wrapper {
+}
+#input-helper {
+    display: block;
+    overflow: hidden;
+}
+#search-type {
+	display: inline;
+	width:80px;
+	height:40px;
+}
+.helper {
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+
+// Search results styling
+
+.cover-wrapper {
+	width:80px;
+	float:left;
+	height:100%;
+	text-align:center;
+	padding-right:5px;
+}
+#books {
+	a, a:hover, a:focus {
+	    color: inherit;
+	    text-decoration: none;
+	}
+	list-style-type: none;
+	padding: 0;
+	margin: 0px;
+	background: white;
+	.transition(0.5s);
+}
+#books li {
+	overflow: hidden;
+	//width: 100%;
+	height:100px;
+
+	padding-top:0.5em;
+	padding-bottom:0.5em;
+	//border: 1px solid grey;
+
+	.book-description {
+		display: block;
+		padding: 5px;
+		
+		& > * {
+			display: block !important;
+			font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+			font-weight: 500;
+			line-height: 1.1;
+		}
+	}
+	.book-author, .isbn {
+		margin: 0;
+		display: inline;
+	}
+
+	.book-title {
+
+	}
+	.book-author {
+
+	}
+	.book-cover {
+		max-width: 71px;
+		max-height:80px;
+	}
+}
+
+
+
+/* ==========================================================================
+   Background cover mosaic styles
+   ========================================================================== */
+
+@-moz-keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+.gallery {
+    .animation(fadeIn, 750ms);
+    width: 100%;
+    height: 100%;
+    .cover-container {
+    	//.perspective(1000);
+    	-webkit-transform: translate3d(0, 0, 0);
+    	-moz-transform: perspective(1000px);
+    	-moz-transform-style: preserve-3d; 
+    }
+
+	.cover-container:hover .cover {
+		.rotateY(-180deg);
+  	}
+
+	.front, .back {
+	  	.backface-visibility(hidden);
+	}
+
+	.front:before {
+	    content: "";
+	    display: block;
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    background: rgba(255, 255, 255, 0.27);
+	}
+ 	.front {
+ 		-webkit-transform: translate3d(0, 0, 0);
+	    z-index: 2;
+	    cursor: pointer;
+  	}
+
+ 	.back {
+		position: absolute;
+		top: 0;
+		height: 100%;
+		width: 100%;
+	    .rotateY(-180deg);
+	    background: lightgrey;
+	    z-index: 1;
+	    color: black;
+	    cursor: pointer;
+  	}
+	.cover {
+		position: relative;
+	    margin-bottom: 20px;
+	    //width: 22%;
+	    vertical-align: middle;
+	    //max-height: 160px;
+	    //max-width: 160px;
+	    //box-shadow: 2px 2px 2px gray;
+	    -webkit-transform-style: preserve-3d;
+	    -webkit-transition: 0.5s;
+	    .title {
+			text-align: center;
+	    }
+	    .author {
+
+	    }
+	    .info {
+
+	    }
+  	}
+}
