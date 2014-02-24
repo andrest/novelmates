@@ -1,9 +1,9 @@
 /* Book description */
 .book-description {
-  border-right: 1px solid #e0e5e9;
   float: left;
+  display: inline-block;
+  border-right: 1px solid #e0e5e9;
   max-width: 250px;
-  padding: 0px 10px 0px 10px;
   margin-right: 5px;
 }
 .book-cover {
@@ -13,9 +13,8 @@
 }
 /* Right widget section */
 #right {
+  display: inline-block;
   float: right;
-  height: 600px;
-  padding-right: 10px;
   padding-left: 5px;
   border-left: 1px solid #e0e5e9;
   margin-left: 5px;
@@ -88,8 +87,6 @@
 #right a.add-city.btn.selected.active i.icon-remove,
 #right a.add-city.btn.selected.disabled i.icon-remove,
 #right a.add-city.btn.selected[disabled] i.icon-remove {
-  -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   opacity: 1 !important;
 }
 #right a.add-city.btn.suggested {
@@ -114,6 +111,12 @@
 #right hr {
   margin: 8px 0;
 }
+body {
+  height: 100%;
+}
+#wrapper {
+  min-height: calc(100% - 72px - 82px);
+}
 /* Breadcrumb and new Search */
 .breadcrumb {
   margin-bottom: 5px;
@@ -132,8 +135,25 @@
   box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
   height: auto;
 }
+#middle {
+  position: relative;
+  margin: 0px 173px 0px 255px;
+}
 #middle p {
   padding: 5px;
+}
+footer {
+  background-color: #f8f8f8;
+  width: 100%;
+  min-height: 80px;
+  /* Height of the footer */
+
+  line-height: 80px;
+  color: #333;
+  padding: 0 20px;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid #e7e7e7;
+  vertical-align: middle;
 }
 i.icon-plus,
 i.icon-ok {
