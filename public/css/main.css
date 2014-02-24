@@ -167,7 +167,7 @@ body {
   padding-bottom: 0.5em;
 }
 #books li:nth-child(odd) {
-  background-color: rgba(247, 251, 253, 0.7);
+  background-color: rgba(239, 247, 247, 0.7);
 }
 #books li:nth-child(odd):hover {
   background-color: rgba(237, 247, 253, 0.7) !important;

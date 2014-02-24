@@ -10,12 +10,13 @@ Dir[File.dirname(__FILE__) + '/controllers/**/*.rb'].each do |file|
 	require file
 end
 
-require './aws'
-require './routes'
-require './facebook'
-require './helpers'
-require './environment'
+require './app/routes'
 
-require ::File.join( ::File.dirname(__FILE__), 'app' )
+
+Dir[File.dirname(__FILE__) + '/app/**/*.rb'].each do |file|
+	require file unless file == File.dirname(__FILE__) + '/app/app.rb'
+end
+
+require ::File.dirname(__FILE__) + '/app/app.rb'
 
 run MyApp
