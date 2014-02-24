@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 gem 'sinatra'
-gem 'sinatra/flash'
+gem 'sinatra-flash'
 
 gem 'json'
 gem 'nokogiri'
