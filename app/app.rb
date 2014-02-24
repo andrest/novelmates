@@ -9,6 +9,8 @@ class MyApp < Sinatra::Application
 		set :bind, '0.0.0.0'
 		set :protection, :except => :frame_options
 		set :session_secret, ENV['SESSION_SECRET']
+		set :views, 'app/views'
+		set :public_folder, 'app/assets'
 		Mongoid.load!("mongoid.yml")
 
 		use Warden::Manager do |manager|

@@ -3,10 +3,10 @@ require 'bundler'
 Bundler.require
 Dotenv.load
 
-Dir[File.dirname(__FILE__) + '/models/**/*.rb'].each do |file|
+Dir[File.dirname(__FILE__) + '/app/models/**/*.rb'].each do |file|
 	require file
 end
-Dir[File.dirname(__FILE__) + '/controllers/**/*.rb'].each do |file|
+Dir[File.dirname(__FILE__) + '/app/controllers/**/*.rb'].each do |file|
 	require file
 end
 
