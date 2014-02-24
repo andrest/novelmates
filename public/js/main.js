@@ -102,25 +102,13 @@ $( "#book-input" ).on('input',function(e) {
 	
 	if (lastParam == param) return; 
 	else lastParam = param;
-	
-	console.log(this);
+
 	setRequest({
 			url: "/autocomplete/" + $(this).val(),
 			dataType: "text",
 			success: function( data ) {
 				spinner.stop();
 				response(data);
-				// xml = $.parseXML(data);
-
-				// response( itemsToHTML(xml) );
-        /*
-        $('.gallery .book-cover').parent().hover(function(){
-          $(this).find('.book-cover').addClass('flipped').parent().mouseleave(function(){
-              $(this).find('.book-cover').removeClass('flipped');
-          });
-          return false;
-        }); */
-      
 			}
 		});
 });
@@ -212,7 +200,6 @@ function makeRequest() {
 	
 	var target = document.getElementById('spinner');
 	spinner.spin(target);
-	console.log(spinner.el);
 	lastRequest = $.ajax(request);
 }
 
@@ -224,22 +211,9 @@ function response(items) {
 	if (items.length == 0) return;
 	$("#books").empty();
 	$("#books").append(items)
-	
-	// $(items).each(function() {
-	// 	$("#books").append(this.label);
-	// 	$("img", "#books li:last-child" ).load(function() {
-	// 		$(this).fadeIn(200);
-	// 		$(this).removeClass('hidden');
-	// 	});
-	// 	// var cover = $($.parseHTML(this.label.slice(4, -4))[0]).find('.book-cover')[0];
-	// 	// $(cover).css("");
-	// 	// console.log(cover.parentNode);
-	// 	// $(cover.parentNode).append("<div class='back'></div>");
-	// 	// $(".gallery").append(cover.parentNode);
-	// 	}
-	//  );
+
 	$("#books li:even").css("background-color","rgba(235,241,241,0.7)"); 
-	$("#books li:odd").css("background-color","rgba(247,251,253,0.7)");
+	$("#books li:odd").css("background-color","rgba(239, 247, 247, 0.7");
 	//$(".gallery").addClass("blur");
 
 	$('#books li img').on('load', function(){

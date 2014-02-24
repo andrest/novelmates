@@ -21,7 +21,7 @@ module Sinatra
 				session['location'] = resp["city"].downcase!
 				# c = GeoIP.new('GeoLiteCity.dat').country('94.197.121.225')
 				# puts c.to_hash
-				logger.info ap ENV.to_hash
+				# logger.info ap ENV.to_hash
 
 				erb :index
 			end
@@ -33,7 +33,6 @@ module Sinatra
 
 			app.post '/login' do
 				request.env['warden'].authenticate!
-				p ENV['warden'].user if dev?
 				redirect '/'
 			end
 
@@ -42,7 +41,6 @@ module Sinatra
 			end
 
 			app.get '/logout' do
-		    	env['warden'].raw_session.inspect if dev?
 		    	env['warden'].logout
 		    	redirect '/'
 		  	end
@@ -53,12 +51,12 @@ module Sinatra
 
 			app.post '/signup' do
 				u = User.new(params)
-				p u if dev?
+				logger.info u if dev?
 				u.save
 				if u.save
 					redirect '/'
 				else
-					p "Error saving user" if dev?
+					logger.info "Error saving user" if dev?
 				end
 			end
 
@@ -120,8 +118,6 @@ module Sinatra
 				isbn = params[:captures][1]
 				
 				@book = BookController.get_book(isbn)
-				p @book.title
-				generator = Faker::SamuelLIpsum.new
 				
 				@additional_css = set_css "book"
 

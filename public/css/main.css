@@ -166,6 +166,18 @@ body {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
+#books li:nth-child(odd) {
+  background-color: rgba(247, 251, 253, 0.7);
+}
+#books li:nth-child(odd):hover {
+  background-color: rgba(237, 247, 253, 0.7) !important;
+}
+#books li:nth-child(even) {
+  background-color: rgba(235, 241, 241, 0.7);
+}
+#books li:nth-child(even):hover {
+  background-color: rgba(237, 247, 253, 0.7) !important;
+}
 #books li .book-description {
   display: block;
   padding: 5px;

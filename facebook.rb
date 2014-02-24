@@ -2,14 +2,11 @@ require 'omniauth-facebook'
  
 Warden::Strategies.add(:facebook) do
   def valid?
-	request.cookies['fbsr_'+ENV['APP_ID']] or params["code"]
+	 request.cookies['fbsr_'+ENV['APP_ID']] or params["code"]
   end
  
   def authenticate!
-
-
-    # return fail!('You have not accepted to assign your acount with example.com') if params[:error_reason]
- 	fb_user = request.env['omniauth.auth']
+ 	  fb_user = request.env['omniauth.auth']
     access_token = fb_user['credentials']['token']
     u = User.where(:oauth => { "facebook" => fb_user['uid'] }, :active => true).first
 
@@ -17,9 +14,9 @@ Warden::Strategies.add(:facebook) do
 		u = User.new(email: fb_user['info']['email'], firstname: fb_user['info']['first_name'],lastname: fb_user['info']['last_name'], oauth: {facebook: fb_user['uid']})
 		u.save
 		if u.save
-			p 'user saved'
+			logger.info 'user saved' if dev?
 		else
-			p "error saving user"
+			logger.info "error saving user" if dev?
 			fail!("Error saving user")
 		end
 	end
@@ -38,7 +35,6 @@ Warden::Strategies.add(:password) do
   end
  
   def authenticate!
-  	p "password auth"
     u = User.authenticate(params["email"], params["password"])
     u.nil? ? fail!("Could not log in") : success!(u)
   end
