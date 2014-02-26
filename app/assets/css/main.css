@@ -9,6 +9,19 @@ html {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
 }
+footer {
+  background-color: #f8f8f8;
+  width: 100%;
+  min-height: 80px;
+  /* Height of the footer */
+
+  line-height: 80px;
+  color: #333;
+  padding: 0 20px;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid #e7e7e7;
+  vertical-align: middle;
+}
 body {
   min-width: 320px;
   width: 100%;
@@ -18,9 +31,9 @@ body {
   padding-left: 0px;
 }
 #wrapper {
+  min-height: calc(100% - 72px - 82px);
   padding: 10px;
   background: white;
-  min-height: 796px;
   position: relative;
   max-width: 1170px;
   -webkit-border-radius: 5px;
@@ -104,24 +117,29 @@ body {
    Book Search styles
    ========================================================================== */
 #book-search {
+  background: #FCFCFC;
+  border-bottom: 1px solid #ccccc8;
   z-index: 3;
-  position: absolute;
-  top: 300px;
-  margin: 25px 0px 35px 0px;
+  margin: -20px 0px 35px 0px;
   display: block;
-}
-#book-search .search-box {
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
-  padding-top: 15px;
+  padding-top: 30px;
   min-height: 100px;
-  background: white;
-  border-radius: 8px;
 }
 #book-search .spinner {
   float: right;
+}
+#book-search input {
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
+  height: 3em;
+}
+#book-search .input-group-addon {
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
 }
 #input-helper {
   display: block;
@@ -145,8 +163,11 @@ body {
   padding-right: 5px;
 }
 #books {
+  left: 0;
+  padding: 0 15px;
+  position: absolute;
+  z-index: 1;
   list-style-type: none;
-  padding: 0;
   margin: 0px;
   background: white;
   -webkit-transition: 0.5s;
@@ -267,7 +288,15 @@ body {
   z-index: 2;
   cursor: pointer;
 }
-.gallery .back {
+.gallery .cover {
+  position: relative;
+  margin-bottom: 20px;
+  vertical-align: middle;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: 0.5s;
+  text-align: center;
+}
+.gallery .cover .back {
   position: absolute;
   top: 0;
   height: 100%;
@@ -277,20 +306,29 @@ body {
   -o-transform: rotateY(-180deg);
   -ms-transform: rotateY(-180deg);
   transform: rotateY(-180deg);
-  background: lightgrey;
+  background: #f8f8f8;
   z-index: 1;
   color: black;
   cursor: pointer;
 }
-.gallery .cover {
-  position: relative;
-  margin-bottom: 20px;
+.gallery .cover .back .back-wrap {
+  display: table;
   vertical-align: middle;
-  -webkit-transform-style: preserve-3d;
-  -webkit-transition: 0.5s;
+  margin: auto 0;
+  width: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0 15px;
 }
-.gallery .cover .title {
-  text-align: center;
+.gallery .cover .back .author {
+  font-weight: 400;
+  color: #999;
+}
+.gallery .cover .back .info {
+  font-size: 40px;
 }
 h1 {
   font-family: 'Satisfy', cursive;

@@ -5,7 +5,7 @@ class MyApp < Sinatra::Application
 
 	configure do
 		enable :sessions
-		# enable :logging
+		# penable :logging
 		set :bind, '0.0.0.0'
 		set :protection, :except => :frame_options
 		set :session_secret, ENV['SESSION_SECRET']

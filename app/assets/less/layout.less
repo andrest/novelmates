@@ -1,12 +1,27 @@
 /* ==========================================================================
    Layout styles
    ========================================================================== */
+   	@footer_height: 80px;
+	@footer_border: 1px;
+	
 html {
 	height:100%;
    	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
    	font-weight: 300;
 }
+footer {
 
+	background-color: rgb(248, 248, 248);
+	width:100%;
+	min-height:@footer_height;   /* Height of the footer */
+	line-height:@footer_height;
+	color: #333;
+	padding: 0 20px;
+	text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
+
+	border: @footer_border solid rgb(231, 231, 231);
+	vertical-align: middle;
+}
 body {
 	// background:url(/img/paper_fibers.png) repeat;
    	min-width: 320px;
@@ -29,9 +44,11 @@ body {
 	// }
 }
 #wrapper {
+	min-height: calc(~'100% - 72px' - @footer_height + @footer_border*2);
+
 	padding: 10px;
 	background: white;
-	min-height: 796px;
+	// min-height: 796px;
 	position:relative;
 	max-width:1170px;
 	//background-color: rgb(31, 15, 8);

@@ -82,10 +82,12 @@ module Sinatra
 								<img src="#{book.images[:large]}" style="max-width:250px;"/>
 							</div>
 							<div class="back">
-								<span class="title"  style="display:block;"><h4>#{book.title}</h4></span>
-								<span class="author" style="display:block;">#{book.author}</span>
-								<span class="info" style="display:block;">#{rand(8)+1}</span>
-								<span class="text" style="display:block;">interested readers in your area</span>
+								<div class="back-wrap">
+									<span class="title"  style="display:block;"><h4>#{book.title}</h4></span>
+									<span class="author" style="display:block;">#{book.author}</span>
+									<span class="info" style="display:block;">#{rand(8)+1}</span>
+									<span class="text" style="display:block;">interested readers in your area</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -97,7 +99,7 @@ module Sinatra
 
 		# TODO: GeoIP for city
 		def self.generate_search_results(books)
-			html = "<div id='books'>"
+			html = '' # "<div id='books'>"
 			books.each do |book|
 				html +=
 				<<-HTML
@@ -116,7 +118,8 @@ module Sinatra
 				</li>
 				HTML
 			end
-			html += "</div>"
+			# html += "</div>"
+			html
 		end
 
 		def self.look_up(isbn)

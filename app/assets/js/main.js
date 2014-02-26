@@ -208,6 +208,7 @@ function escapeRegExp(string){
 }
 
 function response(items) {
+	console.log(items);
 	if (items.length == 0) return;
 	$("#books").empty();
 	$("#books").append(items)

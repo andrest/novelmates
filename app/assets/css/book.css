@@ -113,9 +113,7 @@
 }
 body {
   height: 100%;
-}
-#wrapper {
-  min-height: calc(100% - 72px - 82px);
+  min-width: 992px;
 }
 /* Breadcrumb and new Search */
 .breadcrumb {
@@ -141,19 +139,6 @@ body {
 }
 #middle p {
   padding: 5px;
-}
-footer {
-  background-color: #f8f8f8;
-  width: 100%;
-  min-height: 80px;
-  /* Height of the footer */
-
-  line-height: 80px;
-  color: #333;
-  padding: 0 20px;
-  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
-  border: 1px solid #e7e7e7;
-  vertical-align: middle;
 }
 i.icon-plus,
 i.icon-ok {

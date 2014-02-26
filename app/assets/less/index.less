@@ -9,20 +9,36 @@
    ========================================================================== */
 
 #book-search {
+	background: #FCFCFC; //#f5f5f1;
+	border-bottom: 1px solid #ccccc8;
+
 	z-index:3;
-	position: absolute;
-	top: 300px;
-	margin: 25px 0px 35px 0px;
+	// position: absolute;
+	// top: 300px;
+	margin: -20px 0px 35px 0px;
 	display:block;
+
+	.transition(0.5s);
+	padding-top:30px;
+	min-height:100px;
 	.search-box {
-		.transition(0.5s);
-		padding-top:15px;
-		min-height:100px;
-		background:white;
-		border-radius: 8px;
+
+		// background:white;
+		// border-radius: 8px;
 	}
 	.spinner {
 		float:right;
+	}
+
+	input {
+		border-top-right-radius: 2em;
+		border-bottom-right-radius: 2em;
+		height:3em;
+	}
+
+	.input-group-addon {
+		border-top-left-radius: 2em;
+		border-bottom-left-radius: 2em;
 	}
 }
 
@@ -63,12 +79,18 @@
 	padding-right:5px;
 }
 #books {
+
+	left: 0;
+	padding: 0 15px;
+
+	position: absolute;
+	z-index: 1;
+
 	a, a:hover, a:focus {
 	    color: inherit;
 	    text-decoration: none;
 	}
 	list-style-type: none;
-	padding: 0;
 	margin: 0px;
 	background: white;
 	.transition(0.5s);
@@ -177,17 +199,6 @@
 	    cursor: pointer;
   	}
 
- 	.back {
-		position: absolute;
-		top: 0;
-		height: 100%;
-		width: 100%;
-	    .rotateY(-180deg);
-	    background: lightgrey;
-	    z-index: 1;
-	    color: black;
-	    cursor: pointer;
-  	}
 	.cover {
 		position: relative;
 	    margin-bottom: 20px;
@@ -198,14 +209,43 @@
 	    //box-shadow: 2px 2px 2px gray;
 	    -webkit-transform-style: preserve-3d;
 	    -webkit-transition: 0.5s;
-	    .title {
-			text-align: center;
-	    }
-	    .author {
 
-	    }
-	    .info {
+	    text-align:center;
 
-	    }
+     	.back {
+			position: absolute;
+			top: 0;
+			height: 100%;
+			width: 100%;
+		    .rotateY(-180deg);
+		    background: #f8f8f8;
+		    // padding: 30px 10px 30px 10px;
+		    z-index: 1;
+		    color: black;
+		    cursor: pointer;
+
+	    	.back-wrap {
+				display: table;
+				vertical-align: middle;
+				margin: auto 0;
+				width: 250px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+
+				padding: 0 15px;
+			}
+		    .title {
+		    }
+		    .author {
+				font-weight: 400;
+				color: #999;
+		    }
+		    .info {
+				font-size: 40px;
+		    }
+	  	}
   	}
 }

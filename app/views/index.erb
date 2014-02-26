@@ -4,7 +4,7 @@
   })
   .done(function(mosaic) {
     //console.log($.parseHTML(mosaic)[1]);
-    $($.parseHTML(mosaic)).insertAfter('#book-search');
+    $($.parseHTML(mosaic)).appendTo('#wrapper');
     if ($(document).width() >= 1200) {
       $('a:last-child', ".gallery").remove();
       $('a:last-child', ".gallery").remove();
@@ -34,26 +34,31 @@
   
 </script>
 <div id="book-search" class="row">
-  <div class="search-box col-lg-offset-2 col-lg-8">
-    <div class="input-group">      
-    
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        By Title <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="#">By Title</a></li>
-          <li><a href="#">By Author</a></li>
-        </ul>
-      </div><!-- /btn-group -->
-      
-      <input type="text" id="book-input" class="form-control">
+  <div class="col-sm-offset-1 col-sm-3">
+
+    <div class="input-group"> <!--  has-success has-feedback -->
+      <!-- <label class="control-label" for="inputSuccess4">Input with success</label> -->
+      <span class="input-group-addon">City</span>
+      <input type="text" class="form-control" id="inputSuccess4" placeholder="E.g. London">
+      <!-- <span class="glyphicon glyphicon-ok form-control-feedback"></span> -->
+    </div>
+
+  </div>
+  <div class="search-box col-sm-7">
+    <div class="input-group"> 
+      <span class="input-group-addon">Title</span>     
+      <input type="text" id="book-input" class="form-control" placeholder="E.g. 50 Shades of Grey">
       <span id="spinner"></span>
-      <span class="input-group-btn">
+
+<!--       <span class="input-group-btn">
         <button class="btn btn-default" type="button">Go!</button>
-      </span>
+      </span> -->
       
     </div><!-- /input-group -->
-    <ul class="row" id="books"></ul>
+    <ul class="col-xs-12" id="books"></ul>
   </div><!-- /.col-lg-6 -->
-	 
+   
+</div>
+<div id="wrapper" class="container-fluid">
+
 </div>
