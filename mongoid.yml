@@ -1,0 +1,13 @@
+development:
+  sessions:
+    default:
+      database: test
+      hosts:
+        - localhost:27017
+production:   
+  sessions:
+    default:
+      uri: <%= ENV['MONGOSOUP_URL'] %>
+      options:
+        skip_version_check: true
+        safe: true
