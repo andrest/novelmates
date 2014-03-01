@@ -169,11 +169,21 @@ body {
   z-index: 1;
   list-style-type: none;
   margin: 0px;
-  background: white;
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
+}
+#books:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: -1;
 }
 #books a,
 #books a:hover,
