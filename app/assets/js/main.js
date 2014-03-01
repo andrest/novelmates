@@ -1,5 +1,50 @@
+function loc_from_coords(latS, lngS) {
+	var lat = parseFloat(latS);
+    var lng = parseFloat(lngS);
+	var geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(lat, lng);
+	geocoder.geocode({'latLng': latlng}, function(results, status) {
+	if (status == google.maps.GeocoderStatus.OK) {
+	    if (results[1]) {
+	      var address = results[1].address_components;
+	      $('#inputSuccess4').val(address[address.length - 1].short_name);
+	      $.cookie('city_coords', address[address.length - 1].short_name, { expires: 30, path: '/' });
+	      return address;
+	    }
+	  } else {
+	    alert("Geocoder failed due to: " + status);
+	  }
+	});
+}
 
-$(function() {		
+function determine_location() {
+  if (!navigator.geolocation) return;
+  if ($.cookie('city_coords') != undefined) {
+	$('#inputSuccess4').val($.cookie('city_coords'));
+	return;
+  }
+
+  var output = $("#book-search");
+
+  console.log('going to determine location now')
+
+  function success(position) {
+    var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    loc_from_coords(latitude, longitude);
+  };
+
+  function error() {
+    output.innerHTML = "Unable to retrieve your location";
+  };
+
+  // output.innerHTML = "<p>Locating…</p>";
+
+  navigator.geolocation.getCurrentPosition(success, error);
+}
+
+$(function() {
 
 var lastParam       = "";
 var timerId         = -1;
@@ -7,67 +52,47 @@ var request;
 var lastRequestMade = 0;
 var lastRequest;
 
-function determine_location() {
-  var output = document.getElementById("out");
+var data = [ "London", "Manchester", "Oxford" ];
+var items = data.map(function(x) { return { item: x }; });
 
-  if (!navigator.geolocation) return;
+$('#city-input').tokenInput("/city/auto/");
 
-  function success(position) {
-    var latitude  = position.coords.latitude;
-    var longitude = position.coords.longitude;
-
-    output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
-
-    var img = new Image();
-    img.src = "http://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
-
-    output.appendChild(img);
-  };
-
-  function error() {
-    output.innerHTML = "Unable to retrieve your location";
-  };
-
-  output.innerHTML = "<p>Locating…</p>";
-
-  navigator.geolocation.getCurrentPosition(success, error);
-}
 
 window.fbAsyncInit = function() {
-FB.init({
-  appId      : '609765839077999',
-  status     : true, // check login status
-  cookie     : true, // enable cookies to allow the server to access the session
-  xfbml      : true  // parse XFBML
-});
+	FB.init({
+	  appId      : '609765839077999',
+	  status     : true, // check login status
+	  cookie     : true, // enable cookies to allow the server to access the session
+	  xfbml      : true  // parse XFBML
+	});
 };
 
 // Load the SDK asynchronously
 (function(d){
-var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-if (d.getElementById(id)) {return;}
-js = d.createElement('script'); js.id = id; js.async = true;
-js.src = "//connect.facebook.net/en_US/all.js";
-ref.parentNode.insertBefore(js, ref);
+	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement('script'); js.id = id; js.async = true;
+	js.src = "//connect.facebook.net/en_US/all.js";
+	ref.parentNode.insertBefore(js, ref);
 }(document));
 
 $(function() {
-$('.btn-fb').click(function(e) {
-  e.preventDefault();
+	$('.btn-fb').click(function(e) {
+	  e.preventDefault();
 
-  FB.login(function(response) {
-    if (response.authResponse) {
-    	window.location.replace("/auth/facebook/callback");
-    	
-      // since we have cookies enabled, this request will allow omniauth to parse
-      // out the auth code from the signed request in the fbsr_XXX cookie
-      // $.getJSON('/auth/facebook/callback', function(json) {
-      //   	console.log('redirecting..');
-      //   	window.location.replace("/auth/facebook/callback");
-      // });
-    }
-  }, { scope: 'email, user_location' });
-});
+	  FB.login(function(response) {
+	    if (response.authResponse) {
+		window.location.replace("/auth/facebook/callback");
+
+	      // since we have cookies enabled, this request will allow omniauth to parse
+	      // out the auth code from the signed request in the fbsr_XXX cookie
+	      // $.getJSON('/auth/facebook/callback', function(json) {
+	      //   	console.log('redirecting..');
+	      //   	window.location.replace("/auth/facebook/callback");
+	      // });
+	    }
+	  }, { scope: 'email, user_location' });
+	});
 });
 
 var spinner;
@@ -113,13 +138,6 @@ $( "#book-input" ).on('input',function(e) {
 		});
 });
 
-
-
-function sizing() {
-  var input=$("#book-search").width();
-  if ($("#book-search").width() >=  392) return;
-  $("#book-input").width((input-85-20)+"px");
-}
 
 function itemsToHTML( xml ) {
 	removeDuplicateBooks(	xml);

@@ -1,4 +1,5 @@
 <script type="text/javascript">
+  determine_location();
   $.ajax({
     url: '/mosaic'
   })
@@ -39,7 +40,7 @@
     <div class="input-group"> <!--  has-success has-feedback -->
       <!-- <label class="control-label" for="inputSuccess4">Input with success</label> -->
       <span class="input-group-addon">City</span>
-      <input type="text" class="form-control" id="inputSuccess4" placeholder="E.g. London">
+      <input type="text" class="form-control" id="city-input" placeholder="E.g. London">
       <!-- <span class="glyphicon glyphicon-ok form-control-feedback"></span> -->
     </div>
 

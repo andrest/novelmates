@@ -13,17 +13,51 @@ module Sinatra
 			app.helpers Routes::Helpers
 
 			app.get "/" do
-				@title              = "Novelmat.es -- novel way to gain insight in books read"
-				uri                 = URI.parse('http://freegeoip.net/json/')
-				http                = Net::HTTP.new(uri.host, uri.port)
-				response            = http.request(Net::HTTP::Get.new(uri.request_uri))
-				resp                = JSON.parse(response.body)
-				session['location'] = resp["city"].downcase!
+				@title              = "Novelmates -- novel way to gain insight in books read"
+				# uri                 = URI.parse('http://freegeoip.net/json/')
+				# http                = Net::HTTP.new(uri.host, uri.port)
+				# response            = http.request(Net::HTTP::Get.new(uri.request_uri))
+				# resp                = JSON.parse(response.body)
+				# session['location'] = resp["city"].downcase!
 				# c = GeoIP.new('GeoLiteCity.dat').country('94.197.121.225')
 				# puts c.to_hash
 				# logger.info ap ENV.to_hash
 
 				erb :index
+			end
+
+			app.get '/city/auto/' do
+				content_type 'application/json'
+				uri = URI.parse('https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&sensor=false&key=AIzaSyDs_k1wyceiD8D6l1ysl2dI-KVjFsr0ONk&input=' + params[:q])
+				body = Net::HTTP.get_response(uri).body
+				p body
+				results = MultiJson.load(body)['predictions']
+
+				final = []
+				results.each do |city|
+					final.push( { 'id' => city['id'], 'name' => city['description'] } )
+				end
+
+				MultiJson.encode(final)
+			end
+
+			app.get '/geoip' do
+				content_type 'application/json'
+				ip = '159.92.9.130'
+				ip = request.ip unless request.ip == '127.0.0.1'
+
+				# puts "HELLO " + ip
+				# c = GeoIP.new('GeoLiteCity.dat').country(ip)
+				# MultiJson.encode(c.to_hash)
+
+				uri = URI.parse('http://freegeoip.net/json/' + ip)
+				res = Net::HTTP.get_response(uri)
+
+
+				response.set_cookie 'city_ip',
+			{:value=> MultiJson.load(res.body)['city'], :max_age => "2592000"}
+
+				res.body
 			end
 
 			app.get "/profile" do
