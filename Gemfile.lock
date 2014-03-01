@@ -20,6 +20,7 @@ GEM
     json (1.8.1)
     jwt (0.1.11)
       multi_json (>= 1.5)
+    kgio (2.9.2)
     macaddr (1.6.5)
       systemu (~> 2.6.2)
     mini_portile (0.5.2)
@@ -54,6 +55,7 @@ GEM
     rack (1.5.2)
     rack-protection (1.5.2)
       rack
+    raindrops (0.13.0)
     sinatra (1.4.4)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -63,6 +65,10 @@ GEM
     systemu (2.6.3)
     tilt (1.4.1)
     tzinfo (0.3.38)
+    unicorn (4.8.2)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
     uuid (2.3.7)
       macaddr (~> 1.0)
     warden (1.2.3)
@@ -83,5 +89,6 @@ DEPENDENCIES
   omniauth-facebook
   sinatra
   sinatra-flash
+  unicorn
   uuid
   warden

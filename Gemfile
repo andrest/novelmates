@@ -1,4 +1,10 @@
 source 'https://rubygems.org'
+
+group :production do
+	ruby '2.1.0'
+	gem 'unicorn'
+end
+
 gem 'sinatra'
 gem 'sinatra-flash'
 
