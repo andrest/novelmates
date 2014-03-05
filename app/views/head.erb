@@ -6,10 +6,15 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="">
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<%= set_js "/vendor/jquery.cookie" %>
+	<script>
+		$.ajax('/geoip').done(function(location){ 
+			$.cookie('city_coords', location, { expires: 30, path: '/' });
+		});
+	</script>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.css">
@@ -17,33 +22,32 @@
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
 	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs_k1wyceiD8D6l1ysl2dI-KVjFsr0ONk&sensor=false"
-	</script>
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs_k1wyceiD8D6l1ysl2dI-KVjFsr0ONk&sensor=false"
+  </script>
 
 	<!-- 		<%= set_js "bootstrap.min" %>
 	<%= set_css "bootstrap.min" %> -->
 
-	<%= set_js "underscore" %>
-	<%= set_js "backbone" %>
-	<%= set_js "main" %>
-	<%= set_js "masonry.pkgd.min" %>
-	<%= set_js "spin" %>
-	<%= set_js "jquery.spin" %>
-	<%= set_js "jquery.cookie" %>
+	<%= set_js "/vendor/underscore" %>
+	<!-- <%= set_js "/vendor/backbone" %> -->
+	<%= set_js "/vendor/masonry.pkgd.min" %>
+	<%= set_js "/vendor/spin" %>
+	<%= set_js "/vendor/jquery.spin" %>
+	<%= set_js '/vendor/jquery.tokeninput' %>
+  <%= set_js "/vendor/jquery.fittext" %>
+  <%= set_js "/vendor/modernizr-2.6.2.min" %>
 
-	<%= set_js 'jquery.tokeninput' %>
 	<%= set_css 'token-input' %>
 
 	<!-- <link href="http://cod
 	e.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" rel='stylesheet' type='text/css'> -->
 	
 	<!-- <link href="css/bootstrap-responsive.css" rel='stylesheet'> -->
+
 	<%= set_css "main" %>
-	
-	<%= set_js "jquery.fittext" %>
-	<%= set_js "vendor/modernizr-2.6.2.min" %>
+	<%= set_js "main" %>
 	
 	<%= @additional_css %>
-	<%= @addtional_js %>
-	<title><%=  @title %></title>
+	<%= @additional_js  %>
+	<title><%= @title %></title>
 </head>

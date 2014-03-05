@@ -1,49 +1,3 @@
-function loc_from_coords(latS, lngS) {
-	var lat = parseFloat(latS);
-    var lng = parseFloat(lngS);
-	var geocoder = new google.maps.Geocoder();
-	var latlng = new google.maps.LatLng(lat, lng);
-	geocoder.geocode({'latLng': latlng}, function(results, status) {
-	if (status == google.maps.GeocoderStatus.OK) {
-	    if (results[1]) {
-	      var address = results[1].address_components;
-	      $('#inputSuccess4').val(address[address.length - 1].short_name);
-	      $.cookie('city_coords', address[address.length - 1].short_name, { expires: 30, path: '/' });
-	      return address;
-	    }
-	  } else {
-	    alert("Geocoder failed due to: " + status);
-	  }
-	});
-}
-
-function determine_location() {
-  if (!navigator.geolocation) return;
-  if ($.cookie('city_coords') != undefined) {
-	$('#inputSuccess4').val($.cookie('city_coords'));
-	return;
-  }
-
-  var output = $("#book-search");
-
-  console.log('going to determine location now')
-
-  function success(position) {
-    var latitude  = position.coords.latitude;
-    var longitude = position.coords.longitude;
-
-    loc_from_coords(latitude, longitude);
-  };
-
-  function error() {
-    output.innerHTML = "Unable to retrieve your location";
-  };
-
-  // output.innerHTML = "<p>Locating…</p>";
-
-  navigator.geolocation.getCurrentPosition(success, error);
-}
-
 $(function() {
 
 var lastParam       = "";
@@ -51,12 +5,6 @@ var timerId         = -1;
 var request;
 var lastRequestMade = 0;
 var lastRequest;
-
-var data = [ "London", "Manchester", "Oxford" ];
-var items = data.map(function(x) { return { item: x }; });
-
-$('#city-input').tokenInput("/city/auto/");
-
 
 window.fbAsyncInit = function() {
 	FB.init({

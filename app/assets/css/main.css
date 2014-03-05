@@ -122,11 +122,16 @@ body {
   z-index: 3;
   margin: -20px 0px 35px 0px;
   display: block;
-  -webkit-transition: 0.5s;
-  -moz-transition: 0.5s;
-  -o-transition: 0.5s;
-  transition: 0.5s;
+  -webkit-transition: 2.5s;
+  -moz-transition: 2.5s;
+  -o-transition: 2.5s;
+  transition: 2.5s;
+  -webkit-animation: fadeIn 750ms;
+  -moz-animation: fadeIn 750ms;
+  -o-animation: fadeIn 750ms;
+  animation: fadeIn 750ms;
   padding-top: 30px;
+  padding-bottom: 15px;
   min-height: 100px;
 }
 #book-search .spinner {

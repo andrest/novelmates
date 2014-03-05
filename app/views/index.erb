@@ -1,39 +1,3 @@
-<script type="text/javascript">
-  determine_location();
-  $.ajax({
-    url: '/mosaic'
-  })
-  .done(function(mosaic) {
-    //console.log($.parseHTML(mosaic)[1]);
-    $($.parseHTML(mosaic)).appendTo('#wrapper');
-    if ($(document).width() >= 1200) {
-      $('a:last-child', ".gallery").remove();
-      $('a:last-child', ".gallery").remove();
-    }
-    else if ($(document).width() >= 992) {
-      $('a:last-child', ".gallery").remove();
-    }
-    else if ($(document).width() >= 768) {
-      $('a:last-child', ".gallery").remove();
-    }
-
-    $('.gallery img').load(function() {
-      var container = document.querySelector('.gallery');
-      var msnry = new Masonry( container, {
-        // options
-        "gutter": 40,
-        itemSelector: '.cover-container',
-        "isFitWidth": true,
-        columnWidth: 250
-      }); 
-    });
-
-  })
-  .fail(function() {
-    console.log("error getting the mosaic");
-  });
-  
-</script>
 <div id="book-search" class="row">
   <div class="city-search col-md-offset-1 col-md-3 col-sm-4">
 

@@ -5,7 +5,12 @@ group :production do
 	gem 'unicorn'
 end
 
+group :development do
+  gem 'sinatra-contrib', :require => 'sinatra/reloader'
+end
+
 gem 'sinatra'
+gem 'sinatra-contrib', :require => 'sinatra/contrib'
 gem 'sinatra-flash'
 
 gem 'json'
