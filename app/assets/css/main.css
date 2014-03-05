@@ -132,10 +132,17 @@ body {
 #book-search .spinner {
   float: right;
 }
-#book-search input {
+#book-search .input-group {
+  height: 42px;
+}
+#book-search ul.token-input-list {
+  border: 1px solid #ccc;
+}
+#book-search input,
+#book-search ul.token-input-list {
   border-top-right-radius: 2em;
   border-bottom-right-radius: 2em;
-  height: 3em;
+  height: 42px;
 }
 #book-search .input-group-addon {
   border-top-left-radius: 2em;

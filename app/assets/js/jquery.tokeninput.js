@@ -450,7 +450,7 @@ $.TokenList = function (input, url_or_data, settings) {
 	var this_token = settings.tokenFormatter(item);
 	this_token = $(this_token)
 	  .addClass(settings.classes.token)
-	  .insertBefore(input_token);
+	  .appendTo('.city-search');
 
 	// The 'delete token' button
 	$("<span>" + settings.deleteText + "</span>")
@@ -588,7 +588,7 @@ $.TokenList = function (input, url_or_data, settings) {
 	selected_token = null;
 
 	// Show the input box and give it focus again
-	input_box.focus();
+	// input_box.focus();
 
 	// Remove this token from the saved list
 	saved_tokens = saved_tokens.slice(0,index).concat(saved_tokens.slice(index+1));
