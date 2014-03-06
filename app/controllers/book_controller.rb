@@ -104,7 +104,7 @@ module Sinatra
 				html +=
 				<<-HTML
 				<li>
-					<a href="london/#{book.isbn}/#{book.get_url_title}">
+					<a class="book-link" href="london/#{book.isbn}/#{book.get_url_title}">
 						<div class="cover-wrapper">
 							<span class="helper"></span>
 							<img class="book-cover hidden" src="#{book.images[:medium]}" >

@@ -13,15 +13,7 @@ module Sinatra
       app.helpers Routes::Helpers
 
       app.get "/" do
-        @title              = "Novelmates -- novel way to gain insight in books read"
-        # uri                 = URI.parse('http://freegeoip.net/json/')
-        # http                = Net::HTTP.new(uri.host, uri.port)
-        # response            = http.request(Net::HTTP::Get.new(uri.request_uri))
-        # resp                = JSON.parse(response.body)
-        # session['location'] = resp["city"].downcase!
-        # c = GeoIP.new('GeoLiteCity.dat').country('94.197.121.225')
-        # puts c.to_hash
-        # logger.info ap ENV.to_hash
+        @title              = "Novelmates – novel way to gain insight in books read"
         @additional_js  = set_js  "index"
         erb :index
       end
@@ -40,10 +32,10 @@ module Sinatra
 
         # MultiJson.encode(final)
         countryBias = (cookies['country_ip'])? '&countryBias='+cookies['country_ip'] : ''
-        uri = URI.parse('http://ws.geonames.org/searchJSON?username=novelmates&maxRows=10&name_startsWith='+URI::encode(params[:q])+countryBias)
+        uri = URI.parse('http://ws.geonames.org/searchJSON?username=novelmates&featureClass=P&maxRows=10&name_startsWith='+URI::encode(params[:q])+countryBias)
         body = Net::HTTP.get_response(uri).body
         results = MultiJson.load(body)["geonames"]
-        ap results
+
         final = []
         results.each do |city|
           if (city['fcode'] =~ /PPL.*/)
@@ -108,22 +100,22 @@ module Sinatra
         end
       end
 
-      app.get '/session' do
-        if defined?(ActiveSupport::JSON)
-          [Object, Array, FalseClass, Float, Hash, Integer, NilClass, String, TrueClass].each do |klass|
-            klass.class_eval do
-              def to_json(*args)
-                super(args)
-              end
-              def as_json(*args)
-                super(args)
-              end
-            end
-          end
-        end
-        content_type 'application/json'
-        MultiJson.encode(request.env)
-      end
+      # app.get '/session' do
+      #   if defined?(ActiveSupport::JSON)
+      #     [Object, Array, FalseClass, Float, Hash, Integer, NilClass, String, TrueClass].each do |klass|
+      #       klass.class_eval do
+      #         def to_json(*args)
+      #           super(args)
+      #         end
+      #         def as_json(*args)
+      #           super(args)
+      #         end
+      #       end
+      #     end
+      #   end
+      #   content_type 'application/json'
+      #   MultiJson.encode(request.env)
+      # end
 
       app.get '/auth/:provider/callback' do
         request.env['warden'].authenticate!(:facebook)
@@ -145,26 +137,28 @@ module Sinatra
         BookController.generate_search_results(books)
       end
       
-      app.get '/book/*' do
-        "Page for book: #{params[:name]}"
-        params.each do |s|
-          puts "Parameter: #{s}"
-        end
-      end
+      # app.get '/book/*' do
+      #   "Page for book: #{params[:name]}"
+      #   params.each do |s|
+      #     puts "Parameter: #{s}"
+      #   end
+      # end
       
-      app.get '/location/:name' do
-        "Page for book: #{params[:name]}"
-        params.each do |s|
-          puts "Parameter: #{s}"
-        end
-      end
+      # app.get '/location/:name' do
+      #   "Page for book: #{params[:name]}"
+      #   params.each do |s|
+      #     puts "Parameter: #{s}"
+      #   end
+      # end
 
       # Pattern: /city/isbn/title
       # E.g. /london/97029384567/the-lies-of-lock-lamora
-      app.get %r{(?:/)(\w+)/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
-        city = params[:captures][0]
+      app.get %r{([\d\+]+)/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
+        # app.get %r{(?:/)([\d\+])+/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
+        # http://ws.geonames.org/getJSON?formatted=false&geonameId=588335&username=novelmates&style=short
+        city = params[:captures][0].split('+')
         isbn = params[:captures][1]
-        
+
         @book = BookController.get_book(isbn)
         
         @additional_css = set_css "book"
@@ -177,24 +171,24 @@ module Sinatra
         MultiJson.encode(BookController.get_book(params[:isbn]))
       end
       
-      app.get '/cookie' do
-        halt unless dev?
-        session['counter'] ||= 0
-        session['counter'] += 1
-          # puts session
-          session.each do |s|
-          #puts s.join(" ")
-          puts "Parameter: #{s}"
-        end
-        ENV.inspect()
-      end
+      # app.get '/cookie' do
+      #   halt unless dev?
+      #   session['counter'] ||= 0
+      #   session['counter'] += 1
+      #     # puts session
+      #     session.each do |s|
+      #     #puts s.join(" ")
+      #     puts "Parameter: #{s}"
+      #   end
+      #   ENV.inspect()
+      # end
 
-      app.get '/test' do
-        halt unless dev?
-        ap request.env
-        puts ''
-        ap ENV.to_hash
-      end
+      # app.get '/test' do
+      #   halt unless dev?
+      #   ap request.env
+      #   puts ''
+      #   ap ENV.to_hash
+      # end
     end
   end
   register Routes
