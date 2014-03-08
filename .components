@@ -1,0 +1,9 @@
+---
+:orm: mongoid
+:test: none
+:mock: none
+:script: jquery
+:renderer: erb
+:stylesheet: less
+:namespace: Novelmates
+:migration_format: number

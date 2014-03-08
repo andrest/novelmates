@@ -1,22 +1,9 @@
-require 'rubygems' 
-require 'bundler'  
-Bundler.require
-Dotenv.load
+#!/usr/bin/env rackup
+# encoding: utf-8
 
-Dir[File.dirname(__FILE__) + '/app/models/**/*.rb'].each do |file|
-	require file
-end
-Dir[File.dirname(__FILE__) + '/app/controllers/**/*.rb'].each do |file|
-	require file
-end
+# This file can be used to start Padrino,
+# just execute it from the command line.
 
-require './app/routes'
+require File.expand_path("../config/boot.rb", __FILE__)
 
-
-Dir[File.dirname(__FILE__) + '/app/**/*.rb'].each do |file|
-	require file unless file == File.dirname(__FILE__) + '/app/app.rb'
-end
-
-require ::File.dirname(__FILE__) + '/app/app.rb'
-
-run MyApp
+run Padrino.application

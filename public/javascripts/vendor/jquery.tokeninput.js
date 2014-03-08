@@ -16,7 +16,7 @@ var DEFAULT_SETTINGS = {
     contentType: "json",
     queryParam: "q",
     searchDelay: 300,
-    minChars: 1,
+    minChars: 2,
     propertyToSearch: "name",
     jsonContainer: null,
 
@@ -580,7 +580,7 @@ $.TokenList = function (input, url_or_data, settings) {
 	var token_data = $.data(token.get(0), "tokeninput");
 	var callback = settings.onDelete;
 
-	var index = token.prevAll().length;
+	var index = token.prevAll('.token-input-token').length;
 	if(index > selected_token_index) index--;
 
 	// Delete the token

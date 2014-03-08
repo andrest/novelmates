@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%= erb 'head'.to_sym %>
+<%= partial '/layouts/head' %>
 
 <body>
 <nav class="navbar navbar-default" role="navigation">
@@ -41,9 +41,9 @@
       </form> -->
       <ul class="nav navbar-nav navbar-right">
         <%= if env['warden'].user.nil?
-              erb 'sign_in'.to_sym 
+              partial '/layouts/sign_in'.to_sym 
             else
-              erb 'signed_in'.to_sym
+              partial '/layouts/signed_in'.to_sym
             end 
         %>
 

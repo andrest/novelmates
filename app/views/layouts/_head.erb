@@ -8,14 +8,14 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-	<%= set_js "/vendor/jquery.cookie" %>
+	<%= javascript_include_tag "/javascripts/vendor/jquery.cookie" %>
 	<script>
 		// $.ajax('/geoip').done(function(location){ 
 		// 	$.cookie('city_coords', location, { expires: 30, path: '/' });
 		// });
 	</script>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+	<script>window.jQuery || document.write('<script src="js/javascripts/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.css">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
@@ -28,24 +28,24 @@
 	<!-- 		<%= set_js "bootstrap.min" %>
 	<%= set_css "bootstrap.min" %> -->
 
-	<%= set_js "/vendor/underscore" %>
-	<!-- <%= set_js "/vendor/backbone" %> -->
-	<%= set_js "/vendor/masonry.pkgd.min" %>
-	<%= set_js "/vendor/spin" %>
-	<%= set_js "/vendor/jquery.spin" %>
-	<%= set_js '/vendor/jquery.tokeninput' %>
-  <%= set_js "/vendor/jquery.fittext" %>
-  <%= set_js "/vendor/modernizr-2.6.2.min" %>
+	<%= javascript_include_tag "/javascripts/vendor/underscore" %>
+	<!-- <%= set_js "/javascripts/vendor/backbone" %> -->
+	<%= javascript_include_tag "/javascripts/vendor/masonry.pkgd.min" %>
+	<%= javascript_include_tag "/javascripts/vendor/spin" %>
+	<%= javascript_include_tag "/javascripts/vendor/jquery.spin" %>
+	<%= javascript_include_tag '/javascripts/vendor/jquery.tokeninput' %>
+  <%= javascript_include_tag "/javascripts/vendor/jquery.fittext" %>
+  <%= javascript_include_tag "/javascripts/vendor/modernizr-2.6.2.min" %>
 
-	<%= set_css 'token-input' %>
+	<%= stylesheet_link_tag 'token-input' %>
 
 	<!-- <link href="http://cod
 	e.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" rel='stylesheet' type='text/css'> -->
 	
 	<!-- <link href="css/bootstrap-responsive.css" rel='stylesheet'> -->
 
-	<%= set_css "main" %>
-	<%= set_js "main" %>
+	<%= stylesheet_link_tag "main" %>
+	<%= javascript_include_tag "main" %>
 	
 	<%= @additional_css %>
 	<%= @additional_js  %>

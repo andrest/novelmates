@@ -10,31 +10,45 @@ $(function(){
     });
   }
   // Create auto-complete input for city-search
-  var city_input = $('#city-input').tokenInput("/city/auto/");
-  determine_location(function(){
-    prefill_city(city_input);
-  });
+  var city_input = $('#city-input').tokenInput("/city/auto/", 
+                                               {onAdd: function(){ refresh_book_links() },
+                                                onDelete: function(){ refresh_book_links() }});
 
   // Initalise the background mosaic
-  init_gallery()
+  init_gallery();
+
+  $('body').on('auto_location', function(){
+    prefill_city(city_input);
+    refresh_book_links();
+  });
+  
+  determine_location();
+
 });
 
 $(function(){
   $('#book-search').on('search_results', function(){
-    $('.book-link').each(function(index, link) {
-      var href = $(link).attr('href');
-      var urlArray = href.split('/');
-      urlArray[0] = $('#city-input').tokenInput('get').map(function(elem) {
-        return elem.id
-      }).join('+'); 
-
-      $(link).on('click', function() {
-        $(link).attr('href', urlArray.join('/'));
-      });
-    });
-
+    refresh_book_links();
   })
 });
+
+function refresh_book_links(urls) {
+  urls = typeof urls !== 'undefined' ? urls : '.book-link';
+  console.log($(urls)[0]);
+  $(urls).each(function(index, link) {
+    var href = $(link).attr('href');
+    var urlArray = href.split('/').reverse();
+
+
+    urlArray[2] = $('#city-input').tokenInput('get').map(function(elem) {
+      return elem.id
+    }).join('+'); 
+    $(link).attr('href', urlArray.reverse().join(' ').split(/\s+/).join('/'));
+    $(link).on('click', function() {
+      // $(link).attr('href', urlArray.join('/'));
+    });
+  });
+}
 
 function init_gallery() {
   $.ajax({
@@ -64,7 +78,7 @@ function init_gallery() {
         columnWidth: 250
       }); 
     });
-
+    refresh_book_links();
   })
   .fail(function() {
     console.log("error getting the mosaic");
@@ -72,16 +86,19 @@ function init_gallery() {
 }
 
 function loc_from_coords(latS, lngS) {
+  var loc = 'none';
   var lat = parseFloat(latS);
   var lng = parseFloat(lngS);
   var geocoder = new google.maps.Geocoder();
   var latlng = new google.maps.LatLng(lat, lng);
-  geocoder.geocode({'latLng': latlng}, function(results, status) {
+
+  function geocode_handler(results, status) {
   if (status == google.maps.GeocoderStatus.OK) {
       if (results[1]) {
-        var address = results[1].address_components;
+        var address = results[0].address_components;
         var country, city;
-
+        console.log(results[0].formatted_address);
+        
         $.each(address, function(i, component){
           
           if (component.types[0] == "country"){
@@ -91,18 +108,46 @@ function loc_from_coords(latS, lngS) {
             city = component.long_name;
           }
         });
+        loc = city+", "+country;
+        get_geonames_id(loc);
+        // cookie_value = JSON.stringify({id: 0, name: city+', '+country});
+        // JSON.stringify('{"id": 0, "name": "'city+', '+country+'"}');
 
-        $.cookie('city_coords', city+", "+country, { expires: 30, path: '/' });
-        return address;
+        // $.cookie('city_coords', cookie_value, { expires: 30, path: '/' });
+        // return address;
       }
     } else {
       alert("Geocoder failed due to: " + status);
     }
-  });
+  }
+
+  geocoder.geocode({'latLng': latlng}, geocode_handler);
 }
 
-function determine_location(callback) {
-  if (!navigator.geolocation || $.cookie('city_coords') != undefined) callback();
+function get_geonames_id(address){
+  $.ajax({
+    url: '/geo/'+address
+  })
+  .done(function(city) {
+    cookie_value = JSON.stringify({id: city[0].id, name: city[0].name});
+    $.cookie('city_coords', cookie_value, { expires: 30, path: '/' });
+
+    $('body').trigger('auto_location');
+  })
+  .fail(function() {
+    console.log("error");
+  })
+  .always(function() {
+    console.log("complete");
+  });
+  
+}
+
+function determine_location() {
+  if (!navigator.geolocation || $.cookie('city_coords') != undefined) {
+    $('body').trigger('auto_location');
+    return;
+  }
   console.log('going to determine coords location now')
 
   function success(position) {
@@ -110,7 +155,9 @@ function determine_location(callback) {
     var longitude = position.coords.longitude;
 
     loc_from_coords(latitude, longitude);
-    callback();
+    // add function to convert all mosaic links to right
+    // refresh_book_links();
+    // callback();
   };
 
   function error() {
@@ -132,13 +179,19 @@ function prefill_city(input){
   function exists(name){
     return $.inArray(name, names) > -1;
   }
-
-  if ($.cookie('city_coords') != undefined && !exists($.cookie('city_coords')) ) {
-
-    input.tokenInput("add", {id: '0', name: $.cookie('city_coords')});
+  
+  if ($.cookie('city_coords') != undefined) {
+    var city_coords = JSON.parse( $.cookie('city_coords') );
+    console.log(city_coords);
+    if (!exists(city_coords.name)) {
+      input.tokenInput("add", {id: city_coords.id, name: city_coords.name });
+    }
   }
-  else if ($.cookie('city_ip') != undefined && !exists($.cookie('city_ip'))) {
-    input.tokenInput("add", {id: '1', name: $.cookie('city_ip')});
+  else if ($.cookie('city_ip') != undefined) {
+    var city_ip = JSON.parse($.cookie('city_ip'));
+    if (!exists(city_ip.name)) {
+      input.tokenInput("add", {id: city_ip.id, name: city_ip.name});
+    }
   } 
 }
 
