@@ -8,6 +8,7 @@ module Novelmates
     register Padrino::Helpers
 
     enable :sessions
+    enable :reload
 
     Mongoid.load!("mongoid.yml")
 
@@ -15,6 +16,14 @@ module Novelmates
       @title= 'Novelmates'
       @additional_js  = javascript_include_tag  "index"
       erb :index
+    end
+
+    post '/unauthenticated' do
+      ap request.env["warden"].message
+      ap request.env
+
+      flash[:warning] = "Invalid login credentials"
+      redirect request.env['HTTP_REFERER']
     end
 
     get '/geo/:address' do
@@ -86,7 +95,7 @@ module Novelmates
     end
 
     get '/signup' do 
-      erb :signup, :layout => false
+      erb :signup, :layout => true
     end
 
     post '/signup' do
@@ -94,9 +103,12 @@ module Novelmates
       logger.info u if dev?
       u.save
       if u.save
-        redirect '/'
+        ap request.env
+        call env.merge('PATH_INFO' => '/login')
       else
-        logger.info "Error saving user" if dev?
+        flash[:error] = u.errors.full_messages
+        # flash_tag u.errors.full_messages if dev?
+        render 'signup'
       end
     end
 
@@ -120,40 +132,6 @@ module Novelmates
       BookController.generate_search_results(books)
     end
     
-    # get '/book/*' do
-    #   "Page for book: #{params[:name]}"
-    #   params.each do |s|
-    #     puts "Parameter: #{s}"
-    #   end
-    # end
-    
-    # get '/location/:name' do
-    #   "Page for book: #{params[:name]}"
-    #   params.each do |s|
-    #     puts "Parameter: #{s}"
-    #   end
-    # end
-
-    # Pattern: /city/isbn/title
-    # E.g. /london/97029384567/the-lies-of-lock-lamora
-    # get %r{/([\d\+]+)/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
-    get %r{/?([\d\s]*)/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
-      # get %r{(?:/)([\d\+])+/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
-      # http://ws.geonames.org/getJSON?formatted=false&geonameId=588335&username=novelmates&style=short
-      city = params[:captures][0].split(' ')
-      isbn = params[:captures][1]
-
-      @book = BookController.get_book(isbn)
-      
-      @additional_css = stylesheet_link_tag "book"
-      @additional_js  = javascript_include_tag  "book"
-      erb:book
-    end
-
-    get '/get_book/:isbn' do
-      content_type 'application/json'
-      MultiJson.encode(BookController.get_book(params[:isbn]))
-    end
     ##
     # Caching support.
     #

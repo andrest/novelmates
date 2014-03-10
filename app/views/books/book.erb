@@ -1,0 +1,84 @@
+<div id="wrapper" class="container-fluid">
+	<ol class="breadcrumb">
+		<li><a href="#">Home</a></li>
+		<li><a href="#">Tallinn</a></li>
+		<li class="active"><%= @book.title %></li>
+	</ol>
+
+	<div class="book-description">
+		<div class="cover-wrapper" style="width:auto;">
+			<img class="book-cover" src="<%= @book.images[:large] %>">
+		</div>
+		<dl class="book-details">
+			<dt>Title</dt>
+			<dd><%= @book.full_title %></dd>
+			<dt>Author</dt>
+			<dd><%= @book.author %></dd>
+			<dt>Published</dt>
+			<dd><%= @book.published_at %></dd>
+			<dt>Category</dt>
+			<dd>Science Fiction</dd>
+			<dt>ISBN13</dt>
+			<dd><%= @book.isbn %></dd>
+		</dl>
+	</div>
+		
+	<aside id="right" class="">
+		<div id="locations">
+			<h4>Locations</h4>
+			<div id="selected-locations">
+				<a class="add-city selected btn" href="#">
+					<i class="icon-ok"></i>
+					<p>London</p>
+					<i class="icon-remove"></i>
+				</a>
+				<a class="add-city selected btn" href="#">
+					<i class="icon-ok"></i>
+					<p>Oxford</p>
+				</a>
+			</div>
+			<hr>
+			<div id="suggested-locations">
+				<a class="add-city suggested btn" href="#">
+					<i class="icon-plus"></i>
+					<p>Brighton</p>
+				</a>
+				<a class="add-city suggested btn" href="#">
+					<i class="icon-plus"></i>
+					<p>Cambridge</p>
+				</a>
+				<a class="add-city suggested btn" href="#">
+					<i class="icon-plus"></i>
+					<p>Luton</p>
+				</a>
+				<form id="new-location">
+	<div class="input-group" style="width:150px;">
+	  <div class="input-group-btn">
+	    <button type="button" class="add-on btn">
+	      <i class="icon-plus"></i>
+	    </button>
+	  </div><!-- /btn-group -->
+	  <input type="text" class="form-control" placeholder="Location">
+	</div><!-- /input-group -->
+				</form>
+			</div>
+		</div>
+		<div id="suggested-titles">
+			<h4>Suggested Titles</h4>
+			<ul>
+				<li><div class="book"><a href="#suggestion"><img src=""></img><p>Syrup</p></a></div></li>
+			</ul>
+		</div>
+		<div id="advert">
+			<h4>Advert</h4>
+		</div>
+	</aside>
+
+	<div id="middle" class="">
+    <%= partial '/books/meetup_listing' %>
+
+		<p><%= @book.editorial_review.html_safe %></p>
+	</div>
+
+	<span class="clearfix" />
+</div>

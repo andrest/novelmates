@@ -1,10 +1,21 @@
+class FBToken
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  embedded_in :user
+  
+  field :uid,          type: String
+  field :expires_at,   type: Date
+  field :token,        type: String
+end
+
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
   # timestamps!
   
   # self.include_root_in_json = true
-  
+  embeds_one :FBTokens
+
   # field :username,        type: String,   :default => UUID::generate(:compact)
   field :password_hash,   type: String
   field :password_salt,   type: String
@@ -12,7 +23,7 @@ class User
   field :lastname,        type: String,   :default => 'Doe'
   field :email,           type: String
   field :timezone,        type: String
-  field :oauth,           type: Hash,     :default => {}
+  # field :oauth,           type: Hash,     :default => {}
   field :location,        type: Hash,     :default => {}
   field :active,          type: Boolean,  :default => true
   
@@ -33,8 +44,6 @@ class User
                                         
   before_save               :_encrypt_password
   
-  belongs_to  :account
-  
   def self.authenticate(email, password)
     user = self.where(:email => email, :active => true).first
     p user
@@ -53,14 +62,4 @@ class User
       self.password_hash = BCrypt::Engine.hash_secret(self.password, self.password_salt)
     end
   end
-end
-
-class FB_Token
-  include Mongoid::Document
-  include Mongoid::Timestamps
-  belongs_to :user
-  
-  field :uid,          type: String
-  field :expires_at,   type: Date
-  field :token,        type: String
 end
