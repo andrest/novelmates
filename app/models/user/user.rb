@@ -8,6 +8,26 @@ class FBToken
   field :token,        type: String
 end
 
+class Interest
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  has_many :users
+  has_many :interest_categories
+  # field :isbn,          type: String
+
+end
+
+class Books
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  # embedded_in :user
+  embeds_one :interest
+
+  field :isbn,          type: String
+
+end
+
+
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -15,6 +35,8 @@ class User
   
   # self.include_root_in_json = true
   embeds_one :FBTokens
+  has_and_belongs_to_many :meetups
+  # has_many :books
 
   # field :username,        type: String,   :default => UUID::generate(:compact)
   field :password_hash,   type: String
@@ -26,6 +48,7 @@ class User
   # field :oauth,           type: Hash,     :default => {}
   field :location,        type: Hash,     :default => {}
   field :active,          type: Boolean,  :default => true
+  field :profile,         type: String
   
   attr_accessor :password
   
@@ -44,6 +67,11 @@ class User
                                         
   before_save               :_encrypt_password
   
+  # def get_pic()
+  #   if !self.profile.present?
+  #     profi
+  # end
+
   def self.authenticate(email, password)
     user = self.where(:email => email, :active => true).first
     p user

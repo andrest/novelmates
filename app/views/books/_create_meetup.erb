@@ -1,0 +1,58 @@
+<div class="well new-meetup hidden">
+  <%= flash_tag(:error, :class => 'alert alert-danger') %>
+
+  <button type="button" class="close" data-dismiss=".new-meetup" aria-hidden="true">&times;</button>
+  <div class="com-header">
+    <div class="h1">Create new meetup</div>
+    <div class="help-block">Just a few details to get started, totally non-comitting and can be modified later</div>
+  </div>
+
+  <div class="divider-stroked">
+   <div class="divider"></div>
+ </div>
+
+  <form action="/meetup/create" acceptcharset="UTF-8" name="create-meetup" method="post" novalidate="novalidate">
+    <div class="form-group text-left">
+      <label for="name" class="control-label">Event name</label>
+      <input type="text" id="name" class="form-control" name="name" value="">
+    </div>
+
+    <!-- <div class="form-group text-left">
+      <label for="description" class="control-label">Event description</label>
+      <textarea class="form-control" name="description"cols="30" rows="4"></textarea>
+    </div> -->
+
+   <div class="form-group text-left">
+     <label for="location" class="control-label">Location</label>
+     <select id="location" name="city" class="form-control">
+       <option>London</option>
+       <option>Oxford</option>
+     </select>
+   </div>
+
+   <div class="form-group text-left">
+     <label for="topic" class="control-label">Topic</label>
+     <!-- <input type="text" id="topic" class="form-control" name="topic" value=""> -->
+     <select multiple name="topic" id="topic" class="form-control">
+       <option>Author discussion</option>
+       <option>Social implications</option>
+       <option>Truth of fiction?</option>
+       <option>Dissecting the storyline</option>
+       <option>What did you take away?</option>
+       <option>How to apply the material read?</option>
+     </select>
+   </div>
+
+
+   <label class="checkbox text-left">
+    <input type="checkbox" name="notification" value="true" id="notification">
+    Let me know when somebody joins
+  </label>
+
+  <input type="text" name="books" class="hidden" value="<%= @book.isbn %>">
+  <input type="text" name="creator" class="hidden" value="<%= current_user._id %>">
+  <input type="submit" class="btn btn-medium" value="Create">
+  </form>
+
+</div>
+<div class="push tiny"></div>

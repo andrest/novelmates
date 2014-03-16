@@ -1,0 +1,121 @@
+//TODO: importing also in main, DRY
+@import 'lesshat.less';
+
+/* Book description */
+.book-description {
+  display: inline-block;
+  border-right: 1px solid #e0e5e9;
+}
+.book-cover {
+  max-width:100%;
+  max-height:100%;
+  margin-bottom: 5px;
+}
+
+/* Breadcrumb and new Search */
+.breadcrumb {
+  margin-bottom: 5px;
+}
+.book-search {
+  position: absolute;
+  top: 13px;
+  right: 20px;
+}
+
+#middle {
+  .user-name {
+    display:inline-block;
+  }
+}
+.panel .list-group > .list-group-item {
+  overflow: auto;
+}
+
+.profile-picture-wrapper {
+  display:inline-block;
+}
+
+.interest-btn {
+  display:inline;
+
+  .remove-interest {
+    position: relative;
+
+    .hover-minus {
+      position: absolute;
+      top:0;
+      opacity: 0;
+
+      .glyphicon-minus {
+        top: 11px;
+        left: 13px;
+      }
+    }
+
+    &:hover > .hover-minus {
+      .transition(0.5s);
+      background: rgba(228, 228, 228, 0.85) !important;
+      opacity:1;
+
+      // background: #F3F2F2 !important;
+
+      
+
+      &:before {
+      }
+    }
+
+  }
+}
+.interest-details {
+  border-left-color: #B3AE9B;
+  border-left-width: 10px;
+  border-left-style: solid;
+  border-top-color: rgb(169, 169, 169);
+  border-top-width: 1px;
+  border-top-style: solid;
+  margin-bottom:0;
+  background:rgb(252, 252, 250);
+}
+
+.interest-category {
+  h5 {
+    font-weight:300;
+    display:inline-block;
+  }
+  .circle {
+    color: rgb(243, 234, 234);
+    display:inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background: rgb(64, 202, 52);
+    /* width and height can be anything, as long as they're equal */
+
+    .glyphicon-plus {
+      top: 11px;
+      left: 13px;
+    }
+
+    &:hover {
+      background: lightgreen;
+      color: white;
+    }
+  }
+}
+
+
+#middle {
+  // absolute doesn't work for footer
+  // position: absolute;
+  // padding-right: 183px;
+
+  // relative solution, even more constants.. :(
+  position: relative;
+  p {
+    padding: 5px;
+  }
+}
+
+

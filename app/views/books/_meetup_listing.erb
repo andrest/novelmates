@@ -1,4 +1,48 @@
-<table class="table table-hover table-bordered">
+<div class="panel panel-default">
+  <div class="panel-heading"><h4>Meetups</h4>
+  </div>
+
+  <div class="list-group">
+    <a href="#" class="list-group-item">London<span class="badge">0</span></a>
+    <a href="#" data-toggle="collapse" data-target=".meetup-details" class="list-group-item">
+      Oxford
+      <span class="badge">3</span>
+    </a>
+
+    <div class="meetup-details collapse list-group">
+
+      <div class="list-group-item">
+      <a href="http://novelmates.dev/meetup/124/0062066315"><h5>First meetup</h5></a>
+        <span class="pull-right people">
+          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+        </span>
+      </div>
+
+      <div class="list-group-item">
+        <h5 class="">Second meetup</h5>
+        <span class="pull-right people">
+          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+        </span>
+      </div>
+
+      <div class="list-group-item">
+        <h5 class="">Third meetup</h5>
+        <span class="pull-right people">
+          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+  <button type="button" class="new-meetup-btn btn btn-primary btn-lg btn-block">Add new meetup</button>
+  <%= partial '/books/create_meetup' %>
+</div>
+
+<!-- <table class="table table-hover table-bordered">
   <thead>
     <tr class="success">
       <th>#</th>
@@ -26,5 +70,4 @@
       <td>@twitter, @larry, @barry</td>
     </tr>
   </tbody>
-</table>
-<button type="button" class="btn btn-primary btn-lg btn-block">Add new meetup</button>
+</table> -->

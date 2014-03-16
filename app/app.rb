@@ -19,9 +19,6 @@ module Novelmates
     end
 
     post '/unauthenticated' do
-      ap request.env["warden"].message
-      ap request.env
-
       flash[:warning] = "Invalid login credentials"
       redirect request.env['HTTP_REFERER']
     end
@@ -82,7 +79,12 @@ module Novelmates
 
     post '/login' do
       request.env['warden'].authenticate!
-      redirect '/'
+      ap request.env
+      if request.env["PATH_INFO"] != "/signup"
+        redirect request.env['HTTP_REFERER']
+      else
+        redirect '/'
+      end
     end
 
     get '/login' do
@@ -91,7 +93,7 @@ module Novelmates
 
     get '/logout' do
       env['warden'].logout
-      redirect '/'
+      redirect request.env['HTTP_REFERER']
     end
 
     get '/signup' do 
@@ -114,7 +116,7 @@ module Novelmates
 
     get '/auth/:provider/callback' do
       request.env['warden'].authenticate!(:facebook)
-      redirect '/'
+      redirect request.env['HTTP_REFERER']
     end
 
     get '/auth/failure' do

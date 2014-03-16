@@ -1,0 +1,107 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><h4>Interest Categories</h4>
+    <span class="help-block">
+    <%= 
+    if (nil == defined? description) 
+      "Register your interest and be notified when likeminded people come about"
+    else
+      description
+    end 
+    %>
+    </span>
+  </div>
+<!--   <div class="panelbody">
+    <p>...</p>
+  </div> -->
+
+  <!-- List group -->
+  <div class="list-group">
+    
+    <% @interests.each do |interest| %>
+      <a href="#" data-toggle="collapse" data-id="<%= interest._id %>" data-target=".interest-details" class="list-group-item interest-category">
+        <h5><%= interest.name %></h5>
+        <span class="pull-right people">
+          <% if signed_in? %>
+          <div class="interest-btn">
+            <div class="remove-interest circle hidden">
+              <div class="profile-picture-wrapper" data-user-id="<%= current_user._id %>"></div>
+              <div class="hover-minus circle"><span class="glyphicon glyphicon-minus"></span></div>
+            </div>
+            <div class="add-interest circle"><span class="glyphicon glyphicon-plus"></span></div>
+          </div>
+          <% end %>
+          <% interest.users.each do |user| %>
+            <div class="profile-picture-wrapper" data-user-id="<%= user._id %>"></div>
+          <% end %>
+        </span>
+      </a>      
+    <% end %> 
+
+    <a href="#" data-toggle="collapse" data-target=".interest-details" class="list-group-item interest-category">
+      <h5>Author discussion</h5>
+      <span class="pull-right people">
+        <% if signed_in? %>
+        <div class="interest-btn">
+          <div class="remove-interest circle hidden">
+            <div class="profile-picture-wrapper" data-user-id="<%= current_user._id %>"></div>
+            <div class="hover-minus circle"><span class="glyphicon glyphicon-minus"></span></div>
+          </div>
+          <div class="add-interest circle"><span class="glyphicon glyphicon-plus"></span></div>
+        </div>
+        <% end %>
+        <div class="profile-picture-wrapper" data-user-id="532337832cf310631d000001"></div>
+        <div class="profile-picture-wrapper" data-user-id="5322c4b62cf310af4a000001"></div>
+        <div class="profile-picture-wrapper" data-user-id="53241bed2cf3107057000001"></div>
+        <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+      </span>
+    </a>
+
+    <div class="interest-details collapse list-group">
+      <div class="list-group-item">
+        <span class="">
+          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+        </span>
+        <h6 class="user-name">Martin Von Weasel</h6>
+      </div>
+
+      <div class="list-group-item">
+        <span class="">
+          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
+        </span>
+        <h6 class="user-name">Ruben Schlutz</h6>
+      </div>
+    </div>
+
+    <div class="list-group-item interest-category">
+      <h5>Truth or Fiction?</h5>
+      <span class="pull-right people">
+        <% if signed_in? %>
+        <div class="interest-btn">
+          <div class="remove-interest circle hidden">
+            <div class="profile-picture-wrapper" data-user-id="<%= current_user._id %>"></div>
+            <div class="hover-minus circle"><span class="glyphicon glyphicon-minus"></span></div>
+          </div>
+          <div class="add-interest circle"><span class="glyphicon glyphicon-plus"></span></div>
+        </div>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="list-group-item interest-category">
+      <h5>Social implications</h5>
+      <span class="pull-right people">
+        <% if signed_in? %>
+        <div class="interest-btn">
+          <div class="remove-interest circle hidden">
+            <div class="profile-picture-wrapper" data-user-id="<%= current_user._id %>"></div>
+            <div class="hover-minus circle"><span class="glyphicon glyphicon-minus"></span></div>
+          </div>
+          <div class="add-interest circle"><span class="glyphicon glyphicon-plus"></span></div>
+        </div>
+        <% end %>
+      </span>
+    </div>
+
+  </div>
+</div>

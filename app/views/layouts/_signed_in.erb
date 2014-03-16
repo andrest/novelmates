@@ -12,4 +12,5 @@
     <li><a href="#">One more separated link</a></li>
   </ul>
 </li>
+<li class="profile-pic"><img class="profile img-circle" src="<%= request.env["warden"].user["profile"] %>"></li>
 <li><button type="button" onClick="location.href='/logout'" class="btn btn-default navbar-btn">Log out</button></li>

@@ -1,0 +1,444 @@
+<h3><%= @meetup.name %></h3>
+<div class="meetup-info">
+  <form action="/meetup/update" method="post" class="form-horizontal" role="form">
+
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label">Meetup name</label>
+      <div class="col-sm-10">
+        <p class="form-control-static"><%= @meetup.name %></p>
+        <input name="name" type="text" class="form-control hidden" id="name" value="<%= @meetup.name %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="date" class="col-sm-2 control-label">Date</label>
+      <div class="col-sm-10">
+        <p class="form-control-static"><%= @meetup.date unless @meetup.date.nil? %></p>
+        <input name="date" type="date" class="form-control hidden" id="date" value="<%= @meetup.date unless @meetup.date.nil? %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="location" class="col-sm-2 control-label">Location</label>
+      <div class="col-sm-10">
+        <p class="form-control-static"><%= @meetup.city unless @meetup.city.nil? %></p>
+        <input name="city" type="text" class="form-control hidden" id="location" value="<%= @meetup.city unless @meetup.city.nil? %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="col-sm-2 control-label">Description</label>
+      <div class="col-sm-10">
+        <p class="form-control-static"><%= @meetup.description unless @meetup.description.nil? %></p>
+        <textarea name="description" type="text" class="form-control hidden" id="description">
+        <%= @meetup.description unless @meetup.description.nil? %>
+        </textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="attending" class="col-sm-2 control-label">Attending</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">Bob, Joe, Martin</p>
+        <!-- <input name="" type="text" class="form-control hidden" id="attending" value="Bob, Joe, Martin"> -->
+      </div>
+    </div>
+
+    <input type="text" name="books" class="hidden" value="<%= @book.isbn %>">
+    <input type="text" name="user_id" class="hidden" value="<%= current_user._id %>">
+    <input type="text" name="id" class="hidden" value="<%= @meetup._id %>">
+
+    <div class="form-group edit-buttons hidden">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Save</button>
+        <div class="btn btn-default cancel-edit">Cancel</div>
+      </div>
+    </div>
+
+<!--     <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+          <div class="edit-meetup btn btn-default"><span class="glyphicon glyphicon-edit"></span> edit</div>
+      </div>
+    </div> -->
+
+  </form>
+  <div class="help-block"><div class="edit-meetup btn btn-default"><span class="glyphicon glyphicon-edit"></span> edit</div></div>
+</div>
+
+<!-- <div class="meetup-info-editable">
+  <form class="form-horizontal" role="form">
+
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label">Meetup name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control-static" id="name" placeholder="First meetup">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="date" class="col-sm-2 control-label">Date</label>
+      <div class="col-sm-10">
+        <input type="date" class="form-control" id="date" placeholder="04/05/2014">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="location" class="col-sm-2 control-label">Location</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="location" placeholder="Notes Cafe, Covent Garden, London">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="col-sm-2 control-label">Description</label>
+      <div class="col-sm-10">
+        <textarea type="text" class="form-control" id="description" placeholder="Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."></textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="attending" class="col-sm-2 control-label">Attening</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="attending" placeholder="Bob, Joe, Martin">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Save</button>
+      </div>
+    </div>
+  </form>
+</div>
+ -->
+<!-- <section class="comments">
+  <h2 class="comments-header">Comments</h2>
+  <ul class="comment-list">
+    <li class="cf top-comment" id="comment_6332">
+      <header class="cf">
+        <div class="comment-avatar">
+          <img alt="Profile_picture_may_2012" class="avatar" src="https://coderwall-assets-0.s3.amazonaws.com/uploads/user/avatar/29012/Profile_Picture_May_2012.jpg">
+        </div>
+        <a class="comment-user" data-reply-to="jalada" href="/jalada">
+          jalada
+        </a>
+        <a class="like liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/6332/like" rel="nofollow">
+          3
+        </a>
+      </header>
+      <div class="comment">
+        <p>
+        </p><p>I actually implemented it. Time will tell if it works for sure. This kills the parent process as well, which on Heroku will bounce your entire dyno (which is what I wanted):</p>
+
+        <pre><code class="ruby" style="overflow-y: hidden;"><span class="variable">@worker_pid</span> = <span class="identifier">spawn</span>(<span class="string">'bundle exec sidekiq'</span>)
+          <span class="identifier">t</span> = <span class="constant">Thread</span>.<span class="identifier"><span class="keymethods">new</span></span> {
+          <span class="constant">Process</span>.<span class="identifier">wait</span>(<span class="variable">@worker_pid</span>)
+          <span class="identifier"><span class="keymethods">puts</span></span> <span class="string">"Worker died. Bouncing unicorn."</span>
+          <span class="constant">Process</span>.<span class="identifier">kill</span> <span class="string">'QUIT'</span>, <span class="constant">Process</span>.<span class="identifier"><span class="keymethods">pid</span></span>
+        }
+        <span class="comment"># Just in case</span>
+        <span class="identifier">t</span>.<span class="identifier">abort_on_exception</span> = <span class="identifier"><span class="keyword">true</span></span>
+      </code></pre>
+
+      <p>The idea of using <code style="overflow-y: hidden;">Thread.new { Process.wait() }</code> comes from the implementation of <code style="overflow-y: hidden;">Process.detach</code>, which is essentially the same.</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_6328">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Profile_picture_may_2012" class="avatar" src="https://coderwall-assets-0.s3.amazonaws.com/uploads/user/avatar/29012/Profile_Picture_May_2012.jpg">
+      </div>
+      <a class="comment-user" data-reply-to="jalada" href="/jalada">
+        jalada
+      </a>
+      <a class="like liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/6328/like" rel="nofollow">
+        2
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p>How would you handle if the process dies? Heroku won't notice &amp; bounce your dyno and Unicorn doesn't notice either.</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_10818">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="0_iykox7k9_md63p7nwxpmx2vz_fow3xxnwgkvx2lbyoomore9bs86eulwstynczysoxtqiwrzrqss" class="avatar" src="http://m.c.lnkd.licdn.com/mpr/mprx/0_IyKoX7k9_md63p7nwxPMX2vz_fOW3xxnWgkvX2LbyooMORe9bs86EulWSTYnCZYsoxtqIwRZrQsS">
+      </div>
+      <a class="comment-user" data-reply-to="arolave" href="/arolave">
+        arolave
+      </a>
+      <a class="like liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/10818/like" rel="nofollow">
+        1
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p>looks like it to me - here is my puma.rb using 2 workers. Not tested under load just yet - and make sure you have you don't hit your db and redis connection limits.</p>
+
+      <pre><code class="haskell" style="overflow-y: hidden;"><span class="title">environment</span> <span class="label">ENV</span>['<span class="label">RACK_ENV'</span>]
+        <span class="title">workers</span> <span class="number">2</span>
+        <span class="title">threads</span> <span class="number">2</span>,<span class="number">5</span> # <span class="number">4</span>-<span class="number">6</span>
+        <span class="title">preload_app</span>!
+
+        <span class="title">on_worker_boot</span> <span class="keyword">do</span>
+        @sidekiq_pid ||= spawn(<span class="string">"bundle exec sidekiq -c 2"</span>)
+        <span class="title">end</span>
+      </code></pre>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_5066">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Blank-mugshot" class="avatar" src="https://secure.gravatar.com/avatar/c7b8c0b4ef05e68e2c92cd912eca414b?d=https://d3levm2kxut31z.cloudfront.net/assets/blank-mugshot-112e2e92d74b7344b8be3630bbccc5da.png">
+      </div>
+      <a class="comment-user" data-reply-to="linjunpop" href="/linjunpop">
+        linjunpop
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/5066/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p><a href="https://github.com/brandonhilkert/sucker_punch">https://github.com/brandonhilkert/sucker_punch</a></p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_5067">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Blank-mugshot" class="avatar" src="https://secure.gravatar.com/avatar/e6b625008c816ab3d8d742cc3eddbb00?d=https://d3levm2kxut31z.cloudfront.net/assets/blank-mugshot-112e2e92d74b7344b8be3630bbccc5da.png">
+      </div>
+      <a class="comment-user" data-reply-to="dommmel" href="/dommmel">
+        dommmel
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/5067/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p><a href="/linjunpop">@linjunpop</a> - I mentioned sucker_punch in the last paragraph "Alternatives". Anything particular you wanted to say?</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_5068">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Blank-mugshot" class="avatar" src="https://secure.gravatar.com/avatar/c7b8c0b4ef05e68e2c92cd912eca414b?d=https://d3levm2kxut31z.cloudfront.net/assets/blank-mugshot-112e2e92d74b7344b8be3630bbccc5da.png">
+      </div>
+      <a class="comment-user" data-reply-to="linjunpop" href="/linjunpop">
+        linjunpop
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/5068/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p><a href="/dommmel">@dommmel</a> Oh, Sorry. I guess I had Evernote an old version of this tip.</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_6191">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Blank-mugshot" class="avatar" src="https://secure.gravatar.com/avatar/881c97b0386c0871903d9cd8da27d0c9?d=https://d3levm2kxut31z.cloudfront.net/assets/blank-mugshot-112e2e92d74b7344b8be3630bbccc5da.png">
+      </div>
+      <a class="comment-user" data-reply-to="emas80" href="/emas80">
+        emas80
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/6191/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p>Very nice! I was wondering if there was an alternative to the two dynos on heroku. I'll give a try</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_6331">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Blank-mugshot" class="avatar" src="https://secure.gravatar.com/avatar/e6b625008c816ab3d8d742cc3eddbb00?d=https://d3levm2kxut31z.cloudfront.net/assets/blank-mugshot-112e2e92d74b7344b8be3630bbccc5da.png">
+      </div>
+      <a class="comment-user" data-reply-to="dommmel" href="/dommmel">
+        dommmel
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/6331/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p><a href="/jalada">@jalada</a> Good question. I guess you could use <a href="http://www.ruby-doc.org/core-1.9.3/Process.html#method-c-waitpid2"><code style="overflow-y: hidden;">Process.waitpid</code></a> in some way... haven't done it myself</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_6334">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Blank-mugshot" class="avatar" src="https://secure.gravatar.com/avatar/e6b625008c816ab3d8d742cc3eddbb00?d=https://d3levm2kxut31z.cloudfront.net/assets/blank-mugshot-112e2e92d74b7344b8be3630bbccc5da.png">
+      </div>
+      <a class="comment-user" data-reply-to="dommmel" href="/dommmel">
+        dommmel
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/6334/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p><a href="/jalada">@jalada</a> Cool - please keep us updated on how it works out</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_7037">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Blank-mugshot" class="avatar" src="https://secure.gravatar.com/avatar/de8b71442a3187222718bd993f1eb835?d=https://d3levm2kxut31z.cloudfront.net/assets/blank-mugshot-112e2e92d74b7344b8be3630bbccc5da.png">
+      </div>
+      <a class="comment-user" data-reply-to="miguelperez" href="/miguelperez">
+        miguelperez
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/7037/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p>Hi guys,
+      @jalada <a href="/dommmel">@dommmel</a> did it work?</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_9940">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Robert" class="avatar" src="https://coderwall-assets-0.s3.amazonaws.com/uploads/user/avatar/11740/robert.jpg">
+      </div>
+      <a class="comment-user" data-reply-to="rpearce" href="/rpearce">
+        rpearce
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/9940/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p>Hi, how can this be done with Puma? Concurrency noob here</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_11226">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="Blank-mugshot" class="avatar" src="https://secure.gravatar.com/avatar/be8c56bdb448f4331038a776c14bf0ad?d=https://d3levm2kxut31z.cloudfront.net/assets/blank-mugshot-112e2e92d74b7344b8be3630bbccc5da.png">
+      </div>
+      <a class="comment-user" data-reply-to="dontfidget" href="/dontfidget">
+        dontfidget
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/11226/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p>Thanks for the tip.  You mentioned sucker punch as an alternative but am I right in thinking that with sucker punch, I wouldn't be able to start a job from a rake task (heroku scheduler, for instance) or some other scheduling job and run it in the background of one of the existing heroku dynos?  </p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_11227">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="0eeaaf2e8b6bead6a4b97c411c14ef24_normal" class="avatar" src="http://pbs.twimg.com/profile_images/378800000595398373/0eeaaf2e8b6bead6a4b97c411c14ef24_normal.png">
+      </div>
+      <a class="comment-user" data-reply-to="matixmatix" href="/matixmatix">
+        matixmatix
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/11227/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p>Does worker perform even when the Heroku app goes to sleep?</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+  <li class="cf" id="comment_13029">
+    <header class="cf">
+      <div class="comment-avatar">
+        <img alt="0_ffbqyoyrgns4wo-s5inmye0bhnojiugs5apjywmr0podq0zdwdberdvza4e6eyit625zlaklqjxr" class="avatar" src="http://media.linkedin.com/mpr/mprx/0_FfbQYoYRGNS4wO-S5INMYe0bhnoJIUGS5aPJYWmR0POdq0zDwdBErdVza4E6eyiT625ZlaKLQjxR">
+      </div>
+      <a class="comment-user" data-reply-to="leoromanovsky" href="/leoromanovsky">
+        leoromanovsky
+      </a>
+      <a class="like not-liked" data-method="post" data-remote="true" href="/p/fprnhg/comments/13029/like" rel="nofollow">
+
+      </a>
+    </header>
+    <div class="comment">
+      <p>
+      </p><p><a href="/matixmatix">@matixmatix</a> Set up the New Relic plugin to ping your server periodically and it will always be awake!</p>
+
+      <p></p>
+    </div>
+    <ul class="edit-del cf">
+    </ul>
+  </li>
+
+</ul>
+<div class="add-comment cf" id="add-comment">
+  <h2>Add a comment</h2>
+  <form accept-charset="UTF-8" action="/p/fprnhg/comments" class="new_comment" id="new_comment" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="k4oEXQMz5mdJMWeIR6NhWbSRr3zdkAJLX+ZHBmPs+Sg="></div>
+    <textarea cols="40" id="comment_comment" label="false" name="comment[comment]" rows="5"></textarea>
+    <input class="button" type="submit" value="Submit comment">
+  </form>
+</div>
+
+</section> -->

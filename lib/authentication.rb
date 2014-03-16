@@ -13,11 +13,13 @@ module Authentication
     Warden::Manager.before_logout do |user,auth,opts|
       auth.cookies.delete :login
     end
+    Warden::Manager.after_authentication do |user, auth, opts|
+      p 'after warden auth..'
+    end
     app.use OmniAuth::Builder do
       provider :facebook, ENV['APP_ID'], ENV['APP_SECRET'], {:scope => ENV['SCOPE'], :provider_ignores_state => true}
     end
   end
-
 
 
   Warden::Strategies.add(:facebook) do
@@ -35,7 +37,7 @@ module Authentication
       u = User.where(:"FBTokens.uid" => fb_user['uid'], :active => true).first
       # ap u
       if u.nil?
-        u = User.new(email: fb_user['info']['email'], firstname: fb_user['info']['first_name'],lastname: fb_user['info']['last_name'])
+        u = User.new(email: fb_user['info']['email'], firstname: fb_user['info']['first_name'],lastname: fb_user['info']['last_name'], profile: fb_user['info']['image'], location: {fb: fb_user['info']['location']})
         # p 1
         # ap u
         u.FBTokens = FBToken.new(uid: fb_user['uid'], token: access_token)

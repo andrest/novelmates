@@ -1,0 +1,50 @@
+<div id="wrapper" class="container-fluid">
+  <ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">London</a> + <a href="#">Oxford</a></li>
+    <li class="active"><%= @book.title %></li>
+  </ol>
+
+  <div class="book-description col-sm-3">
+    <div class="cover-wrapper" style="width:auto;">
+      <img class="book-cover" src="<%= @book.images[:large] %>">
+    </div>
+    <dl class="book-details">
+      <dt>Title</dt>
+      <dd><%= @book.full_title %></dd>
+      <dt>Author</dt>
+      <dd><%= @book.author %></dd>
+      <dt>Published</dt>
+      <dd><%= @book.published_at %></dd>
+      <dt>Category</dt>
+      <dd>Science Fiction</dd>
+      <dt>ISBN13</dt>
+      <dd><%= @book.isbn %></dd>
+    </dl>
+  </div>
+    
+
+  <div id="middle" class="col-sm-9">
+    <%= partial '/meetups/meetup_info' %>
+    <%= partial '/books/interest_categories', locals: { :description => 'What the attendants are interested in' } %>
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'novelmates'; // required: replace example with your forum shortname
+        var urlArray = document.URL.split(/\/+/);
+        var disqus_identifier = urlArray[$.inArray( 'meetup', urlArray ) + 1];
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+  </div>
+
+  <span class="clearfix" />
+</div>

@@ -102,10 +102,6 @@ module BookController
 		books
 	end	
 
-	def self.lookup_book(isbn)
-		"testing"
-	end
-
 	def self.generate_mosaic(books)
 		html = "<div class='gallery center'>" 
 		books.each do |book|
