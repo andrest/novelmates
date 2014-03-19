@@ -10,22 +10,21 @@ end
 
 class Interest
   include Mongoid::Document
-  include Mongoid::Timestamps
-  has_many :users
-  has_many :interest_categories
-  # field :isbn,          type: String
-
-end
-
-class Books
-  include Mongoid::Document
-  include Mongoid::Timestamps
-  # embedded_in :user
-  embeds_one :interest
-
   field :isbn,          type: String
-
+  field :category,      type: String
+  has_and_belongs_to_many :users
 end
+
+# class Books
+#   include Mongoid::Document
+#   include Mongoid::Timestamps
+#   # embedded_in :user
+#   embeds_many :interests
+#   accepts_nested_attributes_for :interests
+
+#   field :isbn,          type: String
+
+# end
 
 
 class User
@@ -35,8 +34,8 @@ class User
   
   # self.include_root_in_json = true
   embeds_one :FBTokens
+  has_and_belongs_to_many :interests
   has_and_belongs_to_many :meetups
-  # has_many :books
 
   # field :username,        type: String,   :default => UUID::generate(:compact)
   field :password_hash,   type: String
@@ -58,15 +57,15 @@ class User
   # Make sure email contains an @
   validates_format_of       :email, with: /@/
   validates_inclusion_of    :active, :in => [true, false]
-  validates_uniqueness_of   :email,
-                            :message => "User with this email already exists."
+  # validates_uniqueness_of   :email,
+                            # :message => "User with this email already exists."
   # validates_uniqueness_of   :email
   # validates_format_of       :username,  :with => /\A[A-Za-z0-9_]+\z/, 
   #                                       :message => "must contain only letters, numbers and underscores."
   validates_format_of       :email, :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
                                         
   before_save               :_encrypt_password
-  
+  before_create             :_encrypt_password
   # def get_pic()
   #   if !self.profile.present?
   #     profi

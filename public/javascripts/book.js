@@ -3,12 +3,51 @@ $(function(){
     $('.new-meetup').removeClass('hidden');
     $('.new-meetup-btn').addClass('hidden');
   });
+  $('button.attending').on('click', function() {
+    if ($(this).hasClass('active')) return;
+    $(this).addClass('active');
+    $('button.not-attending').removeClass('active');
+
+    $.ajax({
+        url: '/meetup/attending',
+        data: {meetup_id: $("input[name='id']")[0].value, attending: 'true'},
+        type: 'POST'
+    }).done(function() {
+      console.log('attending meetup');
+    }).fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      document.location.reload(); 
+    });
+  });
+
+  $('button.not-attending').on('click', function() {
+    if ($(this).hasClass('active')) return;
+    $(this).addClass('active');
+    $('button.attending').removeClass('active');
+
+    $.ajax({
+        url: '/meetup/attending',
+        data: {meetup_id: $("input[name='id']")[0].value, attending: 'false'},
+        type: 'POST'
+    }).done(function() {
+      console.log('attending meetup');
+    }).fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      document.location.reload(); 
+    });
+  });
+
 
   $('.add-interest').on('click', function() {
+    var interest = $(this).parents('.interest-category').children('h5').text();
     $.ajax({
       url: '/book/interest',
       type: 'POST',
-      data: {isbn: $('#isbn'), interest: $(this).parent('.interest-category').attr('data-id'), },
+      data: {isbn: $('#isbn').text(), interest: interest, },
     })
     .done(function() {
       console.log("success");
@@ -25,8 +64,23 @@ $(function(){
   });
 
   $('.remove-interest').on('click', function() {
-    $( '.add-interest', $($(this).parent()) ).removeClass('hidden')
-    $(this).addClass('hidden')
+    var interest = $(this).parents('.interest-category').children('h5').text();
+    $.ajax({
+      url: '/book/interest',
+      type: 'DELETE',
+      data: {isbn: $('#isbn').text(), interest: interest, },
+    })
+    .done(function() {
+      console.log("done");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+    $( '.add-interest', $($(this).parent()) ).removeClass('hidden');
+    $(this).addClass('hidden');
   });
 
   $('.new-meetup button.close').on('click', function() {
@@ -46,7 +100,7 @@ $(function(){
   $('.edit-meetup').on('click', function(){
     $(this).addClass('hidden');
     $('.edit-buttons').removeClass('hidden');
-    $('.form-control-static', '.meetup-info').each(function(){
+    $('.form-control-static.editable', '.meetup-info').each(function(){
       $(this).addClass('hidden');
       $(this).next().removeClass('hidden');
     });

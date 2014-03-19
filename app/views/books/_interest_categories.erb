@@ -19,26 +19,29 @@
   <div class="list-group">
     
     <% @interests.each do |interest| %>
-      <a href="#" data-toggle="collapse" data-id="<%= interest._id %>" data-target=".interest-details" class="list-group-item interest-category">
-        <h5><%= interest.name %></h5>
+      <div href="#" data-toggle="collapse" data-target=".interest-details" class="list-group-item interest-category">
+        <h5><%= interest.category %></h5>
         <span class="pull-right people">
-          <% if signed_in? %>
+          <% if ( (signed_in? && meetups?) || (attending? && meetup?) ) %>
           <div class="interest-btn">
-            <div class="remove-interest circle hidden">
+            <% remove = 'hidden'; remove = '' if interest.user_ids.include? current_user._id %>
+            <div class="remove-interest circle <%= remove %>">
               <div class="profile-picture-wrapper" data-user-id="<%= current_user._id %>"></div>
               <div class="hover-minus circle"><span class="glyphicon glyphicon-minus"></span></div>
             </div>
-            <div class="add-interest circle"><span class="glyphicon glyphicon-plus"></span></div>
+            <div class="add-interest circle <%= remove == '' ? 'hidden' : '' %>"><span class="glyphicon glyphicon-plus"></span></div>
           </div>
           <% end %>
-          <% interest.users.each do |user| %>
-            <div class="profile-picture-wrapper" data-user-id="<%= user._id %>"></div>
+          <% if defined? @meetup != nil then users = @attendants else users = interest.user_ids end %>
+          <% users.each do |id| %>
+            <% next if signed_in? && id == current_user._id %>
+            <div class="profile-picture-wrapper" data-user-id="<%= id.to_s %>"></div>
           <% end %>
         </span>
-      </a>      
+      </div>      
     <% end %> 
 
-    <a href="#" data-toggle="collapse" data-target=".interest-details" class="list-group-item interest-category">
+<!--     <a href="#" data-toggle="collapse" data-target=".interest-details" class="list-group-item interest-category">
       <h5>Author discussion</h5>
       <span class="pull-right people">
         <% if signed_in? %>
@@ -101,7 +104,7 @@
         </div>
         <% end %>
       </span>
-    </div>
+    </div> -->
 
   </div>
 </div>

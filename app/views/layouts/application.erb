@@ -19,19 +19,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Link</a></li>
-        <li><a href="/discover/london">Discover City</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
+        <li><a href="/discover/<%= @meetup.city unless nil == (defined? @meetup) %>">Discover City</a></li>
       </ul>
       <!-- <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
@@ -51,8 +39,14 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
-<%= flash_tag(:warning, :class => 'alert alert-warning alert-dismissable') %>
+<% p flash.count; flash.each do |name, msg| %>
+  <% p name; p msg; if msg.is_a?(String) %>
+    <div class="alert alert-<%= name.to_s == 'notice' ? 'success' : 'danger' %>">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <div id="flash_<%= name %>"><%= msg %></div>
+    </div>
+  <% end %>
+<% end %>
   
 		<!-- <header><h1>Novelmates</h1></header> -->
 

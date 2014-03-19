@@ -1,68 +1,113 @@
-<h3><%= @meetup.name %></h3>
-<div class="meetup-info">
-  <form action="/meetup/update" method="post" class="form-horizontal" role="form">
+<div class="row">
+  <div class="meetup-info col-sm-6">
+    <h3><%= @meetup.name %></h3>
 
-    <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Meetup name</label>
-      <div class="col-sm-10">
-        <p class="form-control-static"><%= @meetup.name %></p>
-        <input name="name" type="text" class="form-control hidden" id="name" value="<%= @meetup.name %>">
+    <% if signed_in? %>
+      <div class="btn-group">
+        <button type="button" class="attending btn btn-default <%= 'active' if attending?%>">Attending</button>
+        <button type="button" class="not-attending btn btn-default <%= 'active' if !attending? %>">Not Attending</button>
       </div>
+    <% end %>
+
+    <form action="/meetup/update" method="post" class="form-horizontal" role="form">
+
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Meetup name</label>
+        <div class="col-sm-10">
+          <p class="form-control-static editable"><%= @meetup.name %></p>
+          <input name="name" type="text" class="form-control hidden" id="name" value="<%= @meetup.name %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date" class="col-sm-2 control-label">Date</label>
+        <div class="col-sm-10">
+          <p class="form-control-static editable"><%= @meetup.date unless @meetup.date.nil? %></p>
+          <input name="date" type="date" class="form-control hidden" id="date" value="<%= @meetup.date unless @meetup.date.nil? %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location" class="col-sm-2 control-label">Location</label>
+        <div class="col-sm-10">
+          <p class="form-control-static editable"><a href="/meetups/at/<%= @meetup.city %>"><%= @meetup.city %></a></p>
+          <input name="city" type="text" class="form-control hidden" id="location" value="<%= @meetup.city unless @meetup.city.nil? %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-10">
+          <p class="form-control-static editable"><%= @meetup.description unless @meetup.description.nil? %></p>
+          <textarea name="description" type="text" class="form-control hidden" id="description"><%= @meetup.description unless @meetup.description.nil? %></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location" class="col-sm-2 control-label">Created By</label>
+        <div class="col-sm-10">
+          <% user = User.find(@meetup.creator) unless @meetup.creator.nil? %>
+          <div class="list-group-item user_card">
+            <span class="">
+              <div class="profile-picture-wrapper" data-user-id="<%= user._id.to_s %>"></div>
+            </span>
+            <h6 class="user-name"><%= user.firstname + " " + user.lastname %></h6>
+          </div>
+          <input name="city" type="text" class="form-control hidden" id="location" value="<%= @meetup.city unless @meetup.city.nil? %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="attending" class="col-sm-2 control-label">Attending</label>
+        <div class="col-sm-10">
+          <div class="form-control-static">
+          <% @meetup.users.each do |user| %>
+            <div class="list-group-item user_card">
+              <span class="">
+                <div class="profile-picture-wrapper" data-user-id="<%= user._id.to_s %>"></div>
+              </span>
+              <h6 class="user-name"><%= user.firstname + " " + user.lastname %></h6>
+            </div>
+          <% end %>
+          </div>
+          <!-- <input name="" type="text" class="form-control hidden" id="attending" value="Bob, Joe, Martin"> -->
+        </div>
+      </div>
+
+      <input type="text" name="books" class="hidden" value="<%= @book.isbn %>">
+      <input type="text" name="user_id" class="hidden" value="<%= current_user._id if signed_in? %>">
+      <input type="text" name="id" class="hidden" value="<%= @meetup._id %>">
+
+      <div class="form-group edit-buttons hidden">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Save</button>
+          <div class="btn btn-default cancel-edit">Cancel</div>
+        </div>
+      </div>
+
+  <!--     <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="edit-meetup btn btn-default"><span class="glyphicon glyphicon-edit"></span> edit</div>
+        </div>
+      </div> -->
+
+    </form>
+    <% if signed_in? && @meetup.creator.to_s == current_user._id.to_s %>
+      <div class="help-block"><div class="edit-meetup btn btn-default"><span class="glyphicon glyphicon-edit"></span> edit</div></div>
+    <% end %>
+
+  </div>
+  <div class="col-sm-6">
+    <div class="pull-right">
+      <h4>Proposed Venue</h4>
+      <img src="http://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=300x300&maptype=roadmap&sensor=false">
+      <ul>
+        <li>Notes Cafe, Covent Garden, London</li>
+        <li>18:30</li>
+        <li>Table reserved for 'Mary'</li>
+      </ul>
     </div>
-
-    <div class="form-group">
-      <label for="date" class="col-sm-2 control-label">Date</label>
-      <div class="col-sm-10">
-        <p class="form-control-static"><%= @meetup.date unless @meetup.date.nil? %></p>
-        <input name="date" type="date" class="form-control hidden" id="date" value="<%= @meetup.date unless @meetup.date.nil? %>">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="location" class="col-sm-2 control-label">Location</label>
-      <div class="col-sm-10">
-        <p class="form-control-static"><%= @meetup.city unless @meetup.city.nil? %></p>
-        <input name="city" type="text" class="form-control hidden" id="location" value="<%= @meetup.city unless @meetup.city.nil? %>">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="description" class="col-sm-2 control-label">Description</label>
-      <div class="col-sm-10">
-        <p class="form-control-static"><%= @meetup.description unless @meetup.description.nil? %></p>
-        <textarea name="description" type="text" class="form-control hidden" id="description">
-        <%= @meetup.description unless @meetup.description.nil? %>
-        </textarea>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="attending" class="col-sm-2 control-label">Attending</label>
-      <div class="col-sm-10">
-        <p class="form-control-static">Bob, Joe, Martin</p>
-        <!-- <input name="" type="text" class="form-control hidden" id="attending" value="Bob, Joe, Martin"> -->
-      </div>
-    </div>
-
-    <input type="text" name="books" class="hidden" value="<%= @book.isbn %>">
-    <input type="text" name="user_id" class="hidden" value="<%= current_user._id %>">
-    <input type="text" name="id" class="hidden" value="<%= @meetup._id %>">
-
-    <div class="form-group edit-buttons hidden">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Save</button>
-        <div class="btn btn-default cancel-edit">Cancel</div>
-      </div>
-    </div>
-
-<!--     <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-          <div class="edit-meetup btn btn-default"><span class="glyphicon glyphicon-edit"></span> edit</div>
-      </div>
-    </div> -->
-
-  </form>
-  <div class="help-block"><div class="edit-meetup btn btn-default"><span class="glyphicon glyphicon-edit"></span> edit</div></div>
+  </div>
 </div>
 
 <!-- <div class="meetup-info-editable">

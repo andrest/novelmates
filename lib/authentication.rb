@@ -6,7 +6,7 @@ module Authentication
         manager.default_strategies :password, :facebook
         manager.failure_app = app
         manager.serialize_into_session {|user| user._id}
-        manager.serialize_from_session {|id| p id; User.find(Moped::BSON::ObjectId(id.to_s)) }
+        manager.serialize_from_session {|id| User.find(Moped::BSON::ObjectId(id.to_s)) }
         # manager.serialize_from_session {|id| User.find( {_id:ObjectId(id)} ) }
     end
      

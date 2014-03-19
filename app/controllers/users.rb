@@ -30,7 +30,11 @@ Novelmates::App.controllers :user do
       # ap 'CURRENT USER'
     else
       user = User.find(params[:id])
-      return if user.nil?
+
+      if user.nil?
+        return '<img style="display:inline-block;" class="profile img-circle" src="http://placekitten.com/40/40">'
+      end
+      # return if user.nil?
       # ap "OTHER USER"
     end
 

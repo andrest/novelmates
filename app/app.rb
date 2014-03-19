@@ -12,6 +12,13 @@ module Novelmates
 
     Mongoid.load!("mongoid.yml")
 
+    # Grab the cities from the URL if it contains /at/123213+1232
+    before /\/at\// do
+      url = request.env["PATH_INFO"]
+      locations = url.match(/at\/([\d|\+]+)\//i).captures[0].split('+')
+      session[:url_cities] = locations
+    end
+
     get "/" do
       @title= 'Novelmates'
       @additional_js  = javascript_include_tag  "index"
@@ -21,6 +28,12 @@ module Novelmates
     post '/unauthenticated' do
       flash[:warning] = "Invalid login credentials"
       redirect request.env['HTTP_REFERER']
+    end
+
+    post '/locations/update' do
+      locations = MultiJson.decode(params[:locations])
+      session[:current_cities] = locations
+      return 'ok'
     end
 
     get '/geo/:address' do

@@ -1,4 +1,9 @@
 Novelmates::App.controller do
+
+	# before do
+	#   ap session[:current_cities] # unless request.env["current_cities"].nil?
+	# end
+
 	# get '/book/*' do
 	#   "Page for book: #{params[:name]}"
 	#   params.each do |s|
@@ -13,25 +18,26 @@ Novelmates::App.controller do
 	#   end
 	# end
 
-	# Pattern: /city/isbn/title
-	# E.g. /london/97029384567/the-lies-of-lock-lamora
-	# get %r{/([\d\+]+)/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
-	get %r{/?([\d\s]*)/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
-	  # get %r{(?:/)([\d\+])+/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
-	  # http://ws.geonames.org/getJSON?formatted=false&geonameId=588335&username=novelmates&style=short
-	  city = params[:captures][0].split(' ')
-	  isbn = params[:captures][1]
-
-	  @book = BookController.get_book(isbn)
-	  
-	  @additional_css = stylesheet_link_tag "book"
-	  @additional_js  = javascript_include_tag  "book"
-	  erb:'books/book'
-	end
-
 	get '/get_book/:isbn' do
 	  content_type 'application/json'
 	  MultiJson.encode(BookController.get_book(params[:isbn]))
+	end
+
+	post '/book/interest' do
+	  # params[:interest]
+	  # params[:isbn]
+	  # ap Interest.where({isbn: params[:isbn], category: params[:interest] }).all.entries
+	  current_user.interests.push(Interest.where({isbn: params[:isbn], category: params[:interest] }))
+	  # ap current_user
+	end
+
+	delete '/book/interest' do
+	  # params[:interest]
+	  # params[:isbn]
+	  # ap Interest.where({isbn: params[:isbn], category: params[:interest] }).all.entries
+	  i = Interest.where({isbn: params[:isbn], category: params[:interest], user_ids: current_user._id }).pull(:user_ids, current_user._id)
+	  # ap i
+	  # ap current_user
 	end
 end
 
@@ -107,7 +113,7 @@ module BookController
 		books.each do |book|
 			html += 
 			<<-HTML
-			<a class="book-link" href="/#{book.isbn}/#{book.get_url_title}">
+			<a class="book-link" href="/meetups/for/#{book.isbn}/#{book.get_url_title}">
 				<div class="cover-container">
 					<div class="cover">
 						<div class="front">
@@ -136,7 +142,7 @@ module BookController
 			html +=
 			<<-HTML
 			<li>
-				<a class="book-link" href="/#{book.isbn}/#{book.get_url_title}">
+				<a class="book-link" href="/meetups/for/#{book.isbn}/#{book.get_url_title}">
 					<div class="cover-wrapper">
 						<span class="helper"></span>
 						<img class="book-cover hidden" src="#{book.images[:medium]}" >

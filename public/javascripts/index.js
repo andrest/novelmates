@@ -11,43 +11,75 @@ $(function(){
   }
   // Create auto-complete input for city-search
   var city_input = $('#city-input').tokenInput("/city/auto/", 
-                                               {onAdd: function(){ refresh_book_links() },
+                                               {onAdd: function(){ update_session_locations(); refresh_book_links() },
                                                 onDelete: function(){ refresh_book_links() }});
 
   // Initalise the background mosaic
   init_gallery();
 
+  // Fill location automatically
   $('body').on('auto_location', function(){
     prefill_city(city_input);
-    refresh_book_links();
+    // refresh_book_links();
   });
   
+  // Try to determine locations
   determine_location();
 
 });
 
 $(function(){
   $('#book-search').on('search_results', function(){
-    refresh_book_links();
+    refresh_book_links('#book-search a.book-link');
   })
 });
 
 function refresh_book_links(urls) {
   urls = typeof urls !== 'undefined' ? urls : '.book-link';
-  console.log($(urls)[0]);
+
   $(urls).each(function(index, link) {
-    var href = $(link).attr('href');
-    var urlArray = href.split('/').reverse();
+    var urlArray = link.pathname.split('/');
+    var newUrlArray = [];
+    for (var i = 0; i < urlArray.length; i++) {
+      var v  = urlArray[i];
+      var v1 = urlArray[i+1];
+      newUrlArray.push(v);
+      if (v == 'meetups' && (v1 != 'at')) {
+        newUrlArray.push('at');
+        newUrlArray.push($('#city-input').tokenInput('get').map(function(elem) {
+                            return elem.id
+                          }).join('+'));
+      } else if (v == 'at') {
+        newUrlArray.push($('#city-input').tokenInput('get').map(function(elem) {
+                            return elem.id
+                          }).join('+'));
+        i++;
+      }
+    };
 
-
-    urlArray[2] = $('#city-input').tokenInput('get').map(function(elem) {
-      return elem.id
-    }).join('+'); 
-    $(link).attr('href', urlArray.reverse().join(' ').split(/\s+/).join('/'));
-    $(link).on('click', function() {
-      // $(link).attr('href', urlArray.join('/'));
-    });
+    $(link).attr('href', newUrlArray.join(' ').split(/\s+/).join('/'));
+    // var newUrlArray = [urlArray[0], urlArray[1]];
+    // newUrlArray.push( $('#city-input').tokenInput('get').map(function(elem) {
+    //   return elem.id
+    // }).join('+'););
+    // $.each(urlArray, function(i){ newUrlArray.push(i) }
+    // $(link).attr('href', urlArray.join(' ').split(/\s+/).join('/'));
+    // $(link).on('click', function() {
+    //   // $(link).attr('href', urlArray.join('/'));
+    // });
   });
+}
+
+function update_session_locations() {
+  var locations = $('#city-input').tokenInput('get');
+  $.ajax({
+    url: '/locations/update',
+    type: 'POST',
+    data: {locations: JSON.stringify(locations)},
+  })
+  .fail(function() {
+    console.log("failed to update session locations");
+  })
 }
 
 function init_gallery() {
@@ -78,7 +110,7 @@ function init_gallery() {
         columnWidth: 250
       }); 
     });
-    refresh_book_links();
+    refresh_book_links('.gallery a.book-link');
   })
   .fail(function() {
     console.log("error getting the mosaic");

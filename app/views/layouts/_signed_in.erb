@@ -1,7 +1,11 @@
 <li><a href="/user/meetups">My Meetups</a></li>
 <li><a href="/user/books">My Books</a></li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile <b class="caret"></b></a>
+<li class="dropdown profile">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <div class="profile-pic"><div class="profile-picture-wrapper" data-user-id="<%= current_user._id %>"></div></div>
+    <span>Profile</span>
+    <b class="caret"></b>
+  </a>
   <ul class="dropdown-menu">
     <li><a href="#">Action</a></li>
     <li><a href="#">Another action</a></li>
@@ -12,5 +16,8 @@
     <li><a href="#">One more separated link</a></li>
   </ul>
 </li>
-<li class="profile-pic"><img class="profile img-circle" src="<%= request.env["warden"].user["profile"] %>"></li>
-<li><button type="button" onClick="location.href='/logout'" class="btn btn-default navbar-btn">Log out</button></li>
+<li>
+    <form action="/logout">
+        <span class="visible-xs" style="width:15px;height:1px;display:inline-block!important;"></span><button class="btn btn-default navbar-btn">Log out</button>
+    </form>
+</li>

@@ -3,39 +3,27 @@
   </div>
 
   <div class="list-group">
-    <a href="#" class="list-group-item">London<span class="badge">0</span></a>
-    <a href="#" data-toggle="collapse" data-target=".meetup-details" class="list-group-item">
-      Oxford
-      <span class="badge">3</span>
-    </a>
+    <% session[:current_cities].each do |city| %>
+      <% @meetups2 = Meetup.where({city: city["id"]}).all.entries %>
+      <a href="#" data-toggle="collapse" data-target=".meetup-details" class="list-group-item meetup_city">
+        <%= city["name"] %>
+        <span class="badge"><%= @meetups2.count %></span>
+      </a>
 
-    <div class="meetup-details collapse list-group">
+      <div class="meetup-details collapse in list-group">
 
-      <div class="list-group-item">
-      <a href="http://novelmates.dev/meetup/124/0062066315"><h5>First meetup</h5></a>
-        <span class="pull-right people">
-          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
-          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
-          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
-        </span>
+        <% @meetups2.each do |meetup| %>
+          <div class="list-group-item">
+          <a href="http://novelmates.dev/meetup/<%= meetup._id %>/for/<%= meetup.books[0] %>"><h5><%= meetup.name %></h5></a>
+            <span class="pull-right people">
+              <% meetup.user_ids.each do |id| %>
+                <div class="profile-picture-wrapper" data-user-id="<%= id.to_s %>"></div>
+              <% end %>
+            </span>
+          </div>
+        <% end %>
       </div>
-
-      <div class="list-group-item">
-        <h5 class="">Second meetup</h5>
-        <span class="pull-right people">
-          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
-        </span>
-      </div>
-
-      <div class="list-group-item">
-        <h5 class="">Third meetup</h5>
-        <span class="pull-right people">
-          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
-          <img class="img-circle" src="http://lorempixel.com/40/40/people/">
-        </span>
-      </div>
-
-    </div>
+    <% end %>
 
   </div>
   <button type="button" class="new-meetup-btn btn btn-primary btn-lg btn-block">Add new meetup</button>

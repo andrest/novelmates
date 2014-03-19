@@ -1,16 +1,32 @@
 //TODO: importing also in main, DRY
 @import 'lesshat.less';
-
+body {
+background: url(http://subtlepatterns.com/patterns/washi.png);
+}
 /* Book description */
 .book-description {
+  padding-top: 10px;
+  // background-color:rgb(187, 175, 149);
   display: inline-block;
-  border-right: 1px solid #e0e5e9;
+
 }
+@media (min-width: 768px) and (max-width: 992px){ 
+  .navbar { margin-bottom: 10px !important; }
+  .breadcrumb { display: none; }
+  .book-description {
+    background-color: rgb(212, 224, 212);
+    & > div {
+    height:200px !important;
+    }
+  }
+}
+
 .book-cover {
   max-width:100%;
   max-height:100%;
-  margin-bottom: 5px;
+  // margin-bottom: 5px;
 }
+
 
 /* Breadcrumb and new Search */
 .breadcrumb {
@@ -29,6 +45,10 @@
 }
 .panel .list-group > .list-group-item {
   overflow: auto;
+}
+
+.user_card {
+  display: block;
 }
 
 .profile-picture-wrapper {
@@ -54,7 +74,7 @@
 
     &:hover > .hover-minus {
       .transition(0.5s);
-      background: rgba(228, 228, 228, 0.85) !important;
+      background: rgba(228, 228, 228, 0.95) !important;
       opacity:1;
 
       // background: #F3F2F2 !important;
@@ -79,11 +99,15 @@
 }
 
 .interest-category {
+  &:hover {
+    background: #F9FAF7;
+  }
   h5 {
     font-weight:300;
     display:inline-block;
   }
   .circle {
+    cursor: pointer;
     color: rgb(243, 234, 234);
     display:inline-block;
     vertical-align: middle;

@@ -64,7 +64,7 @@ body {
 
 		&:hover > .hover-minus {
 			.transition(0.5s);
-			background: rgba(228, 228, 228, 0.85) !important;
+			background: rgba(228, 228, 228, 0.95) !important;
 			opacity:1;
 
 			// background: #F3F2F2 !important;
@@ -89,11 +89,15 @@ body {
 }
 
 .interest-category {
+	&:hover {
+		background: #F9FAF7;
+	}
 	h5 {
 		font-weight:300;
 		display:inline-block;
 	}
 	.circle {
+		cursor: pointer;
 		color: rgb(243, 234, 234);
 		display:inline-block;
 		vertical-align: middle;
@@ -114,7 +118,9 @@ body {
 		}
 	}
 }
-
+.meetup_city {
+	background: #fcfcfa;
+}
 .meetup-details {
 	border-left-color: #B3AE9B;
 	border-left-width: 10px;
@@ -124,7 +130,7 @@ body {
 	border-top-style: solid;
 	margin-bottom:0;
 
-	background:rgb(252, 252, 250);
+	background:white;
 
 	h5 {
 		float: left;
