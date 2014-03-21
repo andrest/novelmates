@@ -32,7 +32,7 @@
       <div class="form-group">
         <label for="location" class="col-sm-2 control-label">Location</label>
         <div class="col-sm-10">
-          <p class="form-control-static editable"><a href="/meetups/at/<%= @meetup.city %>"><%= @meetup.city %></a></p>
+          <p class="form-control-static editable"><a href="/meetups/at/<%= @meetup.city %>" data-id="<%= @meetup.city %>" class="city-id-to-name"><%= @meetup.city %></a></p>
           <input name="city" type="text" class="form-control hidden" id="location" value="<%= @meetup.city unless @meetup.city.nil? %>">
         </div>
       </div>

@@ -55,7 +55,7 @@ Novelmates::App.controllers :meetup do
   end
 
   post :create do
-    params[:books] = [ params[:books] ]
+    params["books"] = [ params[:books] ]
     params.delete :topic
     params.delete :notification
 

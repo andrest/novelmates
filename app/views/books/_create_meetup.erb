@@ -26,7 +26,7 @@
      <label for="location" class="control-label">Location</label>
      <select id="location" name="city" class="form-control">
       <% session[:url_cities].each do |city| %>
-       <option data-id="<%= city %>" class="city-id-to-name"><%= city %></option>
+       <option value="<%= city %>" data-id="<%= city %>" class="city-id-to-name"><%= city %></option>
       <% end %>
      </select>
    </div>

@@ -4,7 +4,7 @@
     <li><a href="#">Home</a></li>
     <li>
       <% #session[:url_cities].each do |city| %>
-        <a href="#"><%= @meetup.city %></a>
+        <a href="#" class="city-id-to-name" data-id="<%= @meetup.city %>"><%= @meetup.city %></a>
       <% #end %>
     </li>
     <li class="active"><a href="/meetups/at/<%= @meetup.city %>/for/<%= @book.isbn+'/'+@book.get_url_title %>"><%= @book.title %></a></li>
