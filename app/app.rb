@@ -16,11 +16,13 @@ module Novelmates
     before /\/at\// do
       url = request.env["PATH_INFO"]
       locations = url.match(/at\/([\d|\+]+)\//i).captures[0].split('+')
+      ap locations
       session[:url_cities] = locations
     end
 
     get "/" do
       @title= 'Novelmates'
+      @additional_css = stylesheet_link_tag Rack::Less.stylesheet('index')
       @additional_js  = javascript_include_tag  "index"
       erb :index
     end
@@ -66,6 +68,17 @@ module Novelmates
           final.push( { 'id' => city['geonameId'], 'name' => city['name']+', '+city['countryName'] } )
         end
       end
+
+      MultiJson.encode(final)
+    end
+
+    get '/city/id/:id' do
+      content_type 'application/json'
+
+      uri = URI.parse('http://api.geonames.org/getJSON?formatted=true&username=novelmates&style=short&geonameId='+URI::encode(params[:id]))
+      body = Net::HTTP.get_response(uri).body
+      results = MultiJson.load(body)
+      final = {id: results['geonameId'], name: results['name'] + ', ' + results['countryName']};
 
       MultiJson.encode(final)
     end
@@ -142,8 +155,10 @@ module Novelmates
       BookController.generate_mosaic(books)
     end
 
-    get '/autocomplete/:term' do
-      books = BookController.get_books(params[:term])
+    get '/autocomplete' do
+      content_type 'application/json'
+
+      books = BookController.get_books(params[:q])
       BookController.generate_search_results(books)
     end
     

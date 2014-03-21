@@ -1,9 +1,36 @@
+<div id="book-search" class="row">
+  <div class="city-search col-md-offset-1 col-md-3 col-sm-4">
+
+    <div class="input-group"> <!--  has-success has-feedback -->
+      <!-- <label class="control-label" for="inputSuccess4">Input with success</label> -->
+      <span class="input-group-addon">City</span>
+      <input type="text" class="form-control" id="city-input" placeholder="E.g. London">
+      <!-- <span class="glyphicon glyphicon-ok form-control-feedback"></span> -->
+    </div>
+
+  </div>
+  <div class="search-box col-md-7 col-sm-8">
+    <div class="input-group"> 
+      <span class="input-group-addon">Title</span>     
+      <input type="text" id="book-input" class="form-control" placeholder="E.g. 50 Shades of Grey">
+      <span id="spinner"></span>
+
+<!--       <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span> -->
+      
+    </div><!-- /input-group -->
+    <ul class="col-xs-12" id="books"></ul>
+  </div><!-- /.col-lg-6 -->
+   
+</div>
+
 <div id="wrapper" class="container-fluid">
 	<ol class="breadcrumb">
 		<li><a href="#">Home</a></li>
 		<li>
 		<% session[:url_cities].each do |city| %>
-			<a href="#"><%= city %></a>
+			<a href="#" class="city-id-to-name" data-id="<%= city %>"></a>
 		<% end %>
 		</li>
 		<li class="active"><%= @book.title %></li>
@@ -26,57 +53,6 @@
 			<dd id="isbn"><%= @book.isbn %></dd>
 		</dl>
 	</div>
-		
-	<aside id="right" class="">
-		<div id="locations">
-			<h4>Locations</h4>
-			<div id="selected-locations">
-				<a class="add-city selected btn" href="#">
-					<i class="icon-ok"></i>
-					<p>London</p>
-					<i class="icon-remove"></i>
-				</a>
-				<a class="add-city selected btn" href="#">
-					<i class="icon-ok"></i>
-					<p>Oxford</p>
-				</a>
-			</div>
-			<hr>
-			<div id="suggested-locations">
-				<a class="add-city suggested btn" href="#">
-					<i class="icon-plus"></i>
-					<p>Brighton</p>
-				</a>
-				<a class="add-city suggested btn" href="#">
-					<i class="icon-plus"></i>
-					<p>Cambridge</p>
-				</a>
-				<a class="add-city suggested btn" href="#">
-					<i class="icon-plus"></i>
-					<p>Luton</p>
-				</a>
-				<form id="new-location">
-	<div class="input-group" style="width:150px;">
-	  <div class="input-group-btn">
-	    <button type="button" class="add-on btn">
-	      <i class="icon-plus"></i>
-	    </button>
-	  </div><!-- /btn-group -->
-	  <input type="text" class="form-control" placeholder="Location">
-	</div><!-- /input-group -->
-				</form>
-			</div>
-		</div>
-		<div id="suggested-titles">
-			<h4>Suggested Titles</h4>
-			<ul>
-				<li><div class="book"><a href="#suggestion"><img src=""></img><p>Syrup</p></a></div></li>
-			</ul>
-		</div>
-		<div id="advert">
-			<h4>Advert</h4>
-		</div>
-	</aside>
 
 	<div id="middle" class="">
     <%= partial '/books/meetup_listing' %>

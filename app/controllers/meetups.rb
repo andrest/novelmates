@@ -62,7 +62,7 @@ Novelmates::App.controllers :meetup do
     event = Meetup.new(params)
     ap params
     if event.save
-      redirect '/meetup/' + event._id + '/' + event.books.join('+')
+      redirect '/meetup/' + event._id + '/for/' + event.books.join('+')
     else
       flash[:error] = 'Something went wrong. Did you create the event?'
       redirect request.env["HTTP_REFERER"]
@@ -138,7 +138,7 @@ Novelmates::App.controllers :meetup do
 
     # city = http://api.geonames.org/getJSON?formatted=true&geonameId=588335&username=novelmates&style=short
     
-    @additional_css = stylesheet_link_tag "book"
+    @additional_css = stylesheet_link_tag("book")
     @additional_js  = javascript_include_tag  "book"
     erb:'books/book'
   end

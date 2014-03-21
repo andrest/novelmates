@@ -38,8 +38,129 @@ $(function() {
 });
 
 
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
 
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key);
+    return value && JSON.parse(value);
+}
 
 
 
 });
+
+function get_city(id){
+  var city_history = localStorage.getObject('locations');
+  var result;
+  if (city_history != undefined || city_history != null) {
+      $.each(city_history, function(index, val) {
+         if (val.id.toString() == id) { result = val; };
+      });
+  }
+  if (result != undefined) return result;
+  return $.ajax({
+      async: false,  
+      url: '/city/id/' + id,
+      success: function(loc){ 
+        console.log('had to lookup loc');
+        update_session_locations(loc);
+        return loc;
+      }
+  }).responseJSON;
+}
+
+function update_session_locations(location) {
+  var result;
+  if (typeof location !== 'undefined' || location != null) {
+    var location_history = merge_arrays(localStorage.getObject('locations'), [ location ]);
+    localStorage.setObject('locations', location_history);
+    result = location;
+  } else {
+    var locations = $('#city-input').tokenInput('get');
+    var location_history = merge_arrays(localStorage.getObject('locations'), locations);
+    localStorage.setObject('locations', location_history);
+    result = locations;
+  }
+  $.ajax({
+    url: '/locations/update',
+    type: 'POST',
+    data: {locations: JSON.stringify(result)},
+  })
+  .fail(function() {
+    console.log("failed to update session locations");
+  })
+}
+
+function merge_options(obj1,obj2){
+    var obj3 = {};
+    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+    return obj3;
+}
+
+function merge_arrays(array1, array2) {
+    var array;
+    if (array1 == null) { array = array2 } else {
+      var array = array1.concat(array2);
+    }
+    var a = array.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+};
+
+function get_at() {
+  var urlArray = location.pathname.split('/');
+  var newUrlArray = [];
+  for (var i = 0; i < urlArray.length; i++) {
+    var v  = urlArray[i];
+    var v1 = urlArray[i+1];
+    if (v == 'at') {
+      return v1.split('+');
+    }
+  };
+  return null;
+}
+
+function get_for() {
+  var urlArray = location.pathname.split('/');
+  var newUrlArray = [];
+  for (var i = 0; i < urlArray.length; i++) {
+    var v  = urlArray[i];
+    var v1 = urlArray[i+1];
+    if (v == 'for') {
+      return v1;
+    }
+  };
+  return null;
+}
+
+function get_fresh_link() {
+  var urlArray = location.pathname.split('/');
+  var newUrlArray = [];
+  for (var i = 0; i < urlArray.length; i++) {
+    var locations = $('#city-input').tokenInput('get');
+    var v  = urlArray[i];
+    var v1 = urlArray[i+1];
+    newUrlArray.push(v);
+    if (v == 'meetups' && v1 != 'at' && locations.length > 0) {
+      newUrlArray.push('at');
+      newUrlArray.push(locations.map(function(elem) {
+                          return elem.id
+                        }).join('+'));
+    } else if (v == 'at') {
+      newUrlArray.push(locations.map(function(elem) {
+                          return elem.id
+                        }).join('+'));
+      i++;
+    }
+  };
+  return newUrlArray.join(' ').split(/\s+/).join('/');
+}

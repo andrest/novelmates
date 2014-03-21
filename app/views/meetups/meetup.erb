@@ -1,4 +1,4 @@
-<div id="wrapper" class="container-fluid">
+<div id="wrapper" class="effect7 container-fluid">
   <%  %>
   <ol class="breadcrumb">
     <li><a href="#">Home</a></li>
@@ -13,22 +13,33 @@
   <% %>
   <div class="row">
     <div class="book-description hidden-xs col-md-3 col-sm-12">
-      <div clas="row">
+      <div class="book-description-back"></div>
+      <div class="col-sm-7 col-md-12">
         <div class="cover-wrapper col-md-12">
           <img class="book-cover" src="<%= @book.images[:large] %>">
         </div>
-        <dl class="book-details col-sm-6 col-md-12">
-          <dt>Title</dt>
-          <dd><%= @book.full_title %></dd>
-          <dt>Author</dt>
-          <dd><%= @book.author %></dd>
-          <dt>Published</dt>
-          <dd><%= @book.published_at %></dd>
-          <dt>Category</dt>
-          <dd>Science Fiction</dd>
-          <dt>ISBN13</dt>
-          <dd id="isbn"><%= @book.isbn %></dd>
-        </dl>
+        <div class="book-details col-md-12">
+          <div class="row">
+            <div class="detail col-xs-3">Title</div>
+            <div class="value col-xs-9"><%= @book.full_title %></div>
+          </div>
+          <div class="row">
+            <div class="detail col-xs-3">Author</div>
+            <div class="value col-xs-9"><%= @book.author %></div>
+          </div>
+          <div class="row">
+            <div class="detail col-xs-3">Published</div>
+            <div class="value col-xs-9"><%= @book.published_at %></div>
+          </div>
+          <div class="row">
+            <div class="detail col-xs-3">Category</div>
+            <div class="value col-xs-9">Science Fiction</div>
+          </div>
+          <div class="row">
+            <div class="detail col-xs-3">ISBN13</div>
+            <div class="value col-xs-9" id="isbn"><%= @book.isbn %></div>
+          </div>
+        </div>
         <span class="clearfix" />
       </div>
     </div>

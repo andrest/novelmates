@@ -3,18 +3,19 @@
   </div>
 
   <div class="list-group">
-    <% session[:current_cities].each do |city| %>
-      <% @meetups2 = Meetup.where({city: city["id"]}).all.entries %>
-      <a href="#" data-toggle="collapse" data-target=".meetup-details" class="list-group-item meetup_city">
-        <%= city["name"] %>
+    <% session[:url_cities].each do |city| %>
+      <% @meetups2 = Meetup.where({city: city, books: [ @book.isbn ]}).all.entries %>
+      <div class="list-group-item meetup_city" data-toggle="collapse" data-target=".meetup-details" >
+        <a href="#" data-id="<%= city %>" class="city-id-to-name">
+      </a>  
         <span class="badge"><%= @meetups2.count %></span>
-      </a>
+      </div>
 
       <div class="meetup-details collapse in list-group">
 
         <% @meetups2.each do |meetup| %>
           <div class="list-group-item">
-          <a href="http://novelmates.dev/meetup/<%= meetup._id %>/for/<%= meetup.books[0] %>"><h5><%= meetup.name %></h5></a>
+          <a href="/meetup/<%= meetup._id %>/for/<%= meetup.books[0] %>"><h5><%= meetup.name %></h5></a>
             <span class="pull-right people">
               <% meetup.user_ids.each do |id| %>
                 <div class="profile-picture-wrapper" data-user-id="<%= id.to_s %>"></div>

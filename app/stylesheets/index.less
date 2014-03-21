@@ -1,66 +1,56 @@
+//TODO: importing also in main, DRY
+@import 'lesshat.less';
 
-/* ==========================================================================
-   Index page styles
-   ========================================================================== */
-
-
-/* ==========================================================================
-   Book Search styles
-   ========================================================================== */
-
-#book-search {
-	background: #FCFCFC; //#f5f5f1;
-	border-bottom: 1px solid #ccccc8;
-
-	z-index:3;
-	// position: absolute;
-	// top: 300px;
-	margin: -20px 0px 35px 0px;
-	display:block;
-
-	.transition(2.5s);
-	.animation(fadeIn, 750ms);
-
-	padding-top:30px;
-	padding-bottom:15px;
-	min-height:100px;
-	.search-box {
-
-		// background:white;
-		// border-radius: 8px;
-	}
-	.spinner {
-		float:right;
-	}
-
-	.input-group {
-		height:42px;
-	}
-	
-	ul.token-input-list {
-		border: 1px solid #ccc;
-	}
-
-	input, ul.token-input-list {
-		
-
-		border-top-right-radius: 2em;
-		border-bottom-right-radius: 2em;
-		height:42px;
-	}
-
-	.input-group-addon {
-		border-top-left-radius: 2em;
-		border-bottom-left-radius: 2em;
-	}
+body {
+  background: white !important;
+}
+/*==================================================
+ * Effect 2
+ * By Paul Lund
+ * http://www.paulund.co.uk/creating-different-css3-box-shadows-effects
+ * ===============================================*/
+.effect2
+{
+  position: relative;
+}
+.effect2:before, .effect2:after
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #777;
+  -webkit-box-shadow: 0 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.effect2:after
+{
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
 }
 
+
 // #book-search:hover + .gallery {
-// 	.backface-visibility(hidden);
-// 	.transform-style(preserve-3d); 
-// 	.transition(0.9s);
-// 	.animation-timing-function(cubic-bezier(0.250, 0.100, 0.250, 1.000));
-// 	.blur(4px);
+//  .backface-visibility(hidden);
+//  .transform-style(preserve-3d); 
+//  .transition(0.9s);
+//  .animation-timing-function(cubic-bezier(0.250, 0.100, 0.250, 1.000));
+//  .blur(4px);
 //     //box-shadow: 0 0 15px 5px red;
 //     //background: red;
 // }
@@ -72,102 +62,57 @@
     overflow: hidden;
 }
 #search-type {
-	display: inline;
-	width:80px;
-	height:40px;
+  display: inline;
+  width:80px;
+  height:40px;
 }
 .helper {
-	display: inline-block;
-	height: 100%;
-	vertical-align: middle;
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
 }
 
 // Search results styling
 
 .cover-wrapper {
-	display: inline;
-	float: left;
-	// height:100%;
-	// text-align:center;
-	// padding-right:5px;
+  width:80px;
+  float:left;
+  height:100%;
+  text-align:center;
+  padding-right:5px;
 }
-#books {
-	&:before{
-	    content: "";
-	    display: block;
-	    position: absolute;
-	    top: 0;
-	    bottom: 0;
-		left: 15px;
-		right: 15px;
-		background: rgba(255, 255, 255, 0.92);
-		z-index: -1;
-	}
-	left: 0;
-	padding: 0 15px;
-
-	position: absolute;
-	z-index: 1;
-
-	a, a:hover, a:focus {
-	    color: inherit;
-	    text-decoration: none;
-	}
-	list-style-type: none;
-	margin: 0px;
-	.transition(0.5s);
+.book-description {
+    display: block;
+    padding: 5px;
+    
+    & > * {
+      display: block !important;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-weight: 500;
+      line-height: 1.1;
+    }
 }
-#books li {
-	overflow: hidden;
-	//width: 100%;
-	height:100px;
-
-	padding-top:0.5em;
-	padding-bottom:0.5em;
-	//border: 1px solid grey;
-
-	&:nth-child(odd) {
-		background-color: rgba(239, 247, 247, 0.7);
-		&:hover {
-			background-color: rgba(237, 247, 253, 0.7) !important;
-		}
-	}
-	&:nth-child(even) {
-		background-color: rgba(235,241,241,0.7);
-		&:hover {
-			background-color: rgba(237, 247, 253, 0.7) !important;
-		}
-	}
-	.book-description {
-		display: block;
-		padding: 5px;
-		
-		& > * {
-			display: block !important;
-			font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-			font-weight: 500;
-			line-height: 1.1;
-		}
-	}
-	.book-author, .isbn {
-		margin: 0;
-		display: inline;
-	}
-
-	.book-title {
-
-	}
-	.book-author {
-
-	}
-	.book-cover {
-		max-width: 71px;
-		max-height:80px;
-	}
+.book-author, .isbn {
+  margin: 0;
+  display: inline;
 }
 
+.book-title {
 
+}
+.book-author {
 
+}
+.book-cover {
+  max-width: 71px;
+  max-height:80px;
+}
+
+.book-link {
+  span {
+    float:none !important;
+  }
+}
 /* ==========================================================================
    Background cover mosaic styles
    ========================================================================== */
@@ -191,83 +136,83 @@
     width: 100%;
     height: 100%;
     .cover-container {
-    	//.perspective(1000);
-    	-webkit-transform: translate3d(0, 0, 0);
-    	-moz-transform: perspective(1000px);
-    	-moz-transform-style: preserve-3d; 
+      //.perspective(1000);
+      -webkit-transform: translate3d(0, 0, 0);
+      -moz-transform: perspective(1000px);
+      -moz-transform-style: preserve-3d; 
     }
 
-	.cover-container:hover .cover {
-		.rotateY(-180deg);
-  	}
+  .cover-container:hover .cover {
+    .rotateY(-180deg);
+    }
 
-	.front, .back {
-	  	.backface-visibility(hidden);
-	}
+  .front, .back {
+      .backface-visibility(hidden);
+  }
 
-	.front:before {
-	    content: "";
-	    display: block;
-	    position: absolute;
-	    top: 0;
-	    bottom: 0;
-	    left: 0;
-	    right: 0;
-	    background: rgba(255, 255, 255, 0.27);
-	}
- 	.front {
- 		-webkit-transform: translate3d(0, 0, 0);
-	    z-index: 2;
-	    cursor: pointer;
-  	}
+  .front:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.27);
+  }
+  .front {
+    -webkit-transform: translate3d(0, 0, 0);
+      z-index: 2;
+      cursor: pointer;
+    }
 
-	.cover {
-		position: relative;
-	    margin-bottom: 20px;
-	    //width: 22%;
-	    vertical-align: middle;
-	    //max-height: 160px;
-	    //max-width: 160px;
-	    //box-shadow: 2px 2px 2px gray;
-	    -webkit-transform-style: preserve-3d;
-	    -webkit-transition: 0.5s;
+  .cover {
+    position: relative;
+      margin-bottom: 20px;
+      //width: 22%;
+      vertical-align: middle;
+      //max-height: 160px;
+      //max-width: 160px;
+      //box-shadow: 2px 2px 2px gray;
+      -webkit-transform-style: preserve-3d;
+      -webkit-transition: 0.5s;
 
-	    text-align:center;
+      text-align:center;
 
-     	.back {
-			position: absolute;
-			top: 0;
-			height: 100%;
-			width: 100%;
-		    .rotateY(-180deg);
-		    background: #f8f8f8;
-		    // padding: 30px 10px 30px 10px;
-		    z-index: 1;
-		    color: black;
-		    cursor: pointer;
+      .back {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+        .rotateY(-180deg);
+        background: #f8f8f8;
+        // padding: 30px 10px 30px 10px;
+        z-index: 1;
+        color: black;
+        cursor: pointer;
 
-	    	.back-wrap {
-				display: table;
-				vertical-align: middle;
-				margin: auto 0;
-				width: 250px;
-				position: absolute;
-				top: 0;
-				left: 0;
-				bottom: 0;
-				right: 0;
+        .back-wrap {
+        display: table;
+        vertical-align: middle;
+        margin: auto 0;
+        width: 250px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
 
-				padding: 0 15px;
-			}
-		    .title {
-		    }
-		    .author {
-				font-weight: 400;
-				color: #999;
-		    }
-		    .info {
-				font-size: 40px;
-		    }
-	  	}
-  	}
+        padding: 0 15px;
+      }
+        .title {
+        }
+        .author {
+        font-weight: 400;
+        color: #999;
+        }
+        .info {
+        font-size: 40px;
+        }
+      }
+    }
 }

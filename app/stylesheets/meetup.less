@@ -1,24 +1,132 @@
 //TODO: importing also in main, DRY
 @import 'lesshat.less';
+@import 'main.less';
 body {
 background: url(http://subtlepatterns.com/patterns/washi.png);
 }
+.meetup-header {
+  h3 {
+    
+  }
+  margin-top: 10px;
+  background: coral;
+  margin-top: 10px;
+  background: coral;
+  border-radius: 4px;
+  padding: 15px;
+}
+.meetup-info {
+  // padding: 0;
+  .form-horizontal {
+    .form-group:nth-child(odd) {
+      background:white;
+    }
+    .form-group:nth-child(even) {
+      background:rgb(248, 250, 248);
+    }
+    .form-group:last-child {
+      margin-bottom: 0px !important;
+    }
+    .form-group {
+      margin-left:0;
+      margin-right:0;
+      border: 1px solid rgb(230, 230, 230);
+      margin-bottom: -1px;
+      padding: 5px 0px;
+
+    }
+    label {
+      text-align: left;
+    }
+  }
+}
+.proposed-map {
+  max-width:100%;
+}
+
 /* Book description */
 .book-description {
+  
   padding-top: 10px;
   // background-color:rgb(187, 175, 149);
   display: inline-block;
-
+  & > div {
+    padding:0px;
+  }
+  .book-description-back {
+    border-top-left-radius: 4px;
+border-bottom-left-radius: 4px;
+    background:rgba(70, 27, 11, 0.04);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 9999px;
+    width: 100%;
+  }
 }
-@media (min-width: 768px) and (max-width: 992px){ 
+.book-details {
+  display: inline-block;
+  padding-top: 10px;
+  .row {
+    padding-bottom: 5px;
+  }
+  .detail {
+    font-size: 1.01em;
+    padding: 0;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+    
+  }
+  .value {
+    line-height:1.1;
+  }
+  
+}
+#wrapper {
+  & > .row { 
+    margin: 0 !important;
+    overflow: hidden;
+  }
+  padding-top: 10px;
+}
+
+@media (min-width: 768px) and (max-width: 991px){ 
   .navbar { margin-bottom: 10px !important; }
   .breadcrumb { display: none; }
+  .book-details {
+    display: table
+  }
+  .book-details .detail {
+    padding-left: 10px;
+  }
   .book-description {
     background-color: rgb(212, 224, 212);
+    padding-bottom:10px;
     & > div {
-    height:200px !important;
+      height:200px !important;
     }
   }
+  .proposed-venue {
+    position: relative;
+    top: -200px;
+    & > div {
+      background: white;
+      padding: 10px;
+      .effect7;
+    }
+    
+  }
+  #wrapper {
+    padding: 30px;
+  }
+}
+
+.cover-wrapper {
+  display: inline;
+  float: left;
+  padding: 0px;
 }
 
 .book-cover {
@@ -31,14 +139,17 @@ background: url(http://subtlepatterns.com/patterns/washi.png);
 /* Breadcrumb and new Search */
 .breadcrumb {
   margin-bottom: 5px;
+  margin-top: 10px;
+  background: none;
 }
 .book-search {
   position: absolute;
   top: 13px;
   right: 20px;
 }
-
 #middle {
+  border: 1px solid rgb(230, 230, 230);
+  box-shadow: 2px 10px 9px #806D61;
   .user-name {
     display:inline-block;
   }
@@ -48,6 +159,7 @@ background: url(http://subtlepatterns.com/patterns/washi.png);
 }
 
 .user_card {
+  width:150px;
   display: block;
 }
 

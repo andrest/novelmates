@@ -115,7 +115,7 @@ module BookController
 			<<-HTML
 			<a class="book-link" href="/meetups/for/#{book.isbn}/#{book.get_url_title}">
 				<div class="cover-container">
-					<div class="cover">
+					<div class="cover effect2">
 						<div class="front">
 							<img src="#{book.images[:large]}" style="max-width:250px;"/>
 						</div>
@@ -137,10 +137,9 @@ module BookController
 
 	# TODO: GeoIP for city
 	def self.generate_search_results(books)
-		html = '' # "<div id='books'>"
+		html = [] # "<div id='books'>"
 		books.each do |book|
-			html +=
-			<<-HTML
+			content = <<-HTML
 			<li>
 				<a class="book-link" href="/meetups/for/#{book.isbn}/#{book.get_url_title}">
 					<div class="cover-wrapper">
@@ -155,9 +154,11 @@ module BookController
 				</a>
 			</li>
 			HTML
+			html.push({title: book.title, html_content: content.gsub(/(\t|\n)+/, "")})
 		end
 		# html += "</div>"
-		html
+
+		MultiJson.encode(html)
 	end
 
 	def self.look_up(isbn)

@@ -11,9 +11,21 @@ $(function(){
   }
   // Create auto-complete input for city-search
   var city_input = $('#city-input').tokenInput("/city/auto/", 
-                                               {onAdd: function(){ update_session_locations(); refresh_book_links() },
+                                               {addTokenTo: '.city-search',
+                                                onAdd: function(){ update_session_locations(); refresh_book_links() },
                                                 onDelete: function(){ refresh_book_links() }});
 
+  var bookinput = $('#book-input').tokenInput("/autocomplete/", {
+      addTokenTo: '.search-box',
+      propertyToSearch: "title",
+      onPopulated: function() {
+        smooth_load()
+      },
+      resultsFormatter: function(item) {
+                            return item.html_content;},
+      tokenFormatter: function(item) { return item.html_content; },
+      onAdd: function(item) { smooth_load(); refresh_book_links('.search-box a.book-link'); }
+  });
   // Initalise the background mosaic
   init_gallery();
 
@@ -26,6 +38,7 @@ $(function(){
   // Try to determine locations
   determine_location();
 
+
 });
 
 $(function(){
@@ -34,6 +47,14 @@ $(function(){
   })
 });
 
+function smooth_load(){
+  $('img.book-cover').on('load', function(){
+    $(this).fadeIn(200);
+    $(this).removeClass('hidden');
+  });
+  return
+}
+
 function refresh_book_links(urls) {
   urls = typeof urls !== 'undefined' ? urls : '.book-link';
 
@@ -41,16 +62,17 @@ function refresh_book_links(urls) {
     var urlArray = link.pathname.split('/');
     var newUrlArray = [];
     for (var i = 0; i < urlArray.length; i++) {
+      var locations = $('#city-input').tokenInput('get');
       var v  = urlArray[i];
       var v1 = urlArray[i+1];
       newUrlArray.push(v);
-      if (v == 'meetups' && (v1 != 'at')) {
+      if (v == 'meetups' && v1 != 'at' && locations.length > 0) {
         newUrlArray.push('at');
-        newUrlArray.push($('#city-input').tokenInput('get').map(function(elem) {
+        newUrlArray.push(locations.map(function(elem) {
                             return elem.id
                           }).join('+'));
       } else if (v == 'at') {
-        newUrlArray.push($('#city-input').tokenInput('get').map(function(elem) {
+        newUrlArray.push(locations.map(function(elem) {
                             return elem.id
                           }).join('+'));
         i++;
@@ -68,18 +90,6 @@ function refresh_book_links(urls) {
     //   // $(link).attr('href', urlArray.join('/'));
     // });
   });
-}
-
-function update_session_locations() {
-  var locations = $('#city-input').tokenInput('get');
-  $.ajax({
-    url: '/locations/update',
-    type: 'POST',
-    data: {locations: JSON.stringify(locations)},
-  })
-  .fail(function() {
-    console.log("failed to update session locations");
-  })
 }
 
 function init_gallery() {
@@ -243,8 +253,8 @@ var opts = {
   hwaccel: false, // Whether to use hardware acceleration
   className: 'spinner', // The CSS class to assign to the spinner
   zIndex: 2e9, // The z-index (defaults to 2000000000)
-  top: 8, // Top position relative to parent in px
-  left: -24 // Left position relative to parent in px
+  top: 11, // Top position relative to parent in px
+  left: -28 // Left position relative to parent in px
 };
 
 spinner = new Spinner(opts).spin();
@@ -309,7 +319,7 @@ function book_input(e) {
       $("#books li:odd").css("background-color","rgba(239, 247, 247, 0.7");
       //$(".gallery").addClass("blur");
 
-      $('#books li img').on('load', function(){
+      $('img.book-cover').on('load', function(){
         $(this).fadeIn(200);
         $(this).removeClass('hidden');
       });

@@ -42,7 +42,7 @@ group :development do
 
 end
 
-
+# gem 'htmlentities'
 gem 'json'
 gem 'nokogiri'
 gem 'blasphemy'

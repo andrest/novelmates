@@ -118,4 +118,34 @@ $(function(){
     });
   });
 
+  $('.city-id-to-name').each( function(){
+    $(this).text( get_city($(this).attr('data-id')).name );
+  });
+
+  var cities = [];
+  if(get_at() != null) {
+    var locations = get_at()
+    $.each(locations, function(index, val) {
+      cities.push(get_city(val));
+    });
+  } 
+
+  // Create auto-complete input for city-search
+  var city_input = $('#city-input').tokenInput("/city/auto/", 
+                                               {prePopulate: cities,
+                                                addTokenTo: '.city-search',
+                                                onAdd: function(){  window.location.replace(get_fresh_link()) },
+                                                onDelete: function(){ window.location.replace(get_fresh_link()) }});
+
+  var bookinput = $('#book-input').tokenInput("/autocomplete/", {
+      addTokenTo: '.search-box',
+      propertyToSearch: "title",
+      onPopulated: function() {
+        // smooth_load()
+      },
+      resultsFormatter: function(item) {
+                            return item.html_content;},
+      tokenFormatter: function(item) { return item.html_content; },
+      onAdd: function(item) {  }
+  });
 })

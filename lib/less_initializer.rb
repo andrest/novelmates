@@ -6,7 +6,7 @@ module LessInitializer
     require 'rack/less'
     # optional - use as necessary
     Rack::Less.configure do |config|
-      config.compress = true
+      config.compress = :yui
       # config.cache = true
       # other configs ...
     end

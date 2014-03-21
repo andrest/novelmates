@@ -1,13 +1,15 @@
 <div class="row">
-  <div class="meetup-info col-sm-6">
-    <h3><%= @meetup.name %></h3>
+  <div class="meetup-info col-sm-7">
+    <div class="meetup-header">
+      <h3><%= @meetup.name %></h3>
 
-    <% if signed_in? %>
-      <div class="btn-group">
-        <button type="button" class="attending btn btn-default <%= 'active' if attending?%>">Attending</button>
-        <button type="button" class="not-attending btn btn-default <%= 'active' if !attending? %>">Not Attending</button>
-      </div>
-    <% end %>
+      <% if signed_in? %>
+        <div class="btn-group">
+          <button type="button" class="attending btn btn-default <%= 'active' if attending?%>">Attending</button>
+          <button type="button" class="not-attending btn btn-default <%= 'active' if !attending? %>">Not Attending</button>
+        </div>
+      <% end %>
+    </div>
 
     <form action="/meetup/update" method="post" class="form-horizontal" role="form">
 
@@ -97,10 +99,10 @@
     <% end %>
 
   </div>
-  <div class="col-sm-6">
-    <div class="pull-right">
+  <div class="col-sm-5 proposed-venue">
+    <div class="">
       <h4>Proposed Venue</h4>
-      <img src="http://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=300x300&maptype=roadmap&sensor=false">
+      <img class="proposed-map" src="http://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=300x300&maptype=roadmap&sensor=false">
       <ul>
         <li>Notes Cafe, Covent Garden, London</li>
         <li>18:30</li>

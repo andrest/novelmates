@@ -11,6 +11,9 @@
 (function ($) {
 // Default settings
 var DEFAULT_SETTINGS = {
+  // Added
+    addTokenTo: null,
+
 	// Search settings
     method: "GET",
     contentType: "json",
@@ -50,7 +53,8 @@ var DEFAULT_SETTINGS = {
     onResult: null,
     onAdd: null,
     onDelete: null,
-    onReady: null
+    onReady: null,
+    onPopulated: null
 };
 
 // Default classes to use when theming
@@ -196,7 +200,7 @@ $.TokenList = function (input, url_or_data, settings) {
 	    }
 	})
 	.blur(function () {
-	    hide_dropdown();
+	    //hide_dropdown();
 	    $(this).val("");
 	})
 	.bind("keyup keydown blur update", resize_input)
@@ -450,7 +454,7 @@ $.TokenList = function (input, url_or_data, settings) {
 	var this_token = settings.tokenFormatter(item);
 	this_token = $(this_token)
 	  .addClass(settings.classes.token)
-	  .appendTo('.city-search');
+	  .appendTo(settings.addTokenTo);
 
 	// The 'delete token' button
 	$("<span>" + settings.deleteText + "</span>")
@@ -710,6 +714,10 @@ $.TokenList = function (input, url_or_data, settings) {
 		show_dropdown();
 	    }
 	}
+      // Added callback
+      if($.isFunction(settings.onPopulated)) {
+          results = settings.onPopulated.call();
+      }
     }
 
     // Highlight an item in the results dropdown
