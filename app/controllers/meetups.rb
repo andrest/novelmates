@@ -134,7 +134,7 @@ Novelmates::App.controllers :meetup do
 
     @book = BookController.get_book(isbn)
     @meetups = Meetup.where({:'books' => isbn})
-    @interests = Interest.where(isbn: isbn).all.entries
+    @interests = Interest.where(isbn: isbn).ne(user_ids: []).all.entries
 
     # city = http://api.geonames.org/getJSON?formatted=true&geonameId=588335&username=novelmates&style=short
     

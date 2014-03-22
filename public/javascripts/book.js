@@ -43,7 +43,23 @@ $(function(){
 
 
   $('.add-interest').on('click', function() {
-    var interest = $(this).parents('.interest-category').children('h5').text();
+    var interest_category = $(this).parents('.interest-category');
+    var interest = interest_category.children('.interest-name')[0].value;
+    if (interest != undefined) {
+      if (interest == "") {
+        return;
+      }
+      var copy = interest_category.clone()
+      $('input', copy)[0].value = "";
+      $(interest_category).parent().append(copy);
+
+      interest_category.prepend('<h5>'+$('input', interest_category)[0].value +'</h5>');
+      $('input', interest_category).remove();
+
+    }
+
+    interest = (interest == undefined) ?  interest_category.children('h5').text() : interest;
+
     $.ajax({
       url: '/book/interest',
       type: 'POST',
@@ -64,7 +80,8 @@ $(function(){
   });
 
   $('.remove-interest').on('click', function() {
-    var interest = $(this).parents('.interest-category').children('h5').text();
+    var interest = $(this).parents('.interest-category').children('.interest-name').value;
+    interest = (interest == undefined) ?  $(this).parents('.interest-category').children('h5').text() : interest;
     $.ajax({
       url: '/book/interest',
       type: 'DELETE',

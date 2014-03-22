@@ -39,7 +39,7 @@ group :production do
 end
 
 group :development do
-
+  gem 'rails-erd'
 end
 
 # gem 'htmlentities'

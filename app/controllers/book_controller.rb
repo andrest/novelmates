@@ -23,11 +23,19 @@ Novelmates::App.controller do
 	  MultiJson.encode(BookController.get_book(params[:isbn]))
 	end
 
+
+
 	post '/book/interest' do
 	  # params[:interest]
 	  # params[:isbn]
 	  # ap Interest.where({isbn: params[:isbn], category: params[:interest] }).all.entries
-	  current_user.interests.push(Interest.where({isbn: params[:isbn], category: params[:interest] }))
+	  i = Interest.where({isbn: params[:isbn], category: params[:interest] })
+	  if i.count == 0
+	  	i = Interest.create({isbn: params[:isbn], category: params[:interest] })
+	  	ap 'new interest' if dev?
+	 	end
+
+	  current_user.interests.push(i)
 	  # ap current_user
 	end
 
