@@ -31,9 +31,11 @@ Novelmates::App.controllers :meetup do
 
   post :update do
     event = Meetup.where(creator: params[:user_id]).find(params[:id]) 
-    ap event
+    # ap event
 
-    ap params
+    params['venue'] = MultiJson.decode(params['venue'])
+    # params.delete(:venue)
+    # ap params
     if !event.nil? && event.update_attributes(params)
       redirect request.env["HTTP_REFERER"];
     else
@@ -107,7 +109,8 @@ Novelmates::App.controllers :meetup do
     # end
 
     @additional_css = stylesheet_link_tag "meetup"
-    @additional_js  = javascript_include_tag  "book"
+    @additional_js  = javascript_include_tag  "book" 
+    @additional_js  += javascript_include_tag "meetups"
     render '/meetups/meetup'
   end
 

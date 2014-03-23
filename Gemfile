@@ -36,12 +36,18 @@ gem 'padrino', '0.12.0'
 group :production do
   ruby '2.1.0'
   gem 'unicorn'
+  # enable js minification
+  gem 'uglifier'
+  # enable css compression
+  gem 'yui-compressor'
 end
 
 group :development do
   gem 'rails-erd'
 end
 
+gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://github.com/nightsailer/padrino-sprockets.git'
+gem "sprockets-less"
 # gem 'htmlentities'
 gem 'json'
 gem 'nokogiri'

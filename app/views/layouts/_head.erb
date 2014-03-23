@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-	<%= javascript_include_tag "/javascripts/vendor/jquery.cookie" %>
+	<%= javascript_include_tag "vendor/jquery.cookie" %>
 	<script>
 		// $.ajax('/geoip').done(function(location){ 
 		// 	$.cookie('city_coords', location, { expires: 30, path: '/' });
@@ -28,14 +28,18 @@
 	<!-- 		<%= set_js "bootstrap.min" %>
 	<%= set_css "bootstrap.min" %> -->
 
-	<%= javascript_include_tag "/javascripts/vendor/underscore" %>
+	<%= javascript_include_tag "vendor/underscore" %>
 	<!-- <%= set_js "/javascripts/vendor/backbone" %> -->
-	<%= javascript_include_tag "/javascripts/vendor/masonry.pkgd.min" %>
-	<%= javascript_include_tag "/javascripts/vendor/spin" %>
-	<%= javascript_include_tag "/javascripts/vendor/jquery.spin" %>
-	<%= javascript_include_tag '/javascripts/vendor/jquery.tokeninput' %>
-  <%= javascript_include_tag "/javascripts/vendor/jquery.fittext" %>
-  <%= javascript_include_tag "/javascripts/vendor/modernizr-2.6.2.min" %>
+	<%= javascript_include_tag "vendor/masonry.pkgd.min" %>
+	<%= javascript_include_tag "vendor/spin" %>
+	<%= javascript_include_tag "vendor/jquery.spin" %>
+	<%= javascript_include_tag 'vendor/jquery.tokeninput' %>
+  <%= javascript_include_tag "vendor/jquery.fittext" %>
+	<%= javascript_include_tag "vendor/moment.min" %>
+	<%= javascript_include_tag "vendor/bootstrap-datetimepicker.min" %>
+	<%= stylesheet_link_tag 'bootstrap-datetimepicker.min' %>
+
+  <%= javascript_include_tag "vendor/modernizr-2.6.2.min" %>
 
 	<%= stylesheet_link_tag 'token-input' %>
 
