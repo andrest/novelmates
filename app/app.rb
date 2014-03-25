@@ -94,10 +94,10 @@ module Novelmates
 
       response.set_cookie 'country_ip',
       {:value=> res['country_code'], :max_age => "64800"}
-      response.set_cookie 'city_ip',
-      {:value=> res['city'] + ", " + res['country_name'], :max_age => "2592000"}
+      # response.set_cookie 'city_ip',
+      # {:value=> res['city'] + ", " + res['country_name'], :max_age => "2592000"}
 
-      res['city']+', '+res['country_name']
+      call env.merge('PATH_INFO' => '/geo/'+ URI::encode(res['city']+', '+res['country_name']))
     end
 
     get "/profile" do
@@ -152,8 +152,16 @@ module Novelmates
       MultiJson.encode(request.env)
     end
 
-    get "/mosaic" do
-      books = BookController.get_books('cocktail')
+    get "/mosaic/:id" do
+      if !params[:id].nil?
+        isbns = Meetup.where(city: params[:id]).distinct(:books)
+        isbns = isbns[0..9]
+        books = BookController.lookup_books(isbns)
+      else
+        books = BookController.get_books('cocktails')
+      end
+      # books = BookController.get_book('cocktail')
+      ap books
       BookController.generate_mosaic(books)
     end
 

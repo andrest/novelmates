@@ -47,16 +47,22 @@ Novelmates::App.controller do
 	  # ap i
 	  # ap current_user
 	end
+
 end
 
 module BookController
-	def self.get_books(query, sort: "salesrank", page: 1, response_group: "Medium", isbn: '')
+	def self.get_books(query, sort: "relevancerank", page: 1, response_group: "Medium", isbn: '')
 		xml = request_books(query, sort, page, response_group, isbn)
 		parse_xml_to_books(xml)
 	end
 
 	def self.get_book(isbn)
 		get_books('', isbn: isbn).first
+	end
+
+	def self.lookup_books(isbns)
+		ap isbns.join(',')
+		get_books('', isbn: isbns.join(','))
 	end
 
 	def self.request_books(query, sort, page, response_group, isbn)
@@ -74,7 +80,7 @@ module BookController
 		if isbn == ''
 			additional_params = {
 				"Operation"        => "ItemSearch",
-				"Power"            => "language:english and not(spanish or italian or french or hebrew) and title: not(books OR box OR set OR trilogy OR 1- OR collector*) and " + query + "* and binding:-kindle -audio",
+				"Power"            => "language:english and not(spanish or italian or french or hebrew) and title: not(books OR kit OR box OR set OR trilogy OR 1- OR collector*) and " + query + "* and binding:-kindle -audio",
 				"Sort"             => sort,
 				"ItemPage"         => page,
 			}
@@ -89,13 +95,12 @@ module BookController
 		AWS.set_config
 		res = AWS.do_query("GET", aUri, parameters)
 		doc = Nokogiri::XML(res.body)
-		# p res.body
+
 		doc.remove_namespaces!
 	end
 
 	def self.parse_xml_to_books(xml_response)
 		books = []
-		
 		xml_response.css("Items Item").each do |item|
 			if item.css('ISBN').empty? then next end
 			
@@ -117,8 +122,12 @@ module BookController
 	end	
 
 	def self.generate_mosaic(books)
+		
 		html = "<div class='gallery center'>" 
 		books.each do |book|
+			interests = Interest.where(isbn: book.isbn).only(:user_ids).distinct(:user_ids)
+			meetups = Meetup.where(books: book.isbn).only(:user_ids).distinct(:user_ids)
+			people = (interests+meetups).uniq.count
 			html += 
 			<<-HTML
 			<a class="book-link" href="/meetups/for/#{book.isbn}/#{book.get_url_title}">
@@ -131,8 +140,8 @@ module BookController
 							<div class="back-wrap">
 								<span class="title"  style="display:block;"><h4>#{book.title}</h4></span>
 								<span class="author" style="display:block;">#{book.author}</span>
-								<span class="info" style="display:block;">#{rand(8)+1}</span>
-								<span class="text" style="display:block;">interested readers in your area</span>
+								<span class="info" style="display:block;">#{people}</span>
+								<span class="text" style="display:block;">interested readers</span>
 							</div>
 						</div>
 					</div>
@@ -156,13 +165,13 @@ module BookController
 					</div>
 					<div class="book-description">
 						<span class="book-title">#{book.title}</span>
-						Author: <span class="book-author"> #{book.author}</span>
-						ISBN: <p class="isbn">#{book.isbn}</p>
+						Author: <span> #{book.author}</span>
+						ISBN: <span>#{book.isbn}</span>
 					</div>
 				</a>
 			</li>
 			HTML
-			html.push({title: book.title, html_content: content.gsub(/(\t|\n)+/, "")})
+			html.push({id: book.isbn, title: book.title, html_content: content.gsub(/(\t|\n)+/, "")})
 		end
 		# html += "</div>"
 

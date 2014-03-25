@@ -12,7 +12,7 @@ class Interest
   include Mongoid::Document
   field :isbn,          type: String
   field :category,      type: String
-  has_and_belongs_to_many :users
+  belongs_to :users
 end
 
 # class Books
@@ -34,7 +34,7 @@ class User
   
   # self.include_root_in_json = true
   embeds_one :FBTokens
-  has_and_belongs_to_many :interests
+  has_many :interests
   has_and_belongs_to_many :meetups
 
   # field :username,        type: String,   :default => UUID::generate(:compact)
@@ -45,7 +45,7 @@ class User
   field :email,           type: String
   field :timezone,        type: String
   # field :oauth,           type: Hash,     :default => {}
-  field :location,        type: Hash,     :default => {}
+  field :location,        type: String
   field :active,          type: Boolean,  :default => true
   field :profile,         type: String
   

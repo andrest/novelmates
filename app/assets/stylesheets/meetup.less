@@ -2,7 +2,7 @@
 @import 'lesshat.less';
 @import 'main.less';
 body {
-background: url(/images/washi.png);
+background: url(/assets/washi.png);
 }
 .meetup-header {
   h3 {
@@ -10,9 +10,9 @@ background: url(/images/washi.png);
   }
   margin-top: 10px;
   background: coral;
-  margin-top: 10px;
-  background: coral;
-  border-radius: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 1px solid lightgrey;
   padding: 15px;
 }
 .meetup-info {
@@ -45,6 +45,8 @@ background: url(/images/washi.png);
   .meetup-info;
 }
 .proposed-map {
+  display:block;
+  margin:auto;
   max-width:100%;
 }
 

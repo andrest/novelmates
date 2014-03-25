@@ -18,7 +18,7 @@
   <!-- List group -->
   <div class="list-group">
     
-    <% @interests.each do |interest| %>
+    <% locals[:interest_categories].each do |interest| %>
       <div data-toggle="collapse" data-target=".interest-details" class="list-group-item interest-category">
         <h5 class="interest-name"><%= interest.category %></h5>
         <span class="pull-right people">

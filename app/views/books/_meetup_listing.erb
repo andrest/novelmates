@@ -4,18 +4,18 @@
 
   <div class="list-group">
     <% session[:url_cities].each do |city| %>
-      <% @meetups2 = Meetup.where({city: city, books: [ @book.isbn ]}).all.entries %>
-      <div class="list-group-item meetup_city" data-toggle="collapse" data-target=".meetup-details" >
-        <a href="#" data-id="<%= city %>" class="city-id-to-name">
+      <% @meetups2 = Meetup.where({city: city, books: locals[:book].isbn }).all.entries %>
+      <div class="list-group-item meetup_city" data-toggle="collapse" data-target="#<%= city+locals[:book].isbn %>" >
+        <span data-id="<%= city %>" class="city-id-to-name"></span>
       </a>  
         <span class="badge"><%= @meetups2.count %></span>
       </div>
 
-      <div class="meetup-details collapse in list-group">
+      <div id="<%= city+locals[:book].isbn %>" class="meetup-details collapse list-group">
 
         <% @meetups2.each do |meetup| %>
           <div class="list-group-item">
-          <a href="/meetup/<%= meetup._id %>/for/<%= meetup.books[0] %>"><h5><%= meetup.name %></h5></a>
+          <a href="/meetup/<%= meetup._id %>/for/<%= meetup.books %>"><h5><%= meetup.name %></h5></a>
             <span class="pull-right people">
               <% meetup.user_ids.each do |id| %>
                 <div class="profile-picture-wrapper" data-user-id="<%= id.to_s %>"></div>
@@ -28,7 +28,7 @@
 
   </div>
   <button type="button" class="new-meetup-btn btn btn-primary btn-lg btn-block">Add new meetup</button>
-  <%= partial '/books/create_meetup' %>
+  <%= partial '/books/create_meetup', locals: locals %>
 </div>
 
 <!-- <table class="table table-hover table-bordered">

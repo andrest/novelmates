@@ -7,7 +7,5 @@ class Venue
   field :address,          type: String
   field :notes,       type: String
 
-
   embedded_in :meetup
-  validates_presence_of     :name, :address
 end

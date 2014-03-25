@@ -1,7 +1,5 @@
 //TODO: importing also in main, DRY
 @import 'lesshat.less';
-
-@import "left.less";
 @import "right.less";
 
 
@@ -10,7 +8,8 @@
 @footer_border: 1px;
 body {
 	// height: 100%;
-	background: url(/images/washi.png);
+	background: radial-gradient(ellipse at center, #66341C 0%,#1A1205 100%);
+	// background: url(/assets/washi.png);
 }
 #wrapper {
 	padding-top:10px !important;
@@ -39,10 +38,6 @@ body {
 .new-meetup {
 	margin-bottom:0;
 	border:none;
-}
-
-.profile-picture-wrapper {
-	display:inline-block;
 }
 
 .interest-btn {
@@ -130,6 +125,15 @@ body {
 }
 .meetup_city {
 	background: #fcfcfa;
+	.city-id-to-name {
+		font-weight: 500;
+		line-height: 3.0;
+		color: rgb(37, 107, 161);
+	}
+	&:hover {
+		cursor: pointer;
+		background: lighten(lightgrey, 20%);
+	}
 }
 .meetup-details {
 	border-left-color: #B3AE9B;
@@ -191,6 +195,7 @@ body {
 
 // }
 
+
 i.icon-plus, i.icon-ok {
 	color:@icon-green;
 }
@@ -202,3 +207,20 @@ i.icon-remove {
 	bottom: 7px;
 }
 
+/* Book description */
+.book-listing {
+	.book-cover {
+		max-width:100%;
+		max-height:100%;
+		margin-bottom: 5px;
+	}
+	.book-description {
+		float: left;
+		display: inline-block;
+	}
+
+	// border-right: 1px solid #e0e5e9;
+
+	// max-width: 250px;
+
+}

@@ -24,42 +24,36 @@
   </div><!-- /.col-lg-6 -->
    
 </div>
-
 <div id="wrapper" class="container-fluid">
-	<!-- <ol class="breadcrumb">
-		<li><a href="#">Home</a></li>
-		<li>
-		<% session[:url_cities].each do |city| %>
-			<a href="#" class="city-id-to-name" data-id="<%= city %>"></a>
-		<% end %>
-		</li>
-		<li class="active"><%= @book.title %></li>
-	</ol> -->
+  <% @books.each do |book| %>
+    <div id="<%=book.get_url_title()%>" class="book-listing">
 
-	<div class="book-description">
-		<div class="cover-wrapper" style="width:auto;">
-			<img class="book-cover" src="<%= @book.images[:large] %>">
-		</div>
-		<dl class="book-details">
-			<dt>Title</dt>
-			<dd><%= @book.full_title %></dd>
-			<dt>Author</dt>
-			<dd><%= @book.author %></dd>
-			<dt>Published</dt>
-			<dd><%= @book.published_at %></dd>
-			<dt>Category</dt>
-			<dd>Science Fiction</dd>
-			<dt>ISBN13</dt>
-			<dd id="isbn"><%= @book.isbn %></dd>
-		</dl>
-	</div>
+    	<div class="book-description col-xs-3">
+    		<div class="cover-wrapper" style="width:auto;">
+    			<img class="book-cover" src="<%= book.images[:large] %>">
+    		</div>
+    		<dl class="book-details">
+    			<dt>Title</dt>
+    			<dd><%= book.full_title %></dd>
+    			<dt>Author</dt>
+    			<dd><%= book.author %></dd>
+    			<dt>Published</dt>
+    			<dd><%= book.published_at %></dd>
+    			<dt>Category</dt>
+    			<dd>Science Fiction</dd>
+    			<dt>ISBN13</dt>
+    			<dd id="isbn"><%= book.isbn %></dd>
+    		</dl>
+    	</div>
+      
+      <div class="col-xs-5"><%= partial '/books/meetup_listing', locals: {book: book} %></div>
+      <div class="col-xs-4"><%= partial '/books/interest_categories', object: book.interests %></div>
 
-	<div id="middle" class="">
-    <%= partial '/books/meetup_listing' %>
-    <%= partial '/books/interest_categories' %>
-    
-		<p><%= @book.editorial_review.html_safe %></p>
-	</div>
 
-	<span class="clearfix" />
+    	<span class="clearfix"></span>
+      <%= tag :div, hidden: true, class: 'book-data', :data => {book: BookController.generate_search_results([book])} %>
+    </div>
+    <hr />
+    </div>
+  <% end %>
 </div>

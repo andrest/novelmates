@@ -39,7 +39,7 @@ $(function(){
 
   $(document).on('submit','.meetup-info form',function(){
     var venue = getFormData($('.proposed-venue form'));
-    venue.date = $('#meetup-date').data("DateTimePicker").getDate().toISOString();
+    venue.date = venue.date == "" ? "" : $('#meetup-date').data("DateTimePicker").getDate().toISOString();
     var input = $("<input>")
                    .attr("type", "hidden")
                    .attr("name", "venue").val(JSON.stringify(venue));
@@ -52,6 +52,9 @@ $(function(){
   $('#meetup-date').prev('p')[0].innerHTML = moment(dateISO).format('DD/MM/YYYY, H:mm');
 
   $('.edit-meetup').on('click', function(){
+    var no_venue = $('.proposed-venue').hasClass('hidden');
+    $('.proposed-venue').removeClass('hidden');
+
     $(this).addClass('hidden');
     $('.edit-buttons').removeClass('hidden');
     $('.form-control-static.editable', '.meetup-info').each(function(){
@@ -64,24 +67,23 @@ $(function(){
       $(this).next().removeClass('hidden');
     });
 
-    
-    // $('.meetup-info').addClass('hidden');
-    // $('.meetup-info-editable').removeClass('hidden');
-  });
+    $('.cancel-edit').on('click', function(){
+      if (no_venue == true) $('.proposed-venue').addClass('hidden');
 
-  $('.cancel-edit').on('click', function(){
-    $('.edit-buttons').addClass('hidden');
-    $('.edit-meetup').removeClass('hidden');
+      $('.edit-buttons').addClass('hidden');
+      $('.edit-meetup').removeClass('hidden');
 
-    $('.form-control', '.meetup-info').each(function(){
-      $(this).addClass('hidden');
-      $(this).prev().removeClass('hidden');
+      $('.form-control', '.meetup-info').each(function(){
+        $(this).addClass('hidden');
+        $(this).prev().removeClass('hidden');
+      });
+
+      $('.form-control-static', '.proposed-venue').each(function(){
+        $(this).removeClass('hidden');
+        $(this).next().addClass('hidden');
+      });
     });
 
-    $('.form-control-static', '.proposed-venue').each(function(){
-      $(this).removeClass('hidden');
-      $(this).next().addClass('hidden');
-    });
   });
 
     

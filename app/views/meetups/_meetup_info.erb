@@ -99,7 +99,8 @@
     <% end %>
 
   </div>
-  <div class="col-sm-5 proposed-venue">
+  <% if signed_in? && @meetup.creator.to_s == current_user._id.to_s || !@meetup.venue.nil? %>
+  <div class="col-sm-5 proposed-venue <%= @meetup.venue.nil? ? 'hidden' : '' %>">
     <div class="">
       <h4>Proposed Venue</h4>
       <form action="/meetup/update" method="post" class="form-horizontal" role="form">
@@ -107,28 +108,28 @@
             <div class="form-group">
               <label for="name" class="col-sm-3 control-label">Venue name</label>
               <div class="col-sm-9">
-                <p class="form-control-static editable"><%= @meetup.venue.name %></p>
-                <input name="name" type="text" class="form-control hidden" id="name" value="<%= @meetup.venue.name %>">
+                <p class="form-control-static editable"><%= @meetup.venue.name unless @meetup.venue.nil? %></p>
+                <input name="name" type="text" class="form-control hidden" id="name" value="<%= @meetup.venue.name unless @meetup.venue.nil? %>">
               </div>
             </div>
             
-            <% if !@meetup.venue.address.nil? %>
-              <img class="proposed-map" src="http://maps.googleapis.com/maps/api/staticmap?markers=color:blue%7Clabel:%7C<%= URI::encode @meetup.venue.address %>&zoom=15&size=300x300&maptype=roadmap&sensor=false&key=AIzaSyDs_k1wyceiD8D6l1ysl2dI-KVjFsr0ONk">
+            <% unless @meetup.venue.nil?  %>
+              <img class="proposed-map" src="http://maps.googleapis.com/maps/api/staticmap?markers=color:blue%7Clabel:%7C<%= URI::encode @meetup.venue.address %>&zoom=15&size=330x330&maptype=roadmap&sensor=false&key=AIzaSyDs_k1wyceiD8D6l1ysl2dI-KVjFsr0ONk">
             <% end %>
             <div class="form-group">
               <label for="address" class="col-sm-3 control-label">Address</label>
               <div class="col-sm-9">
-                  <p class="form-control-static editable"><%= @meetup.venue.address %></p>
-                  <input name="address" type="text" class="form-control hidden" id="address" value="<%= @meetup.venue.address %>">
+                  <p class="form-control-static editable"><%= @meetup.venue.address unless @meetup.venue.nil? %></p>
+                  <input name="address" type="text" class="form-control hidden" id="address" value="<%= @meetup.venue.address unless @meetup.venue.nil? %>">
               </div>
             </div>
 
             <div class="form-group">
               <label for="date" class="col-sm-3 control-label">Date</label>
               <div class="col-sm-9">
-                <p class="form-control-static editable"><%= @meetup.venue.date %></p>
-                <div class='input-group date hidden' id='meetup-date' data-value="<%= @meetup.venue.date %>">
-                    <input type='text' name="date" class="form-control" value="<%= @meetup.venue.date %>"/>
+                <p class="form-control-static editable"><%= @meetup.venue.date unless @meetup.venue.nil? %></p>
+                <div class='input-group date hidden' id='meetup-date' data-value="<%= @meetup.venue.date unless @meetup.venue.nil? %>">
+                    <input type='text' name="date" class="form-control" value="<%= @meetup.venue.date unless @meetup.venue.nil? %>"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
@@ -138,13 +139,14 @@
             <div class="form-group">
               <label for="notes" class="col-sm-3 control-label">Notes</label>
               <div class="col-sm-9">
-                <p class="form-control-static editable"><%= @meetup.venue.notes %></p>
-                <textarea name="notes" type="text" class="form-control hidden" id="notes"><%= @meetup.venue.notes %></textarea>
+                <p class="form-control-static editable"><%= @meetup.venue.notes unless @meetup.venue.nil? %></p>
+                <textarea name="notes" type="text" class="form-control hidden" id="notes"><%= @meetup.venue.notes unless @meetup.venue.nil? %></textarea>
               </div>
             </div>
           </form>
     </div>
   </div>
+  <% end %>
 </div>
 
 <!-- <div class="meetup-info-editable">

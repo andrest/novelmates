@@ -6,9 +6,22 @@ $(function(){
     $.each(locations, function(index, val) {
       cities.push(get_city(val));
     });
-  } 
-
+  }
+  var books = [];
+  $('.book-data').each(function() { 
+    var book = $(this).data('book')[0];
+    book.html_content = book.html_content.replace('hidden', '');
+    // book.html_content = "<li>"+book.title+"</li>";
+    books.push(book); 
+  });
+  // if(get_for() != null) {
+  //   var books = get_for()
+  //   $.each(books, function(index, val) {
+  //     books.push(get_book(val));
+  //   });
+  // }
   // Create auto-complete input for city-search
+
   var city_input = $('#city-input').tokenInput("/city/auto/", 
                                                {prePopulate: cities,
                                                 addTokenTo: '.city-search',
@@ -16,27 +29,44 @@ $(function(){
                                                 onDelete: function(){ window.location.replace(get_fresh_link()) }});
 
   var bookinput = $('#book-input').tokenInput("/autocomplete/", {
+      prePopulate: books,
       addTokenTo: '.search-box',
       propertyToSearch: "title",
       onPopulated: function() {
-        // smooth_load()
+        smooth_load()
       },
+      onAdd: function(){ window.location.replace(get_fresh_link()) },
+      onDelete: function(){ window.location.replace(get_fresh_link()) },
+      tokenLimit: 3,
       resultsFormatter: function(item) {
                             return item.html_content;},
-      tokenFormatter: function(item) { return item.html_content; },
-      onAdd: function(item) {  }
-  });
-
-  // Add profile pictures
-  var container = $('.profile-picture-wrapper');
-  $.each(container, function(){
-    $(this).load( '/user/'+ $(this).attr('data-user-id') + '/profile_pic' );
+      tokenFormatter: function(item) { return item.html_content; }
   });
 
   $('.new-meetup-btn').on('click', function() {
-    $('.new-meetup').removeClass('hidden');
-    $('.new-meetup-btn').addClass('hidden');
+    var parent = $(this).parent("div");
+    parent.find('.list-group').first().addClass('hidden');
+    parent.find('.new-meetup').first().removeClass('hidden');
+    $(this).addClass('hidden');
   });
+  $('.new-meetup button.close').on('click', function() {
+    var parent = $(this).parent().parent();
+    parent.find('.list-group').first().removeClass('hidden');
+    parent.find('.new-meetup').first().addClass('hidden');
+    parent.find('.new-meetup-btn').first().removeClass('hidden');
+  });
+
+  function book_for(selector) {
+    var element; 
+    if ($(selector).hasClass('.book-listing')) { element = $(selector) }
+    else element = $(selector).parents('.book-listing');
+
+    if (element == undefined || element.length == 0) {
+      return {id: $('#isbn').text()};
+    } else {
+      return element.find('.book-data').data('book')[0];
+    }
+  }
 
   $('.add-interest').on('click', function() {
     var interest_category = $(this).parents('.interest-category');
@@ -59,7 +89,7 @@ $(function(){
     $.ajax({
       url: '/book/interest',
       type: 'POST',
-      data: {isbn: $('#isbn').text(), interest: interest, },
+      data: {isbn: book_for(this).id, interest: interest, },
     })
     .done(function() {
       console.log("success");
@@ -81,7 +111,7 @@ $(function(){
     $.ajax({
       url: '/book/interest',
       type: 'DELETE',
-      data: {isbn: $('#isbn').text(), interest: interest, },
+      data: {isbn: book_for(this).id, interest: interest, },
     })
     .done(function() {
       console.log("done");
@@ -94,11 +124,6 @@ $(function(){
     });
     $( '.add-interest', $($(this).parent()) ).removeClass('hidden');
     $(this).addClass('hidden');
-  });
-
-  $('.new-meetup button.close').on('click', function() {
-    $('.new-meetup').addClass('hidden');
-    $('.new-meetup-btn').removeClass('hidden');
   });
 
   $('.pull-right.people').on('click', function(e) {

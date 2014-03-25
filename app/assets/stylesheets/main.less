@@ -80,21 +80,9 @@
             transform:skew(8deg) rotate(3deg);
 }
 
-// #panel {
-// 	background-image: url('../img/book_on_table1200x900.png');
-// 	padding: 10px 10px 10px 10px;
-// 	box-shadow: 3px 2px 15px #888888;
-// 	background-color: rgb(224, 224, 224);
 
-// 	background-size: cover;
-// 	background-position: 50% 40%;
-// 	height: 500px;
-// 	-webkit-animation: fade 0.3s ease-out 1;
-// 	-moz-animation: fade 0.3s ease-out 1;
-// 	-ms-animation: fade 0.3s ease-out 1;
-// 	-o-animation: fade 0.3s ease-out 1;
-// 	animation: fade 0.3s ease-out 1;
-// }
+
+
 body { 
   background-color: #f4f4f4;
 }
@@ -104,6 +92,10 @@ footer {
 
 .dropdown.profile > a {
   padding:5px;
+}
+
+.profile-picture-wrapper {
+  display:inline-block;
 }
 .profile-pic {
   display: inline;
@@ -175,3 +167,94 @@ h1 {
     border-bottom-left-radius: 2em;
   }
 }
+#search-wrapper {
+}
+#input-helper {
+    display: block;
+    overflow: hidden;
+}
+#search-type {
+  display: inline;
+  width:80px;
+  height:40px;
+}
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+// Search results styling
+
+#book-search .cover-wrapper, .token-input-dropdown .cover-wrapper{
+  width:80px;
+  float:left;
+  height:100%;
+  text-align:center;
+  padding-right:5px;
+}
+.book-description {
+    display: inline-block;
+    padding: 5px;
+    
+    & > * {
+      display: block !important;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+}
+.book-author, .isbn {
+  margin: 0;
+  display: inline;
+}
+
+.book-title {
+
+}
+.book-author {
+
+}
+.book-cover {
+  max-width: 71px;
+  max-height:80px;
+}
+
+.book-link {
+  span {
+    float:none !important;
+  }
+}
+// ----------------------------------------------------
+.my-meetups {
+  tr {
+    td {
+      padding: 5px 0;
+    }
+  }
+  tr > td:first-child {
+      padding-right: 10px;
+      font-size: 1.1em;
+      font-weight: 500;
+      color: #535353;
+  }
+
+  tr > td:last-child {
+      // line-height: 1.5;
+  }
+  img {
+    vertical-align: bottom;
+  }
+  img.profile {
+    height:50px;
+    width:50px;
+  }
+  .meetup-header {
+    display: inline-block;
+    h3 {
+      // display: inline-block;
+    }
+
+  }
+}
+// ------------------------------------------------------

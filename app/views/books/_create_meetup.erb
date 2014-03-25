@@ -50,7 +50,7 @@
     Let me know when somebody joins
   </label>
 
-  <input type="text" name="books" class="hidden" value="<%= @book.isbn %>">
+  <input type="text" name="books" class="hidden" value="<%= locals[:book].isbn %>">
   <input type="text" name="creator" class="hidden" value="<%= current_user._id if signed_in? %>">
   <input type="submit" class="btn btn-medium" value="Create">
   </form>

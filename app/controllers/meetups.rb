@@ -32,14 +32,14 @@ Novelmates::App.controllers :meetup do
   post :update do
     event = Meetup.where(creator: params[:user_id]).find(params[:id]) 
     # ap event
-
     params['venue'] = MultiJson.decode(params['venue'])
     # params.delete(:venue)
-    # ap params
+    ap params
+    ap event
     if !event.nil? && event.update_attributes(params)
       redirect request.env["HTTP_REFERER"];
     else
-      flash[:error] = 'Something went wrong. Did you create the event?'
+      flash[:error] = 'Something went wrong. ' + event.errors.full_messages
       redirect request.env["HTTP_REFERER"]
     end
   end
@@ -57,16 +57,16 @@ Novelmates::App.controllers :meetup do
   end
 
   post :create do
-    params["books"] = [ params[:books] ]
+    # params["books"] = [ params[:books] ]
     params.delete :topic
     params.delete :notification
-
+    params[:user_ids] = [ params[:creator] ]
     event = Meetup.new(params)
     ap params
     if event.save
-      redirect '/meetup/' + event._id + '/for/' + event.books.join('+')
+      redirect '/meetup/' + event._id + '/for/' + event.books
     else
-      flash[:error] = 'Something went wrong. Did you create the event?'
+      flash[:error] = 'Something went wrong. ' + event.errors.full_messages
       redirect request.env["HTTP_REFERER"]
     end
   end
@@ -86,7 +86,8 @@ Novelmates::App.controllers :meetup do
       # ap 'Name'
       # ap @meetup.name
     @users = User.where(meetup_ids: @meetup._id)
-      # ap @users
+      # ap "++++++++++++++++"
+       # ap User.all.entries
     @attendants = @users.map { |u| u._id }
       # ap 'Meetup users: ' ; ap @attendants
       # ap 'Users: '; @users.to_a #.each { |i| puts i.firstname + ' ' + i._id }
@@ -127,17 +128,26 @@ Novelmates::App.controllers :meetup do
   # get %r{/([\d\+]+)/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
   get :meetups, :map => '/meetups/at/:location/for/:isbn/:title' do
     pass unless 0 == (/[\d\s]*\z/ =~ params[:location])
-    pass unless 0 == (/((97(8|9))?\d{9}(?:(\d|X)))\z/ =~ params[:isbn])
+    pass unless 0 == (/((97(8|9))?\d{9}(?:(\d|X)))(\s\z)?/ =~ params[:isbn])
     pass unless 0 == (/[\w|-]*\z/ =~ params[:title])
 
     # get %r{(?:/)([\d\+])+/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
     # http://ws.geonames.org/getJSON?formatted=false&geonameId=588335&username=novelmates&style=short
     cities = params[:location]
-    isbn   = params[:isbn]
-
-    @book = BookController.get_book(isbn)
-    @meetups = Meetup.where({:'books' => isbn})
-    @interests = Interest.where(isbn: isbn).ne(user_ids: []).all.entries
+    isbns   = params[:isbn].split(' ')
+    @books = isbns.map { |isbn| BookController.get_book(isbn) }
+    @books.each do |book|
+      class << book
+        attr_accessor :meetups
+        attr_accessor :interests
+      end
+      book.meetups = Meetup.where({:'books' => book.isbn})
+      book.interests = Interest.where(isbn: book.isbn).ne(user_ids: []).all.entries
+    end
+    ap @books
+    # @meetups = Meetup.where({:'books' => isbn})
+    # ap @meetups.to_a
+    # @interests = Interest.where(isbn: isbn).ne(user_ids: []).all.entries
 
     # city = http://api.geonames.org/getJSON?formatted=true&geonameId=588335&username=novelmates&style=short
     

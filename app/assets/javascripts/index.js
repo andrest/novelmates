@@ -1,37 +1,46 @@
 $(function(){
   // Wire up book-input
-  $( "#book-input" ).on('input', book_input() ); 
+  // $( "#book-input" ).on('input', book_input() ); 
 
   // Get location from GeoIP
-  if ($.cookie('city_coords_session') != $.cookie('rack.session')) {
-    $.ajax('/geoip').done(function(location){ 
-      $.cookie('city_coords', location, { expires: 30, path: '/' });
-      $.cookie('city_coords_session', $.cookie('rack.session'));
+  if ($.cookie('city_ip') == undefined) {
+    $.ajax('/geoip').done(function(city){ 
+      cookie_value = JSON.stringify({id: city[0].id, name: city[0].name});
+      $.cookie('city_ip', cookie_value, { expires: 7, path: '/' });
+      $('body').trigger('auto_location');
     });
   }
   // Create auto-complete input for city-search
   var city_input = $('#city-input').tokenInput("/city/auto/", 
                                                {addTokenTo: '.city-search',
+                                                preventDuplicates: true,
                                                 onAdd: function(){ update_session_locations(); refresh_book_links() },
                                                 onDelete: function(){ refresh_book_links() }});
 
   var bookinput = $('#book-input').tokenInput("/autocomplete/", {
       addTokenTo: '.search-box',
       propertyToSearch: "title",
+      preventDuplicates: true,
+      onClickDropdown: function(item) {
+        console.log('yo');
+        document.location.href = item.children('a')[0].attr('href');
+      },
       onPopulated: function() {
-        smooth_load()
+        refresh_book_links();
+        smooth_load();
       },
       resultsFormatter: function(item) {
                             return item.html_content;},
       tokenFormatter: function(item) { return item.html_content; },
-      onAdd: function(item) { smooth_load(); refresh_book_links('.search-box a.book-link'); }
+      onAdd: function(item) { smooth_load(); refresh_book_links(); }
   });
-  // Initalise the background mosaic
-  init_gallery();
+  
 
   // Fill location automatically
   $('body').on('auto_location', function(){
     prefill_city(city_input);
+    // Initalise the background mosaic
+    init_gallery();
     // refresh_book_links();
   });
   
@@ -41,19 +50,16 @@ $(function(){
 
 });
 
+// function get_location(){
+//   if ($.cookie('city_coords') != undefined) return $.cookie('city_coords')
+//   else if ($.cookie('city_ip') != undefined ) return $.cookie('city_ip')  
+// }
+
 $(function(){
   $('#book-search').on('search_results', function(){
     refresh_book_links('#book-search a.book-link');
   })
 });
-
-function smooth_load(){
-  $('img.book-cover').on('load', function(){
-    $(this).fadeIn(200);
-    $(this).removeClass('hidden');
-  });
-  return
-}
 
 function refresh_book_links(urls) {
   urls = typeof urls !== 'undefined' ? urls : '.book-link';
@@ -92,23 +98,23 @@ function refresh_book_links(urls) {
   });
 }
 
-function init_gallery() {
+function init_gallery(location) {
   $.ajax({
-    url: '/mosaic'
+    url: '/mosaic/'+$('#city-input').tokenInput('get')[0].id
   })
   .done(function(mosaic) {
     //console.log($.parseHTML(mosaic)[1]);
     $($.parseHTML(mosaic)).appendTo('#wrapper');
-    if ($(document).width() >= 1200) {
-      $('a:last-child', ".gallery").remove();
-      $('a:last-child', ".gallery").remove();
-    }
-    else if ($(document).width() >= 992) {
-      $('a:last-child', ".gallery").remove();
-    }
-    else if ($(document).width() >= 768) {
-      $('a:last-child', ".gallery").remove();
-    }
+    // if ($(document).width() >= 1200) {
+    //   $('a:last-child', ".gallery").remove();
+    //   $('a:last-child', ".gallery").remove();
+    // }
+    // else if ($(document).width() >= 992) {
+    //   $('a:last-child', ".gallery").remove();
+    // }
+    // else if ($(document).width() >= 768) {
+    //   $('a:last-child', ".gallery").remove();
+    // }
 
     $('.gallery img').load(function() {
       var container = document.querySelector('.gallery');
@@ -209,29 +215,25 @@ function determine_location() {
   navigator.geolocation.getCurrentPosition(success, error);
 }
 
-function prefill_city(input){
-  var locations = input.tokenInput("get");
+function exists_city(id){
+  var locations = $('#city-input').tokenInput("get");
   var ids = locations.map(function(elem) {
-          return elem.id
+           return elem.id
   });
-  var names = locations.map(function(elem) {
-          return elem.name
-  });
+  return $.inArray(id, ids) > -1;
+}
 
-  function exists(name){
-    return $.inArray(name, names) > -1;
-  }
-  
+function prefill_city(input){
   if ($.cookie('city_coords') != undefined) {
     var city_coords = JSON.parse( $.cookie('city_coords') );
     console.log(city_coords);
-    if (!exists(city_coords.name)) {
+    if (!exists_city(city_coords.id)) {
       input.tokenInput("add", {id: city_coords.id, name: city_coords.name });
     }
   }
-  else if ($.cookie('city_ip') != undefined) {
+  if ($.cookie('city_ip') != undefined) {
     var city_ip = JSON.parse($.cookie('city_ip'));
-    if (!exists(city_ip.name)) {
+    if (!exists_city(city_ip.id)) {
       input.tokenInput("add", {id: city_ip.id, name: city_ip.name});
     }
   } 

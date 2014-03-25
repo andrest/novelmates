@@ -59,7 +59,22 @@ Novelmates::App.controllers :user do
     erb 'list all the user\'s books'
   end
 
-  get :meetups do
-    erb 'list all the user\'s meetups'
+  get :profile do
+    if signed_in?
+      call env.merge('PATH_INFO' => '/user/'+ current_user._id)
+    else
+      halt 403
+    end
+  end
+
+  get :index, with: :id do
+    if params[:id] == current_user._id
+      @user = current_user
+    else
+      @user = User.find(params[:id])
+    end
+    @meetups_created = Meetup.where(creator: @user._id)
+    @meetups = Meetup.where(user_ids: @user._id).ne(creator: @user._id)
+    render 'user/index'
   end
 end

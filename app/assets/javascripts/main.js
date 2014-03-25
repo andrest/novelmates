@@ -9,45 +9,48 @@ $(function() {
 	});
  };
 
-// Load the SDK asynchronously
-(function(d){
-	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-	if (d.getElementById(id)) {return;}
-	js = d.createElement('script'); js.id = id; js.async = true;
-	js.src = "//connect.facebook.net/en_US/all.js";
-	ref.parentNode.insertBefore(js, ref);
-}(document));
+  // Load the SDK asynchronously
+  (function(d){
+  	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+  	if (d.getElementById(id)) {return;}
+  	js = d.createElement('script'); js.id = id; js.async = true;
+  	js.src = "//connect.facebook.net/en_US/all.js";
+  	ref.parentNode.insertBefore(js, ref);
+  }(document));
 
-$(function() {
-	$('.btn-fb').click(function(e) {
-   e.preventDefault();
+  $(function() {
+  	$('.btn-fb').click(function(e) {
+     e.preventDefault();
 
-   FB.login(function(response) {
-     if (response.authResponse) {
-      window.location.replace("/auth/facebook/callback");
+     FB.login(function(response) {
+       if (response.authResponse) {
+        window.location.replace("/auth/facebook/callback");
 
-	      // since we have cookies enabled, this request will allow omniauth to parse
-	      // out the auth code from the signed request in the fbsr_XXX cookie
-	      // $.getJSON('/auth/facebook/callback', function(json) {
-	      //   	console.log('redirecting..');
-	      //   	window.location.replace("/auth/facebook/callback");
-	      // });
- }
-}, { scope: 'email, user_location' });
- });
-});
+  	      // since we have cookies enabled, this request will allow omniauth to parse
+  	      // out the auth code from the signed request in the fbsr_XXX cookie
+  	      // $.getJSON('/auth/facebook/callback', function(json) {
+  	      //   	console.log('redirecting..');
+  	      //   	window.location.replace("/auth/facebook/callback");
+  	      // });
+   }
+  }, { scope: 'email, user_location' });
+   });
+  });
 
+  Storage.prototype.setObject = function(key, value) {
+      this.setItem(key, JSON.stringify(value));
+  }
 
-Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-}
+  Storage.prototype.getObject = function(key) {
+      var value = this.getItem(key);
+      return value && JSON.parse(value);
+  }
 
-Storage.prototype.getObject = function(key) {
-    var value = this.getItem(key);
-    return value && JSON.parse(value);
-}
-
-
+  // Add profile pictures
+  var container = $('.profile-picture-wrapper');
+  $.each(container, function(){
+    $(this).load( '/user/'+ $(this).attr('data-user-id') + '/profile_pic' );
+  });
 
 });
 
@@ -142,25 +145,45 @@ function get_for() {
   return null;
 }
 
+function smooth_load(){
+  $('img.book-cover').on('load', function(){
+    $(this).fadeIn(200);
+    $(this).removeClass('hidden');
+  });
+  return
+}
+
 function get_fresh_link() {
   var urlArray = location.pathname.split('/');
   var newUrlArray = [];
+  var locations = $('#city-input').tokenInput('get');
+  var books = $('#book-input').tokenInput('get');
   for (var i = 0; i < urlArray.length; i++) {
-    var locations = $('#city-input').tokenInput('get');
+    
     var v  = urlArray[i];
     var v1 = urlArray[i+1];
-    newUrlArray.push(v);
-    if (v == 'meetups' && v1 != 'at' && locations.length > 0) {
+
+    if (v == 'meetups' && v1 != 'at' && locations.length != 0) {
+      newUrlArray.push(v);
       newUrlArray.push('at');
       newUrlArray.push(locations.map(function(elem) {
                           return elem.id
                         }).join('+'));
-    } else if (v == 'at') {
+    } else if (v == 'at' && locations.length != 0) {
+      newUrlArray.push(v);
       newUrlArray.push(locations.map(function(elem) {
                           return elem.id
                         }).join('+'));
       i++;
     }
+    else if (v == 'for' && books.length != 0) {
+      // var isbn = /((97(8|9))?\d{9}(?:(\d|X))(\+)?)+/;
+      newUrlArray.push(v); 
+      newUrlArray.push(books.map(function(elem) {
+                          return elem.id
+                        }).join('+'));
+      i++;
+    } else { newUrlArray.push(v) }
   };
   return newUrlArray.join(' ').split(/\s+/).join('/');
 }

@@ -54,7 +54,8 @@ var DEFAULT_SETTINGS = {
     onAdd: null,
     onDelete: null,
     onReady: null,
-    onPopulated: null
+    onPopulated: null,
+    onClickDropdown: null
 };
 
 // Default classes to use when theming
@@ -314,7 +315,7 @@ $.TokenList = function (input, url_or_data, settings) {
 	.click(function (event) {
 	    var li = $(event.target).closest("li");
 	    if(li && li.get(0) && $.data(li.get(0), "tokeninput")) {
-		toggle_select_token(li);
+		    toggle_select_token(li);
 	    } else {
 		// Deselect selected token
 		if(selected_token) {
@@ -676,6 +677,10 @@ $.TokenList = function (input, url_or_data, settings) {
 		    select_dropdown_item($(event.target).closest("li"));
 		})
 		.mousedown(function (event) {
+        // Added callback
+        if($.isFunction(settings.onClickDropdown)) {
+            settings.onClickDropdown.call($(event.target).closest("li"));
+        }
 		    add_token($(event.target).closest("li").data("tokeninput"));
 		    hidden_input.change();
 		    return false;
@@ -709,16 +714,17 @@ $.TokenList = function (input, url_or_data, settings) {
 	    } else {
 		dropdown_ul.show();
 	    }
+    // Added callback
+    if($.isFunction(settings.onPopulated)) {
+      settings.onPopulated.call();
+    }
+
 	} else {
 	    if(settings.noResultsText) {
 		dropdown.html("<p>"+settings.noResultsText+"</p>");
 		show_dropdown();
 	    }
 	}
-      // Added callback
-      if($.isFunction(settings.onPopulated)) {
-          results = settings.onPopulated.call();
-      }
     }
 
     // Highlight an item in the results dropdown
