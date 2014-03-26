@@ -1,5 +1,8 @@
 module Novelmates
   class App < Padrino::Application
+    register Padrino::Cache
+    enable :caching
+
     register Authentication
     register LessInitializer
     register AWS
@@ -161,7 +164,7 @@ module Novelmates
         books = BookController.get_books('cocktails')
       end
       # books = BookController.get_book('cocktail')
-      ap books
+      # ap books
       BookController.generate_mosaic(books)
     end
 
@@ -170,6 +173,16 @@ module Novelmates
 
       books = BookController.get_books(params[:q])
       BookController.generate_search_results(books)
+    end
+
+    get '/email' do
+      email(:from => "tony@myeyes.com", :to => "andres@exprout.com", :subject => "Welcome!", :body=>"Body")
+      email do
+        from "tony@reyes.com"
+        to "andres.tuul@gmail.com"
+        subject "Welcome!"
+        body "Just thought to email you"
+      end
     end
     
     ##

@@ -43,16 +43,12 @@ Novelmates::App.controllers :user do
       initials = user.firstname[0] + user.lastname[0];
       initials.upcase!
       style = 'style="line-height: 40px; display: inline-block;text-align: center;vertical-align: middle; border-radius: 50%; width: 40px; height: 40px;background: rgb(172, 172, 172);"'
-      span = '<span class="" '+style+'>'+initials+'</span>'
+      span = '<a href="/user/'+params[:id]+'"><span class="" '+style+'>'+initials+'</span></a>'
       profile_pic = '<div class="profile img-circle">'+span+'</div>'
     else
       profile_pic = '<img style="display:inline-block;" class="profile img-circle" src="' + user.profile + '">'
     end
     profile_pic
-  end
-  
-  get :edit do
-
   end
 
   get :books do
@@ -67,14 +63,19 @@ Novelmates::App.controllers :user do
     end
   end
 
+  get :edit do
+    erb "edit profile"
+  end
+
   get :index, with: :id do
-    if params[:id] == current_user._id
-      @user = current_user
-    else
-      @user = User.find(params[:id])
-    end
+    # if params[:id] == current_user._id
+    #   @user = current_user
+    # else
+    @user = User.find(params[:id])
+
     @meetups_created = Meetup.where(creator: @user._id)
     @meetups = Meetup.where(user_ids: @user._id).ne(creator: @user._id)
+
     render 'user/index'
   end
 end

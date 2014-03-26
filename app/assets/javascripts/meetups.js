@@ -47,9 +47,11 @@ $(function(){
   });
 
   var dateISO = $('#meetup-date').attr('data-value');
-  $('#meetup-date').datetimepicker();
-  $('#meetup-date').data("DateTimePicker").setDate(dateISO);
-  $('#meetup-date').prev('p')[0].innerHTML = moment(dateISO).format('DD/MM/YYYY, H:mm');
+  if (dateISO != undefined) {
+    $('#meetup-date').datetimepicker();
+    $('#meetup-date').data("DateTimePicker").setDate(dateISO);
+    $('#meetup-date').prev('p')[0].innerHTML = moment(dateISO).format('DD/MM/YYYY, H:mm');
+  }
 
   $('.edit-meetup').on('click', function(){
     var no_venue = $('.proposed-venue').hasClass('hidden');

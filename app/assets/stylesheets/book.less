@@ -40,38 +40,92 @@ body {
 	border:none;
 }
 
-.interest-btn {
-	display:inline;
+#interest-categories {
 
-	.remove-interest {
-		position: relative;
+	.interest-category {
+		input.interest-name {
+			margin: 10px 0;
+			background: inherit;
+		  font-weight: 500;
+			line-height: 1.1;
+		  border:none;
+		  &:focus {
+		    outline: 0;
+		  }
+		}
+		&:hover {
+			background: #F9FAF7;
+		}
+		h5 {
+			font-weight:300;
+			display:inline-block;
+		}
+		.circle {
+			cursor: pointer;
+			color: rgb(243, 234, 234);
+			display:inline-block;
+			vertical-align: middle;
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			background: rgb(64, 202, 52);
+			/* width and height can be anything, as long as they're equal */
 
-		.hover-minus {
-			position: absolute;
-			top:0;
-			opacity: 0;
-
-			.glyphicon-minus {
+			.glyphicon-plus {
 				top: 11px;
 				left: 13px;
 			}
-		}
 
-		&:hover > .hover-minus {
-			.transition(0.5s);
-			background: rgba(228, 228, 228, 0.95) !important;
-			opacity:1;
-
-			// background: #F3F2F2 !important;
-
-			
-
-			&:before {
+			&:hover {
+				background: lightgreen;
+				color: white;
 			}
 		}
-
 	}
+
+	.pull-right.people {
+		text-align: right;
+
+		.profile-picture-wrapper {
+			margin-bottom: 5px;
+		}
+		
+		.interest-btn {
+			display:inline;
+			text-align: initial;
+			.remove-interest {
+				position: relative;
+
+				.hover-minus {
+					position: absolute;
+					top:0;
+					opacity: 0;
+
+					.glyphicon-minus {
+						top: 11px;
+						left: 13px;
+					}
+				}
+
+				&:hover > .hover-minus {
+					.transition(0.5s);
+					background: rgba(228, 228, 228, 0.95) !important;
+					opacity:1;
+
+					// background: #F3F2F2 !important;
+
+					
+
+					&:before {
+					}
+				}
+
+			}
+		}
+	}
+
 }
+
 .interest-details {
 	border-left-color: #B3AE9B;
 	border-left-width: 10px;
@@ -83,46 +137,6 @@ body {
 	background:rgb(252, 252, 250);
 }
 
-.interest-category {
-	input.interest-name {
-		margin: 10px 0;
-		background: inherit;
-	  font-weight: 500;
-		line-height: 1.1;
-	  border:none;
-	  &:focus {
-	    outline: 0;
-	  }
-	}
-	&:hover {
-		background: #F9FAF7;
-	}
-	h5 {
-		font-weight:300;
-		display:inline-block;
-	}
-	.circle {
-		cursor: pointer;
-		color: rgb(243, 234, 234);
-		display:inline-block;
-		vertical-align: middle;
-		border-radius: 50%;
-		width: 40px;
-		height: 40px;
-		background: rgb(64, 202, 52);
-		/* width and height can be anything, as long as they're equal */
-
-		.glyphicon-plus {
-			top: 11px;
-			left: 13px;
-		}
-
-		&:hover {
-			background: lightgreen;
-			color: white;
-		}
-	}
-}
 .meetup_city {
 	background: #fcfcfa;
 	.city-id-to-name {

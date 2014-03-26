@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div id="interest-categories" class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading"><h4>Interest Categories</h4>
     <span class="help-block">
@@ -34,7 +34,7 @@
           <% end %>
           <% if defined? @meetup != nil then users = @attendants else users = interest.user_ids end %>
           <% users.each do |id| %>
-            <% next if signed_in? && id == current_user._id %>
+            <% next if signed_in? && id == current_user._id || not(interest.user_ids.include? id) %>
             <div class="profile-picture-wrapper" data-user-id="<%= id.to_s %>"></div>
           <% end %>
         </span>

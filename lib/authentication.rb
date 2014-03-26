@@ -37,13 +37,12 @@ module Authentication
       u = User.where(:"FBTokens.uid" => fb_user['uid'], :active => true).first
       # ap u
       if u.nil?
-        u = User.new(email: fb_user['info']['email'], firstname: fb_user['info']['first_name'],lastname: fb_user['info']['last_name'], profile: fb_user['info']['image'], location: {fb: fb_user['info']['location']})
+        u = User.new(email: fb_user['info']['email'], firstname: fb_user['info']['first_name'],lastname: fb_user['info']['last_name'], profile: fb_user['info']['image'], location: fb_user['info']['location'])
         # p 1
         # ap u
         u.FBTokens = FBToken.new(uid: fb_user['uid'], token: access_token)
         # p 2
         # ap u
-        u.save
 
         if u.save
           logger.info 'user saved' if dev?

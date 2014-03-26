@@ -92,7 +92,7 @@ Novelmates::App.controllers :meetup do
       # ap 'Meetup users: ' ; ap @attendants
       # ap 'Users: '; @users.to_a #.each { |i| puts i.firstname + ' ' + i._id }
       # ap 'Interests: '; ap Interest.where(isbn: params[:isbn]).to_a
-    @interests = Interest.in(user_ids: @attendants).where(isbn: params[:isbn])
+    @interests = Interest.where(isbn: params[:isbn]).in(user_ids: @attendants)
       # ap 'INTERESTS:: '
       # ap @interests.build(user_ids: @users.map { |u| u._id }).to_a
     # ap attending?

@@ -103,18 +103,22 @@ function init_gallery(location) {
     url: '/mosaic/'+$('#city-input').tokenInput('get')[0].id
   })
   .done(function(mosaic) {
-    //console.log($.parseHTML(mosaic)[1]);
+    // Remove the extra tiles from the end
     $($.parseHTML(mosaic)).appendTo('#wrapper');
-    // if ($(document).width() >= 1200) {
-    //   $('a:last-child', ".gallery").remove();
-    //   $('a:last-child', ".gallery").remove();
-    // }
-    // else if ($(document).width() >= 992) {
-    //   $('a:last-child', ".gallery").remove();
-    // }
-    // else if ($(document).width() >= 768) {
-    //   $('a:last-child', ".gallery").remove();
-    // }
+    var remove_count = 0;
+    if ($(document).width() >= 1200) {
+      remove_count = $('a', ".gallery").length % 4
+    }
+    else if ($(document).width() >= 992) {
+      remove_count = $('a', ".gallery").length % 3
+    }
+    else if ($(document).width() >= 768) {
+      remove_count = $('a', ".gallery").length % 2
+    }
+
+    for(var i = 0; i <  remove_count;  i++) {
+      $('a:last-child', ".gallery").remove();
+    }
 
     $('.gallery img').load(function() {
       var container = document.querySelector('.gallery');
