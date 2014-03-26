@@ -46,7 +46,7 @@ group :development do
   gem 'rails-erd'
   gem 'faker'
 end
-
+gem 'faker'
 gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://github.com/nightsailer/padrino-sprockets.git'
 gem "sprockets-less"
 # gem 'htmlentities'
