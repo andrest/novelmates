@@ -1,6 +1,6 @@
 puts 'Dropping'
 Mongoid.purge!
-
+require 'faker'
 
 # =================================== DATA =================================== 
 puts 'Initalise data'
