@@ -176,9 +176,9 @@ module Novelmates
     end
 
     get '/email' do
-      email(:from => "tony@myeyes.com", :to => "andres@exprout.com", :subject => "Welcome!", :body=>"Body")
+      email(:from => "hello@novelmates.com", :to => "andres@exprout.com", :subject => "Welcome!", :body=>"Body")
       email do
-        from "tony@reyes.com"
+        from "hello@novelmates.com"
         to "andres.tuul@gmail.com"
         subject "Welcome!"
         body "Just thought to email you"
