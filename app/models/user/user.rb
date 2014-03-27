@@ -40,14 +40,16 @@ class User
   # field :username,        type: String,   :default => UUID::generate(:compact)
   field :password_hash,   type: String
   field :password_salt,   type: String
-  field :firstname,       type: String,   :default => 'John'
-  field :lastname,        type: String,   :default => 'Doe'
+  field :firstname,       type: String
+  field :lastname,        type: String
   field :email,           type: String
-  field :timezone,        type: String
+  # meetup id, name String, user notification Bool, creator Bool
+  field :meetups,        type: Array, :default => []
   # field :oauth,           type: Hash,     :default => {}
   field :location,        type: String
   field :active,          type: Boolean,  :default => true
   field :profile,         type: String
+  field :weekly_digest,   type: Boolean,  :default => false
   
   attr_accessor :password
   

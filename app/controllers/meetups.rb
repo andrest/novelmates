@@ -32,14 +32,14 @@ Novelmates::App.controllers :meetup do
   post :update do
     event = Meetup.where(creator: params[:user_id]).find(params[:id]) 
     # ap event
-    params['venue'] = MultiJson.decode(params['venue'])
+    params['venue'] = MultiJson.decode(params['venue']) if params.key?('venue')
     # params.delete(:venue)
     ap params
     ap event
     if !event.nil? && event.update_attributes(params)
       redirect request.env["HTTP_REFERER"];
     else
-      flash[:error] = 'Something went wrong. ' + event.errors.full_messages
+      flash[:error] = 'Something went wrong. ' + event.errors.full_messages.join('. ')
       redirect request.env["HTTP_REFERER"]
     end
   end
@@ -66,7 +66,7 @@ Novelmates::App.controllers :meetup do
     if event.save
       redirect '/meetup/' + event._id + '/for/' + event.books
     else
-      flash[:error] = 'Something went wrong. ' + event.errors.full_messages
+      flash[:error] = 'Something went wrong. ' + event.errors.full_messages.join('. ')
       redirect request.env["HTTP_REFERER"]
     end
   end

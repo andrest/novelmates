@@ -6,7 +6,7 @@ puts 'Initalise data'
 
 cities = ['2643743', '2643123'] # , '2640729', '2653941']
 isbns = ["0762448652","0553804685","0553804685","0553804677","9780374291358","0679735771","0745660789","030746363X","0751532711","0671799320","0195374614","0140291873","0374275637","0307593312","0553380958","0061977969","0743273567","0452287588","0307588688","0316037702","0060892994","0140132716","075640407X","0553803719","0553565699","0006480101","055358202X","055357342X","0375826696","0345538374","0006480098","0575088877","0140449264","031286504X","0345368584","0192833987","0393058638","080305971X","042507160X","076532119X","0465030785","0434020230","0684824299","0805390456","0393316041","0672325861","0201310058","0553588486","0545010225","0345391802","0439785960","0679783261","0439554934","0140283331","0618346252","0143037889","0199291152","0671027387","0552151696","0307277674","0671657135","0465026567","0201485419","0321566157","0060186399","0262032937","0596006624","0060920432","0671027034","0061122416","0142001783","0618346260","0393312836","0618260307","0156012197"]
-isbns = isbns[0..15]
+isbns = isbns[0..11]
 interests = {}
 users = []
 venues = []
@@ -17,7 +17,7 @@ puts 'Manual Seeding'
 
 u1 = User.create(firstname: "Janek", lastname: "Kukk", email:"janek@janek.com", password: "janek", active: "true")
 u2 = User.create(firstname: "Julia", lastname: "Tuul", email:"julia@julia.com", password: "julia", active: "true")
-u3 = User.create(firstname: "Andres", lastname: "Tuul", email:"andres@andres.com", password: "andres", active: "true")
+u3 = User.create(firstname: "Andres", lastname: "Tuul", email:"punkar@gmail.com", password: "andres", weekly_digest: "true", active: "true")
 u4 = User.create(firstname: "Yoni", lastname: "Regev", email:"yoni@yoni.com", password: "yoni", active: "true")
 
 i1 = Interest.create(isbn: "0762448652", category: "Dissecting the storyline")
@@ -71,14 +71,15 @@ end
 # =================================== USERS =================================== 
 puts '  Generate Users'
 
-(1..100).each do |i|
+(1..40).each do |i|
   users.push User.create(
     firstname: Faker::Name.first_name,
     lastname: Faker::Name.last_name,
     email: Faker::Internet.email,
     password: "password",
     active: "true",
-    location: Faker::Address.city+', '+Faker::Address.country
+    location: Faker::Address.city+', '+Faker::Address.country,
+    weekly_digest: "false"
     )
 end
 
@@ -95,7 +96,7 @@ end
 # =================================== MEETUPS =================================== 
 puts '  Generate Meetups'
 
-(1..150).each do |i|
+(1..25).each do |i|
   u = users.sample._id
   meetups.push Meetup.create(
                 name: Faker::Lorem.sentence(3), 
@@ -103,7 +104,9 @@ puts '  Generate Meetups'
                 creator: u,
                 user_ids: [u], 
                 books: isbns.sample,
-                venue: venues.sample)
+                venue: venues.sample,
+                date: Time.now+((rand(21)+1)*24*60*60) )
+  u.meetups.create(_id: meetups.last._id, name: meetups.last_.name, creator:  "true", notify: "true")
 end
 
 # =================================== OTHER =================================== 
@@ -126,7 +129,7 @@ meetups.each do |m|
   m.user_ids = user_ids
   m.save
   user_bunch.each do |u| 
-    u.meetup_ids = u.meetup_ids << m._id
+    u.meetups << {_id: m._id, name: m.name, isbn: m.books, creator:  } unless u.meetups.find(m._id)
 
     interest_bunch = interests[m.books].sample(rand(3)+1)
     interest_ids = interest_bunch.map { |i| i._id }

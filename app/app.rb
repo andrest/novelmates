@@ -177,24 +177,8 @@ module Novelmates
     end
 
     get '/email' do
-      Mail.defaults do
-        delivery_method :smtp, {
-          :address => 'smtp.sendgrid.net',
-          :port => '587',
-          :domain => 'heroku.com',
-          :user_name => ENV['SENDGRID_USERNAME'],
-          :password => ENV['SENDGRID_PASSWORD'],
-          :authentication => :plain,
-          :enable_starttls_auto => true
-        }
-      end
-
-      Mail.deliver do
-        to 'andres.tuul@gmail.com'
-        from 'hello@novelmates.com'
-        subject 'Just wanted to say Hello!'
-        body 'Sending email with Ruby through SendGrid!'
-      end
+      @meetups = Meetup.in(user_ids: ['5333014e2cf31089e7000001']).all.entries
+      erb :email, layout: false
     end
     
     ##

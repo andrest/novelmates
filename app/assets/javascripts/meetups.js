@@ -37,25 +37,18 @@ $(function(){
     });
   });
 
-  $(document).on('submit','.meetup-info form',function(){
-    var venue = getFormData($('.proposed-venue form'));
-    venue.date = venue.date == "" ? "" : $('#meetup-date').data("DateTimePicker").getDate().toISOString();
-    var input = $("<input>")
-                   .attr("type", "hidden")
-                   .attr("name", "venue").val(JSON.stringify(venue));
-    $(this).append($(input));
-  });
-
   var dateISO = $('#meetup-date').attr('data-value');
   if (dateISO != undefined) {
     $('#meetup-date').datetimepicker();
+    var formatted = moment(dateISO).format('DD/MM/YYYY, H:mm')
     $('#meetup-date').data("DateTimePicker").setDate(dateISO);
-    $('#meetup-date').prev('p')[0].innerHTML = moment(dateISO).format('DD/MM/YYYY, H:mm');
+    $('#meetup-date').prev('p')[0].innerHTML = formatted;
   }
 
   $('.edit-meetup').on('click', function(){
     var no_venue = $('.proposed-venue').hasClass('hidden');
     $('.proposed-venue').removeClass('hidden');
+    var venue_start = getFormData($('.proposed-venue form'));
 
     $(this).addClass('hidden');
     $('.edit-buttons').removeClass('hidden');
@@ -75,9 +68,9 @@ $(function(){
       $('.edit-buttons').addClass('hidden');
       $('.edit-meetup').removeClass('hidden');
 
-      $('.form-control', '.meetup-info').each(function(){
-        $(this).addClass('hidden');
-        $(this).prev().removeClass('hidden');
+      $('.form-control-static.editable', '.meetup-info').each(function(){
+        $(this).removeClass('hidden');
+        $(this).next().addClass('hidden');
       });
 
       $('.form-control-static', '.proposed-venue').each(function(){
@@ -85,6 +78,16 @@ $(function(){
         $(this).next().addClass('hidden');
       });
     });
+
+    $('.meetup-info form').on('submit', function(){
+    var venue_end = getFormData($('.proposed-venue form'));
+    if (_.isEqual(venue_start, venue_end) == false) {
+      var input = $("<input>")
+                     .attr("type", "hidden")
+                     .attr("name", "venue").val(JSON.stringify(venue_end));
+      $('.meetup-info form').append($(input));
+    }
+  });
 
   });
 

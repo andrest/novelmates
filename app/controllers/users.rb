@@ -64,7 +64,9 @@ Novelmates::App.controllers :user do
   end
 
   get :edit do
-    erb "edit profile"
+    halt unless signed_in?
+    @user = current_user
+    render 'user/edit'
   end
 
   get :index, with: :id do

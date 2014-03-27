@@ -21,13 +21,26 @@
         </div>
       </div>
 
-      <div class="form-group">
+<!--       <div class="form-group">
         <label for="date" class="col-sm-3 control-label">Date</label>
         <div class="col-sm-9">
           <p class="form-control-static editable"><%= @meetup.date unless @meetup.date.nil? %></p>
           <input name="date" type="date" class="form-control hidden" id="date" value="<%= @meetup.date unless @meetup.date.nil? %>">
         </div>
-      </div>
+      </div> -->
+
+      <div class="form-group">
+        <label for="date" class="col-sm-3 control-label">Date</label>
+        <div class="col-sm-9">
+          <p class="form-control-static editable">></p>
+          <div class='input-group date hidden' id='meetup-date' data-date-format="DD/MM/YYYY, H:mm" data-value="<%= @meetup.date unless @meetup.date.nil? %>">
+              <input type='text' name="date" class="form-control" value="<%= @meetup.date unless @meetup.date.nil? %>"/>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+              </span>
+          </div>
+        </div>
+      </div>      
+
 
       <div class="form-group">
         <label for="location" class="col-sm-3 control-label">Location</label>
@@ -100,7 +113,7 @@
 
   </div>
   <% if signed_in? && @meetup.creator.to_s == current_user._id.to_s || !@meetup.venue.nil? %>
-  <div class="col-sm-5 proposed-venue <%= @meetup.venue.nil? ? 'hidden' : '' %>">
+  <div class="col-sm-5 proposed-venue <%= (@meetup.venue.nil? || @meetup.venue.name == "") ? 'hidden' : '' %>">
     <div class="">
       <h4>Proposed Venue</h4>
       <form action="/meetup/update" method="post" class="form-horizontal" role="form">
@@ -113,7 +126,7 @@
               </div>
             </div>
             
-            <% unless @meetup.venue.nil?  %>
+            <% unless @meetup.venue.nil? || @meetup.venue.address == ""  %>
               <img class="proposed-map" src="http://maps.googleapis.com/maps/api/staticmap?markers=color:blue%7Clabel:%7C<%= URI::encode @meetup.venue.address %>&zoom=15&size=330x330&maptype=roadmap&sensor=false&key=AIzaSyDs_k1wyceiD8D6l1ysl2dI-KVjFsr0ONk">
             <% end %>
             <div class="form-group">
@@ -123,18 +136,6 @@
                   <input name="address" type="text" class="form-control hidden" id="address" value="<%= @meetup.venue.address unless @meetup.venue.nil? %>">
               </div>
             </div>
-
-            <div class="form-group">
-              <label for="date" class="col-sm-3 control-label">Date</label>
-              <div class="col-sm-9">
-                <p class="form-control-static editable"><%= @meetup.venue.date unless @meetup.venue.nil? %></p>
-                <div class='input-group date hidden' id='meetup-date' data-value="<%= @meetup.venue.date unless @meetup.venue.nil? %>">
-                    <input type='text' name="date" class="form-control" value="<%= @meetup.venue.date unless @meetup.venue.nil? %>"/>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-              </div>
-            </div>      
 
             <div class="form-group">
               <label for="notes" class="col-sm-3 control-label">Notes</label>

@@ -1,92 +1,71 @@
 <div class="row">
-  <div class="offset-sm-2 col-sm-8">
+  <div class="col-sm-offset-2 col-sm-8">
 
-    <form action="/meetup/update" method="post" class="form-horizontal" role="form">
+    <form action="/meetup/edit" method="post" class="form-horizontal" role="form">
 
       <div class="form-group">
-        <label for="name" class="col-sm-3 control-label">Meetup name</label>
+        <label for="firstname" class="col-sm-3 control-label">First name</label>
         <div class="col-sm-9">
-          <p class="form-control-static editable"><%= @meetup.name %></p>
-          <input name="name" type="text" class="form-control hidden" id="name" value="<%= @meetup.name %>">
+          <input name="firstname" type="text" class="form-control" id="name" value="<%= @user.firstname %>">
         </div>
       </div>
 
       <div class="form-group">
-        <label for="date" class="col-sm-3 control-label">Date</label>
+        <label for="lastname" class="col-sm-3 control-label">Last name</label>
         <div class="col-sm-9">
-          <p class="form-control-static editable"><%= @meetup.date unless @meetup.date.nil? %></p>
-          <input name="date" type="date" class="form-control hidden" id="date" value="<%= @meetup.date unless @meetup.date.nil? %>">
+          <input name="lastname" type="text" class="form-control" id="name" value="<%= @user.lastname %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="col-sm-3 control-label">Email</label>
+        <div class="col-sm-9">
+          <input name="email" type="text" class="form-control" id="email" value="<%= @user.email %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="col-sm-3 control-label">Password</label>
+        <div class="col-sm-9">
+          <input name="password" type="text" class="form-control" id="password" value="*********">
         </div>
       </div>
 
       <div class="form-group">
         <label for="location" class="col-sm-3 control-label">Location</label>
         <div class="col-sm-9">
-          <p class="form-control-static editable"><a href="/meetups/at/<%= @meetup.city %>" data-id="<%= @meetup.city %>" class="city-id-to-name"><%= @meetup.city %></a></p>
-          <input name="city" type="text" class="form-control hidden" id="location" value="<%= @meetup.city unless @meetup.city.nil? %>">
+          <input name="location" type="text" class="form-control" id="location" value="<%= @user.location %>">
         </div>
       </div>
 
       <div class="form-group">
-        <label for="description" class="col-sm-3 control-label">Description</label>
+        <label for="notifications" class="col-sm-3 control-label">Notifications</label>
         <div class="col-sm-9">
-          <p class="form-control-static editable"><%= @meetup.description unless @meetup.description.nil? %></p>
-          <textarea name="description" type="text" class="form-control hidden" id="description"><%= @meetup.description unless @meetup.description.nil? %></textarea>
+          <label>
+            <input type="checkbox" value="">
+            Weekly digest&mdash;keep up yourself up-to-date
+          </label>
+          <label>
+            <input type="checkbox" value="">
+            Monkey one is this and that&mdash;be sure to include why it's great
+          </label>
+          <label>
+            <input type="checkbox" value="">
+            Giraffe one is this and that&mdash;be sure to include why it's great
+          </label>
+
         </div>
       </div>
-
+      
       <div class="form-group">
-        <label for="location" class="col-sm-3 control-label">Created By</label>
-        <div class="col-sm-9">
-          <% user = User.find(@meetup.creator) unless @meetup.creator.nil? %>
-          <div class="list-group-item user_card">
-            <span class="">
-              <div class="profile-picture-wrapper" data-user-id="<%= user._id.to_s %>"></div>
-            </span>
-            <h6 class="user-name"><%= user.firstname + " " + user.lastname %></h6>
-          </div>
-          <input name="city" type="text" class="form-control hidden" id="location" value="<%= @meetup.city unless @meetup.city.nil? %>">
-        </div>
+        <div class="col-sm-offset-3 btn btn-default">Link to Facebook</div>
       </div>
-
+      
       <div class="form-group">
-        <label for="attending" class="col-sm-3 control-label">Attending</label>
-        <div class="col-sm-9">
-          <div class="form-control-static">
-          <% @meetup.users.each do |user| %>
-            <div class="list-group-item user_card">
-              <span class="">
-                <div class="profile-picture-wrapper" data-user-id="<%= user._id.to_s %>"></div>
-              </span>
-              <h6 class="user-name"><%= user.firstname + " " + user.lastname %></h6>
-            </div>
-          <% end %>
-          </div>
-          <!-- <input name="" type="text" class="form-control hidden" id="attending" value="Bob, Joe, Martin"> -->
-        </div>
+        <button type="submit" class="col-sm-offset-3 btn btn-default">Save</button>
       </div>
-
-      <input type="text" name="books" class="hidden" value="<%= @book.isbn %>">
-      <input type="text" name="user_id" class="hidden" value="<%= current_user._id if signed_in? %>">
-      <input type="text" name="id" class="hidden" value="<%= @meetup._id %>">
-
-      <div class="form-group edit-buttons hidden">
-        <div class="col-sm-offset-2 col-sm-9">
-          <button type="submit" class="btn btn-default">Save</button>
-          <div class="btn btn-default cancel-edit">Cancel</div>
-        </div>
-      </div>
-
-  <!--     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-9">
-            <div class="edit-meetup btn btn-default"><span class="glyphicon glyphicon-edit"></span> edit</div>
-        </div>
-      </div> -->
 
     </form>
-    <% if signed_in? && @meetup.creator.to_s == current_user._id.to_s %>
-      <div class="help-block"><div class="edit-meetup btn btn-default"><span class="glyphicon glyphicon-edit"></span> edit</div></div>
-    <% end %>
 
   </div>
 </div>

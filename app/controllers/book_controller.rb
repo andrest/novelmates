@@ -61,15 +61,12 @@ module BookController
 	end
 
 	def self.lookup_books(isbns)
-		ap isbns.join(',')
 		books = []
 		isbn10 = []
-		ap "ISBNs count: " + isbns.count.to_s
 		isbns.each_with_index do |isbn,i|
 			isbn10.push isbn
 		  if (i+1)%10 == 0 || isbns.count == i + 1
 		  	books = books | get_books('', isbn: isbn10.join(','))
-		  	ap "--request" + i.to_s
 		  	isbn10.clear
 		  end
 		end
@@ -113,7 +110,6 @@ module BookController
 
 	def self.parse_xml_to_books(xml_response)
 		books = []
-		ap xml_response
 		xml_response.css("Items Item").each do |item|
 			if item.css('ISBN').empty? then next end
 			
