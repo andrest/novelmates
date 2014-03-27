@@ -6,4 +6,6 @@
 
 require File.expand_path("../config/boot.rb", __FILE__)
 
-run Padrino.application
+run Rack::URLMap.new \
+  "/"       => Padrino.application,
+  "/resque" => Resque::Server.new

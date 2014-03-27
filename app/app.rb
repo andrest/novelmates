@@ -15,6 +15,7 @@ module Novelmates
     enable :sessions
     enable :reload
 
+    Resque.redis = RedisConnection.connection
     Mongoid.load!("mongoid.yml")
 
     # Grab the cities from the URL if it contains /at/123213+1232
@@ -176,12 +177,23 @@ module Novelmates
     end
 
     get '/email' do
-      email(:from => "hello@novelmates.com", :to => "andres@exprout.com", :subject => "Welcome!", :body=>"Body")
-      email do
-        from "hello@novelmates.com"
-        to "andres.tuul@gmail.com"
-        subject "Welcome!"
-        body "Just thought to email you"
+      Mail.defaults do
+        delivery_method :smtp, {
+          :address => 'smtp.sendgrid.net',
+          :port => '587',
+          :domain => 'heroku.com',
+          :user_name => ENV['SENDGRID_USERNAME'],
+          :password => ENV['SENDGRID_PASSWORD'],
+          :authentication => :plain,
+          :enable_starttls_auto => true
+        }
+      end
+
+      Mail.deliver do
+        to 'andres.tuul@gmail.com'
+        from 'hello@novelmates.com'
+        subject 'Just wanted to say Hello!'
+        body 'Sending email with Ruby through SendGrid!'
       end
     end
     
