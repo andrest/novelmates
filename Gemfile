@@ -47,6 +47,11 @@ group :development do
   gem 'faker'
 end
 
+group :test do
+  gem "rspec"
+  gem "capybara"
+end
+gem 'capybara'
 gem 'resque', :require => 'resque/server'
 
 gem 'mail'
