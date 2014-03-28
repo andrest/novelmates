@@ -77,7 +77,7 @@ Novelmates::App.controllers :user do
 
     @meetups_created = Meetup.where(creator: @user._id)
     @meetups = Meetup.where(user_ids: @user._id).ne(creator: @user._id)
-
+    @additional_js  = javascript_include_tag "user"
     render 'user/index'
   end
 end

@@ -106,7 +106,7 @@ puts '  Generate Meetups'
                 books: isbns.sample,
                 venue: venues.sample,
                 date: Time.now+((rand(21)+1)*24*60*60) )
-  u.meetups.create(_id: meetups.last._id, name: meetups.last_.name, creator:  "true", notify: "true")
+  # u.meetup_ids << meetups.last._id
 end
 
 # =================================== OTHER =================================== 
@@ -129,7 +129,7 @@ meetups.each do |m|
   m.user_ids = user_ids
   m.save
   user_bunch.each do |u| 
-    u.meetups << {_id: m._id, name: m.name, isbn: m.books, creator:  } unless u.meetups.find(m._id)
+    u.meetup_ids = u.meetup_ids << m._id
 
     interest_bunch = interests[m.books].sample(rand(3)+1)
     interest_ids = interest_bunch.map { |i| i._id }

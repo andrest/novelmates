@@ -34,8 +34,8 @@ Novelmates::App.controllers :meetup do
     # ap event
     params['venue'] = MultiJson.decode(params['venue']) if params.key?('venue')
     # params.delete(:venue)
-    ap params
-    ap event
+    # ap params
+    # ap event
     if !event.nil? && event.update_attributes(params)
       redirect request.env["HTTP_REFERER"];
     else
@@ -45,7 +45,6 @@ Novelmates::App.controllers :meetup do
   end
 
   post :attending do
-    ap params
     meetup = Meetup.find(params[:meetup_id])
     if params[:attending] == 'true'
       current_user.meetups.push(meetup)
@@ -53,6 +52,20 @@ Novelmates::App.controllers :meetup do
       meetup.pull(:user_ids, current_user._id)
       current_user.pull(:meetup_ids, meetup._id)
     end
+    return
+  end
+
+  post :notify do
+    ap params
+    meetup = Meetup.find(params[:meetup_id])
+    ap meetup
+    if params[:notify] == 'true'
+      meetup.notify_ids << current_user._id
+      meetup.save
+    else
+      meetup.pull(:notify_ids, current_user._id)
+    end
+    ap meetup
     return
   end
 

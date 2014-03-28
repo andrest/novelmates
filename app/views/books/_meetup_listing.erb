@@ -27,7 +27,9 @@
     <% end %>
 
   </div>
-  <button type="button" class="new-meetup-btn btn btn-primary btn-lg btn-block">Add new meetup</button>
+  <% if signed_in? %>
+    <button type="button" class="new-meetup-btn btn btn-primary btn-lg btn-block">Add new meetup</button>
+  <% end %>
   <%= partial '/books/create_meetup', locals: locals %>
 </div>
 

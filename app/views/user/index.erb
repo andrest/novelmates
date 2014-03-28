@@ -52,6 +52,7 @@
         @books = BookController.lookup_books(@meetups_created.map { |m| m.books })
         @meetups_created.each_with_index do |meetup, i|
           @book = @books.select { |b| b.isbn =~  /.{0,3}#{meetup.books}.{0,1}/ }[0]
+          @notify = meetup.notify_ids.include? current_user._id
         %>
             <div class="list-group-item" style="background:rgb(250, 250, 250) !important;">
               <table>
@@ -64,10 +65,10 @@
 
                       <a href="/meetup/<%= meetup._id %>/for/<%= meetup.books %>"><h3><%= meetup.name %></h3></a>
 
-                      <% if signed_in? %>
+                      <% if signed_in? && current_user._id == @user._id %>
                         <div class="btn-group">
-                          <button type="button" class="attending btn btn-default <%= 'active' if attending?%>">Attending</button>
-                          <button type="button" class="not-attending btn btn-default <%= 'active' if !attending? %>">Not Attending</button>
+                          <button type="button" data-id="<%= meetup._id %>" class="notify btn btn-default <%= 'active' if @notify %>"><span style="color: rgb(167, 162, 44);" class="glyphicon glyphicon-star-empty"></span>  Notify</button>
+                          <button type="button" data-id="<%= meetup._id %>" class="not-notify btn btn-default <%= 'active' if !@notify %>">No Notifications</button>
                         </div>
                       <% end %>
                     </div>
@@ -88,13 +89,9 @@
         </div>
         <%
           @books = BookController.lookup_books(@meetups.map{ |m| m.books }.uniq)
-          ap @meetups.map{ |m| m.books }.uniq
-          ap @books.map { |b| b.isbn }
-          ap @meetups.count
-          ap '----'
           @meetups.each_with_index do |meetup, i|
             @book = @books.select { |b| b.isbn =~  /.{0,3}#{meetup.books}.{0,1}/ }[0]
-            ap meetup.books
+            @notify = meetup.notify_ids.include? current_user._id
         %>
 
           <div class="list-group-item" style="background:rgb(250, 250, 250) !important;">
@@ -108,10 +105,10 @@
 
                     <a href="/meetup/<%= meetup._id %>/for/<%= meetup.books %>"><h3><%= meetup.name %></h3></a>
 
-                    <% if signed_in? %>
+                    <% if signed_in? && current_user._id == @user._id  %>
                       <div class="btn-group">
-                        <button type="button" class="attending btn btn-default <%= 'active' if attending?%>">Attending</button>
-                        <button type="button" class="not-attending btn btn-default <%= 'active' if !attending? %>">Not Attending</button>
+                        <button type="button" data-id="<%= meetup._id %>" class="notify btn btn-default <%= 'active' if @notify %>"><span style="color: rgb(167, 162, 44);" class="glyphicon glyphicon-star-empty"></span>  Notify</button>
+                        <button type="button" data-id="<%= meetup._id %>" class="not-notify btn btn-default <%= 'active' if !@notify %>">No Notifications</button>
                       </div>
                     <% end %>
                   </div>

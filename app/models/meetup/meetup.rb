@@ -6,7 +6,7 @@ class Meetup
   field :date,          type: DateTime
   field :city,          type: String
   field :creator,       type: String
-  field :participants,  type: String,   :default  => {}
+  field :notify_ids,  type: Array,   :default  => []
   field :posts,         type: Hash,     :default  => {}
   field :description,   type: String
   field :active,        type: Boolean,  :default  => true

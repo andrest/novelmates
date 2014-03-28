@@ -44,7 +44,7 @@ class User
   field :lastname,        type: String
   field :email,           type: String
   # meetup id, name String, user notification Bool, creator Bool
-  field :meetups,        type: Array, :default => []
+  # field :meetups,        type: Array, :default => []
   # field :oauth,           type: Hash,     :default => {}
   field :location,        type: String
   field :active,          type: Boolean,  :default => true

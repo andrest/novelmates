@@ -7,6 +7,14 @@ Novelmates::App.helpers do
     @attendants.include? current_user._id
   end
 
+  def notify?
+    return false if !signed_in?
+    m = Meetup.where(notify_ids: current_user._id, user_ids: current_user._id) 
+    
+    return false if m.all.entries == []
+    return true
+  end
+
   def meetup?
     if (defined? @meetup) == nil
       false

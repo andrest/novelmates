@@ -42,23 +42,23 @@
         <label for="notifications" class="col-sm-3 control-label">Notifications</label>
         <div class="col-sm-9">
           <label>
-            <input type="checkbox" value="">
+            <input type="checkbox" value="true" <%= @user.weekly_digest == true ? 'checked' : '' %>>
             Weekly digest&mdash;keep up yourself up-to-date
           </label>
-          <label>
+<!--           <label>
             <input type="checkbox" value="">
             Monkey one is this and that&mdash;be sure to include why it's great
           </label>
           <label>
             <input type="checkbox" value="">
             Giraffe one is this and that&mdash;be sure to include why it's great
-          </label>
+          </label> -->
 
         </div>
       </div>
       
       <div class="form-group">
-        <div class="col-sm-offset-3 btn btn-default">Link to Facebook</div>
+        <div class="col-sm-offset-3 btn btn-default"><%= @user.FBTokens.nil? ? 'Link to Facebook' : 'Unlink with Facebook' %></div>
       </div>
       
       <div class="form-group">
