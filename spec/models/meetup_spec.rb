@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe Meetup do
   before do
     @user = User.create(firstname: "Rebane", lastname: "Ruben", :email => 'user@example.com', :password => 'pass')

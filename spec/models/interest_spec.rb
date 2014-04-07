@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe Interest do
   before do
     @FBToken = FBToken.new(uid: "100000117098968", token: "CAAIqlCw8Am8BADih4dWJjCSeCwgePl4GiThMUbSdyPJaIVyY4Dlkxfqq9ZB2ZBVXWkuZAZC5Rbx57yBZBHd92ujHiUZAAtmrflOu8zvQFZAO81E6RtjDpC3ZAZBBhE3p0eJIpwYRtclfNLwZAxCYSuC8a5vqYO46VeJqW1XBbTcoq8M6PKFnSXsITGYkSZAaoGz5UEZD")

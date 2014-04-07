@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 # Some from examples by Michael Hartl
 # https://github.com/railstutorial/sample_app_rails_4/blob/master/spec/models/user_spec.rb 
 describe User do

@@ -212,8 +212,8 @@ function determine_location() {
     // callback();
   };
 
-  function error() {
-    console.log("Unable to retrieve your location");
+  function error(error) {
+    console.log("Unable to retrieve your location: " +error.message);
   };
 
   navigator.geolocation.getCurrentPosition(success, error);
