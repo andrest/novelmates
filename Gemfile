@@ -49,13 +49,20 @@ end
 
 group :test do
   gem "rspec"
-  gem "capybara"
+  gem 'factory_girl'
+  gem 'simplecov', :require => false
+  gem 'capybara-webkit'
+  gem 'selenium-webdriver'
+  gem 'mongoid-rspec'
+  gem 'rack-test', :require => 'rack/test'
+
 end
+
 gem 'capybara'
+gem 'poltergeist'
 gem 'resque', :require => 'resque/server'
 
 gem 'mail'
-gem 'faker'
 gem 'padrino-sprockets', :require => ['padrino/sprockets'], :git => 'git://github.com/nightsailer/padrino-sprockets.git'
 gem "sprockets-less"
 # gem 'htmlentities'

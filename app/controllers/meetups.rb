@@ -30,6 +30,7 @@ Novelmates::App.controllers :meetup do
   # end
 
   post :update do
+    halt 401 unless signed_in?
     event = Meetup.where(creator: params[:user_id]).find(params[:id]) 
     # ap event
     params['venue'] = MultiJson.decode(params['venue']) if params.key?('venue')
@@ -39,12 +40,13 @@ Novelmates::App.controllers :meetup do
     if !event.nil? && event.update_attributes(params)
       redirect request.env["HTTP_REFERER"];
     else
-      flash[:error] = 'Something went wrong. ' + event.errors.full_messages.join('. ')
+      flash[:error] = 'Something went wrong. ' + event.errors.full_messages.join('. ') unless event.nil?
       redirect request.env["HTTP_REFERER"]
     end
   end
 
   post :attending do
+    halt 401 unless signed_in?
     meetup = Meetup.find(params[:meetup_id])
     if params[:attending] == 'true'
       current_user.meetups.push(meetup)
@@ -56,26 +58,26 @@ Novelmates::App.controllers :meetup do
   end
 
   post :notify do
-    ap params
+    halt 401 unless signed_in?
     meetup = Meetup.find(params[:meetup_id])
-    ap meetup
+    # ap meetup
     if params[:notify] == 'true'
       meetup.notify_ids << current_user._id
       meetup.save
     else
       meetup.pull(:notify_ids, current_user._id)
     end
-    ap meetup
+    # ap meetup
     return
   end
 
   post :create do
-    # params["books"] = [ params[:books] ]
+    halt 401 unless signed_in?
     params.delete :topic
     params.delete :notification
     params[:user_ids] = [ params[:creator] ]
     event = Meetup.new(params)
-    ap params
+    # ap params
     if event.save
       redirect '/meetup/' + event._id + '/for/' + event.books
     else
@@ -128,14 +130,6 @@ Novelmates::App.controllers :meetup do
     render '/meetups/meetup'
   end
 
-  get :show do
-    p "show"
-  end
-
-  post :create, with: [:locations, :id] do
-    p params[:locations] + " " + params[:id]
-  end
-
     # Pattern: /city/isbn/title
   # E.g. /london/97029384567/the-lies-of-lock-lamora
   # get %r{/([\d\+]+)/((97(8|9))?\d{9}(?:(\d|X)))/([\w|-]*)} do
@@ -157,7 +151,7 @@ Novelmates::App.controllers :meetup do
       book.meetups = Meetup.where({:'books' => book.isbn})
       book.interests = Interest.where(isbn: book.isbn).ne(user_ids: []).all.entries
     end
-    ap @books
+    # ap @books
     # @meetups = Meetup.where({:'books' => isbn})
     # ap @meetups.to_a
     # @interests = Interest.where(isbn: isbn).ne(user_ids: []).all.entries

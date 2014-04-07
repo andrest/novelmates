@@ -57,25 +57,21 @@ class User
   # validates_presence_of     :password #, :on => :create
   # validates_confirmation_of :password
   # Make sure email contains an @
-  validates_format_of       :email, with: /@/
+  # validates_format_of       :email, with: /@/
   validates_inclusion_of    :active, :in => [true, false]
-  # validates_uniqueness_of   :email,
-                            # :message => "User with this email already exists."
+  validates_uniqueness_of   :email, :case_sensitive => false,
+                            :message => "User with this email already exists."
   # validates_uniqueness_of   :email
   # validates_format_of       :username,  :with => /\A[A-Za-z0-9_]+\z/, 
   #                                       :message => "must contain only letters, numbers and underscores."
-  validates_format_of       :email, :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
-                                        
+  validates_format_of       :email, :with =>  /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i                                   
   before_save               :_encrypt_password
   before_create             :_encrypt_password
-  # def get_pic()
-  #   if !self.profile.present?
-  #     profi
-  # end
+  before_save { self.email = email.downcase }
+
 
   def self.authenticate(email, password)
     user = self.where(:email => email, :active => true).first
-    p user
     if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else

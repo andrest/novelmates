@@ -22,7 +22,6 @@ module Novelmates
     before /\/at\// do
       url = request.env["PATH_INFO"]
       locations = url.match(/at\/([\d|\+]+)\//i).captures[0].split('+')
-      ap locations
       session[:url_cities] = locations
     end
 
@@ -47,12 +46,9 @@ module Novelmates
     get '/geo/:address' do
       content_type 'application/json'
 
-      cookies = request.cookies
-      ap params[:address]
       uri = URI.parse('http://ws.geonames.org/searchJSON?username=novelmates&featureClass=P&maxRows=3&q='+URI::encode(params[:address]))
       body = Net::HTTP.get_response(uri).body
       results = MultiJson.load(body)["geonames"]
-      ap uri
       final = []
       final.push( { 'id' => results[0]['geonameId'], 'name' => results[0]['name']+', '+ results[0]['countryName'] } )
 
@@ -98,20 +94,12 @@ module Novelmates
 
       response.set_cookie 'country_ip',
       {:value=> res['country_code'], :max_age => "64800"}
-      # response.set_cookie 'city_ip',
-      # {:value=> res['city'] + ", " + res['country_name'], :max_age => "2592000"}
 
       call env.merge('PATH_INFO' => '/geo/'+ URI::encode(res['city']+', '+res['country_name']))
     end
 
-    get "/profile" do
-      halt(401,'Not Authorized') unless auth?
-      "This is the private page - members only"
-    end
-
     post '/login' do
       request.env['warden'].authenticate!
-      ap request.env
       if request.env["PATH_INFO"] != "/signup"
         redirect request.env['HTTP_REFERER']
       else
@@ -134,14 +122,11 @@ module Novelmates
 
     post '/signup' do
       u = User.new(params)
-      logger.info u if dev?
       u.save
       if u.save
-        ap request.env
         call env.merge('PATH_INFO' => '/login')
       else
         flash[:error] = u.errors.full_messages
-        # flash_tag u.errors.full_messages if dev?
         render 'signup'
       end
     end
@@ -156,6 +141,11 @@ module Novelmates
       MultiJson.encode(request.env)
     end
 
+    get "/mosaic" do
+      books = BookController.get_books('tequila')
+      BookController.generate_mosaic(books)
+    end
+
     get "/mosaic/:id" do
       if !params[:id].nil?
         isbns = Meetup.where(city: params[:id]).distinct(:books)
@@ -164,8 +154,7 @@ module Novelmates
       else
         books = BookController.get_books('cocktails')
       end
-      # books = BookController.get_book('cocktail')
-      # ap books
+
       BookController.generate_mosaic(books)
     end
 

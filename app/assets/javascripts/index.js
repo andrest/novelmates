@@ -22,8 +22,8 @@ $(function(){
       propertyToSearch: "title",
       preventDuplicates: true,
       onClickDropdown: function(item) {
-        console.log('yo');
-        document.location.href = item.children('a')[0].attr('href');
+        if (item == undefined) item = $(this); //$(event.target).closest("li");
+        document.location.href = $(item.children('a')[0]).attr('href')
       },
       onPopulated: function() {
         refresh_book_links();

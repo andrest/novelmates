@@ -15,18 +15,66 @@
 #   #     --seed 1234
 #   config.order = 'random'
 # end
+require 'simplecov'
+SimpleCov.start
 require 'capybara' # loading capybara
+require 'capybara/webkit/matchers'
+require 'capybara/rspec'
+require 'factory_girl'
+require 'capybara/poltergeist'
+
+require 'warden'
 include Capybara::DSL 
+include Warden::Test::Helpers
+
 
 RACK_ENV = 'test' unless defined?(RACK_ENV)
 require File.expand_path(File.dirname(__FILE__) + "/../config/boot")
+# Dir[File.dirname(__FILE__)+"/factories/*.rb"].each {|file| require file }
+
+def app(app = nil, &blk)
+  @app ||= block_given? ? app.instance_eval(&blk) : app
+  @app ||= Padrino.application
+end
+Capybara.run_server = false
+Capybara.app_host = "http://novelmates.dev"
+Capybara.server_port = 80
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, {phantomjs: "/usr/local/bin/phantomjs",
+    extensions: [File.expand_path("../support/geolocation.js", __FILE__)]})
+end
+
+Capybara.javascript_driver = :poltergeist
+Capybara.default_wait_time = 10
+Capybara.app = app
 
 RSpec.configure do |conf|
+  conf.include(Capybara::Webkit::RspecMatchers, :type => :feature)
+  # conf.add_setting :my_array
+  # conf.before(:suite) { RSpec.configuration.my_array = [] }
+  FactoryGirl.definition_file_paths = [
+      File.join(Padrino.root, 'factories'),
+      File.join(Padrino.root, 'test', 'factories'),
+      File.join(Padrino.root, 'spec', 'factories')
+  ]
+  FactoryGirl.find_definitions
+  # Clean/Reset Mongoid DB prior to running each test.
+  # conf.before(:each) do
+  #   # Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+  # end
+  conf.include Mongoid::Matchers, type: :model
   conf.include Rack::Test::Methods
-  # conf.include RSpec::Padrino
+  # conf.mock_with :rspec
+  conf.include FactoryGirl::Syntax::Methods
+  conf.full_backtrace= false # save the console
+  conf.color_enabled= true   # save your eyes
+  # conf.formatter = :documentation
 end
-# app Novelmates::App
-Capybara.app = Novelmates::App
+
+# don't send mails during testing
+Mail.defaults do
+  delivery_method :test
+end
 
 # You can use this method to custom specify a Rack app
 # you want rack-test to invoke:
@@ -37,7 +85,4 @@ Capybara.app = Novelmates::App
 #     set :foo, :bar
 #   end
 #
-def app(app = nil, &blk)
-  @app ||= block_given? ? app.instance_eval(&blk) : app
-  @app ||= Padrino.application
-end
+

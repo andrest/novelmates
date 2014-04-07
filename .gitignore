@@ -15,6 +15,7 @@ novelmates.sublime-project
 /node_modules/
 /bower_components/
 /data/*
+coverage/**/*
 
 .DS_Store
 log/**/*

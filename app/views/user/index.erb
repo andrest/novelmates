@@ -91,7 +91,7 @@
           @books = BookController.lookup_books(@meetups.map{ |m| m.books }.uniq)
           @meetups.each_with_index do |meetup, i|
             @book = @books.select { |b| b.isbn =~  /.{0,3}#{meetup.books}.{0,1}/ }[0]
-            @notify = meetup.notify_ids.include? current_user._id
+            @notify = meetup.notify_ids.include? current_user._id unless !signed_in?
         %>
 
           <div class="list-group-item" style="background:rgb(250, 250, 250) !important;">

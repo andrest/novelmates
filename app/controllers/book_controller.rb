@@ -26,6 +26,7 @@ Novelmates::App.controller do
 
 
 	post '/book/interest' do
+		halt 401 unless signed_in?
 	  # params[:interest]
 	  # params[:isbn]
 	  # ap Interest.where({isbn: params[:isbn], category: params[:interest] }).all.entries
@@ -35,17 +36,22 @@ Novelmates::App.controller do
 	  	ap 'new interest' if dev?
 	 	end
 
-	  current_user.interests.push(i)
+	  current_user.interests << i
+
+	  status 200
 	  # ap current_user
 	end
 
 	delete '/book/interest' do
+		halt 401 unless signed_in?
 	  # params[:interest]
 	  # params[:isbn]
 	  # ap Interest.where({isbn: params[:isbn], category: params[:interest] }).all.entries
 	  i = Interest.where({isbn: params[:isbn], category: params[:interest], user_ids: current_user._id }).pull(:user_ids, current_user._id)
 	  # ap i
 	  # ap current_user
+	  status 200
+  	body ''
 	end
 
 end
@@ -141,7 +147,7 @@ module BookController
 			<<-HTML
 			<a class="book-link" href="/meetups/for/#{book.isbn}/#{book.get_url_title}">
 				<div class="cover-container">
-					<div class="cover effect2">
+					<div class="cover">
 						<div class="front">
 							<img src="#{book.images[:large]}" style="max-width:250px;"/>
 						</div>

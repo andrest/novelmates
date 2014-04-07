@@ -14,7 +14,7 @@ module Authentication
       auth.cookies.delete :login
     end
     Warden::Manager.after_authentication do |user, auth, opts|
-      p 'after warden auth..'
+
     end
     app.use OmniAuth::Builder do
       provider :facebook, ENV['APP_ID'], ENV['APP_SECRET'], {:scope => ENV['SCOPE'], :provider_ignores_state => true}
@@ -33,16 +33,10 @@ module Authentication
     def authenticate!
       fb_user = request.env['omniauth.auth']
       access_token = fb_user['credentials']['token']
-      # ap fb_user
       u = User.where(:"FBTokens.uid" => fb_user['uid'], :active => true).first
-      # ap u
       if u.nil?
         u = User.new(email: fb_user['info']['email'], firstname: fb_user['info']['first_name'],lastname: fb_user['info']['last_name'], profile: fb_user['info']['image'], location: fb_user['info']['location'])
-        # p 1
-        # ap u
         u.FBTokens = FBToken.new(uid: fb_user['uid'], token: access_token)
-        # p 2
-        # ap u
 
         if u.save
           logger.info 'user saved' if dev?
@@ -52,17 +46,8 @@ module Authentication
           fail!("Error saving user")
         end
       end
-      # ap u
       !success!(u)
-    end
-
-    # token = FBToken.where(uid: fb_user['uid'])
-    # token.delete unless token.nil?
-    
-    # token = FBToken.new(uid: fb_user['uid'], expires_at: fb_user['credentials']['expires_at'], token: fb_user['credentials']['token'] ).save
-    #   !success!(u)
-    # end
-    
+    end  
   end
 
   Warden::Strategies.add(:password) do
@@ -72,8 +57,30 @@ module Authentication
    
     def authenticate!
       u = User.authenticate(params["email"], params["password"])
-      ap params
       u.nil? ? fail!("Could not log in") : success!(u)
+    end
+  end
+
+  module TestHelpers
+
+    def signed_in?
+      !current_user.nil?
+    end
+
+    def current_user
+      warden.user
+    end
+
+    def warden
+      request.env['warden']
+    end
+
+    def sign_in(user)
+      warden.serialize_into_session(user)
+    end
+
+    def sign_out(user)
+      warden.serialize_from_session(user)
     end
   end
 end

@@ -1,27 +1,4 @@
 Novelmates::App.controllers :user do
-  
-  # get :index, :map => '/foo/bar' do
-  #   session[:foo] = 'bar'
-  #   render 'index'
-  # end
-
-  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
-  #   case content_type
-  #     when :js then ...
-  #     else ...
-  # end
-
-  # get :foo, :with => :id do
-  #   'Maps to url '/foo/#{params[:id]}''
-  # end
-
-  # get '/example' do
-  #   'Hello world!'
-  # end
-  
-  get :index do
-    p 'yo'
-  end
 
   get :profile_pic, map: '/user/:id/profile_pic' do
 
@@ -51,10 +28,6 @@ Novelmates::App.controllers :user do
     profile_pic
   end
 
-  get :books do
-    erb 'list all the user\'s books'
-  end
-
   get :profile do
     if signed_in?
       call env.merge('PATH_INFO' => '/user/'+ current_user._id)
@@ -64,7 +37,7 @@ Novelmates::App.controllers :user do
   end
 
   get :edit do
-    halt unless signed_in?
+    halt 401 unless signed_in?
     @user = current_user
     render 'user/edit'
   end
@@ -74,7 +47,8 @@ Novelmates::App.controllers :user do
     #   @user = current_user
     # else
     @user = User.find(params[:id])
-
+    halt 404 if @user.nil?
+    
     @meetups_created = Meetup.where(creator: @user._id)
     @meetups = Meetup.where(user_ids: @user._id).ne(creator: @user._id)
     @additional_js  = javascript_include_tag "user"

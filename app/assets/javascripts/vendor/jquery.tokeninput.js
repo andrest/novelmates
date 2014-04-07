@@ -274,6 +274,10 @@ $.TokenList = function (input, url_or_data, settings) {
 		case KEY.NUMPAD_ENTER:
 		case KEY.COMMA:
 		  if(selected_dropdown_item) {
+        // Added callback
+        if($.isFunction(settings.onClickDropdown)) {
+            settings.onClickDropdown.call(selected_dropdown_item);
+        }
 		    add_token($(selected_dropdown_item).data("tokeninput"));
 		    hidden_input.change();
 		    return false;
@@ -349,6 +353,7 @@ $.TokenList = function (input, url_or_data, settings) {
     // The list to store the dropdown items in
     var dropdown = $("<div>")
 	.addClass(settings.classes.dropdown)
+  .addClass(input.id)
 	.appendTo("body")
 	.hide();
 
@@ -679,7 +684,8 @@ $.TokenList = function (input, url_or_data, settings) {
 		.mousedown(function (event) {
         // Added callback
         if($.isFunction(settings.onClickDropdown)) {
-            settings.onClickDropdown.call($(event.target).closest("li"));
+            var elem = $(event.target).closest("li");
+            settings.onClickDropdown.call(elem);
         }
 		    add_token($(event.target).closest("li").data("tokeninput"));
 		    hidden_input.change();

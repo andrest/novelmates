@@ -1,7 +1,15 @@
+test:
+  sessions:
+    default:
+      database: novelmates_test
+      hosts:
+        - localhost:27017
+  options:
+    raise_not_found_error: false
 development:
   sessions:
     default:
-      database: novelmates
+      database: novelmates_development
       hosts:
         - localhost:27017
   options:
