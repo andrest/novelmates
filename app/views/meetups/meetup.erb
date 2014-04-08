@@ -54,7 +54,8 @@
           var urlArray = document.URL.split(/\/+/);
           var topic_identifier = urlArray[$.inArray( 'meetup', urlArray ) + 1];
           var options = {
-              author_id    : '<%= current_user._id if signed_in? %>',
+              author_id    : '<%= current_user._id if attending? %>',
+              author_name  : "<%= (current_user.firstname+' '+current_user.lastname) if attending? %>",
               container    : '#posts',
               site_key     : 'oqy5ycn91ld66432ekxha7u5h10mi8o',
               topic_key    : topic_identifier,

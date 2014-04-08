@@ -23,7 +23,9 @@ Novelmates::App.controllers :user do
       span = '<a href="/user/'+params[:id]+'"><span class="" '+style+'>'+initials+'</span></a>'
       profile_pic = '<div class="profile img-circle">'+span+'</div>'
     else
-      profile_pic = '<img style="display:inline-block;" class="profile img-circle" src="' + user.profile + '">'
+      pic = '<img style="display:inline-block;" class="profile img-circle" src="' + user.profile + '">'
+      link = '<a href="/user/'+params[:id]+'">'+pic+'</a>'
+      profile_pic = link
     end
     profile_pic
   end
