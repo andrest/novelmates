@@ -1,33 +1,4 @@
 Novelmates::App.controllers :meetup do
-  # <ol class="breadcrumb">
-  #   <li><a href="#">Home</a></li>
-  #   <li>
-  #     <% session[:url_cities].each do |city| %>
-  #       <a href="#"><%= city %></a>
-  #     <% end %>
-  #   </li>
-  #   <li class="active"><a href="/meetups/at/<%= session[:url_cities].join('+') %>/for/<%= @book.isbn+'/'+@book.get_url_title %>"><%= @book.title %></a></li>
-  #   <li class="active"><%= @meetup.name %></li>
-  # </ol>
-
-  # get :index, :map => '/foo/bar' do
-  #   session[:foo] = 'bar'
-  #   render 'index'
-  # end
-
-  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
-  #   case content_type
-  #     when :js then ...
-  #     else ...
-  # end
-
-  # get :foo, :with => :id do
-  #   'Maps to url '/foo/#{params[:id]}''
-  # end
-
-  # get '/example' do
-  #   'Hello world!'
-  # end
 
   post :update do
     halt 401 unless signed_in?
@@ -50,11 +21,12 @@ Novelmates::App.controllers :meetup do
     meetup = Meetup.find(params[:meetup_id])
     if params[:attending] == 'true'
       current_user.meetups.push(meetup)
+      send_notifications meetup
     else
       meetup.pull(:user_ids, current_user._id)
       current_user.pull(:meetup_ids, meetup._id)
     end
-    return
+    status 200
   end
 
   post :notify do
@@ -68,12 +40,13 @@ Novelmates::App.controllers :meetup do
       meetup.pull(:notify_ids, current_user._id)
     end
     # ap meetup
-    return
+    status 200
   end
 
   post :create do
     halt 401 unless signed_in?
     params.delete :topic
+    params[:notify_ids] = [ current_user._id ] if params[:notification] == 'true'
     params.delete :notification
     params[:user_ids] = [ params[:creator] ]
     event = Meetup.new(params)

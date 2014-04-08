@@ -7,7 +7,7 @@ $(function(){
     $.ajax('/geoip').done(function(city){ 
       cookie_value = JSON.stringify({id: city[0].id, name: city[0].name});
       $.cookie('city_ip', cookie_value, { expires: 7, path: '/' });
-      $('body').trigger('auto_location');
+      // $('body').trigger('auto_location');
     });
   }
   // Create auto-complete input for city-search
@@ -196,7 +196,11 @@ function get_geonames_id(address){
 }
 
 function determine_location() {
-  if (!navigator.geolocation || $.cookie('city_coords') != undefined) {
+  if (!Modernizr.geolocation && $.cookie('city_ip') != undefined) {
+    $('body').trigger('auto_location');
+    return;
+  }
+  else if (!navigator.geolocation || $.cookie('city_coords') != undefined) {
     $('body').trigger('auto_location');
     return;
   }
