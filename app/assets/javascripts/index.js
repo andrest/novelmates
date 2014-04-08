@@ -213,7 +213,10 @@ function determine_location() {
   };
 
   function error(error) {
-    console.log("Unable to retrieve your location: " +error.message);
+    if ($.cookie('city_ip') != undefined) {
+      $('body').trigger('auto_location');
+    }
+    console.log("Unable to retrieve your coordinate location: "+error.message);
   };
 
   navigator.geolocation.getCurrentPosition(success, error);

@@ -28,26 +28,26 @@
   <% @books.each do |book| %>
     <div id="<%=book.get_url_title()%>" class="book-listing">
 
-    	<div class="book-description col-xs-3">
+    	<div class="book-description col-sm-3">
     		<div class="cover-wrapper" style="width:auto;">
-    			<img class="book-cover" src="<%= book.images[:large] %>">
+    			<img class="hidden-xs book-cover" src="<%= book.images[:large] %>">
     		</div>
     		<dl class="book-details">
     			<dt>Title</dt>
     			<dd><%= book.full_title %></dd>
     			<dt>Author</dt>
     			<dd><%= book.author %></dd>
-    			<dt>Published</dt>
-    			<dd><%= book.published_at %></dd>
-    			<dt>Category</dt>
-    			<dd>Science Fiction</dd>
-    			<dt>ISBN13</dt>
-    			<dd id="isbn"><%= book.isbn %></dd>
+    			<dt class="hidden-xs">Published</dt>
+    			<dd class="hidden-xs"><%= book.published_at %></dd>
+    			<dt class="hidden-xs">Category</dt>
+    			<dd class="hidden-xs">Science Fiction</dd>
+    			<dt class="hidden-xs">ISBN13</dt>
+    			<dd class="hidden-xs" id="isbn"><%= book.isbn %></dd>
     		</dl>
     	</div>
       
-      <div class="col-xs-5"><%= partial '/books/meetup_listing', locals: {book: book} %></div>
-      <div class="col-xs-4"><%= partial '/books/interest_categories', object: book.interests %></div>
+      <div class="col-sm-5"><%= partial '/books/meetup_listing', locals: {book: book} %></div>
+      <div class="col-sm-4"><%= partial '/books/interest_categories', object: book.interests %></div>
 
 
     	<span class="clearfix"></span>
