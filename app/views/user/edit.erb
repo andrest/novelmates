@@ -1,33 +1,33 @@
 <div id="wrapper" class="container">
   <div class="col-sm-offset-2 col-sm-8">
     <h3>Edit your details</h3>
-    <form action="/meetup/edit" method="post" class="form-horizontal" role="form">
+    <form action="/user/edit" method="post" class="form-horizontal" role="form">
 
       <div class="form-group">
         <label for="firstname" class="col-sm-3 control-label">First name</label>
         <div class="col-sm-9">
-          <input name="firstname" type="text" class="form-control" id="name" value="<%= @user.firstname %>">
+          <input name="firstname" type="text" class="form-control" id="firstname" value="<%= @user.firstname %>">
         </div>
       </div>
 
       <div class="form-group">
         <label for="lastname" class="col-sm-3 control-label">Last name</label>
         <div class="col-sm-9">
-          <input name="lastname" type="text" class="form-control" id="name" value="<%= @user.lastname %>">
+          <input name="lastname" type="text" class="form-control" id="lastname" value="<%= @user.lastname %>">
         </div>
       </div>
 
       <div class="form-group">
         <label for="email" class="col-sm-3 control-label">Email</label>
         <div class="col-sm-9">
-          <input name="email" type="text" class="form-control" id="email" value="<%= @user.email %>">
+          <input name="email" type="email" class="form-control" id="email" value="<%= @user.email %>">
         </div>
       </div>
 
       <div class="form-group">
         <label for="password" class="col-sm-3 control-label">Password</label>
         <div class="col-sm-9">
-          <input name="password" type="text" class="form-control" id="password" value="*********">
+          <input name="password" type="password" class="form-control" id="password" placeholder="*******">
         </div>
       </div>
 
@@ -58,9 +58,35 @@
       </div>
       
       <div class="form-group">
-        <div class="col-sm-offset-3 btn btn-default"><%= @user.FBTokens.nil? ? 'Link to Facebook' : 'Unlink with Facebook' %></div>
+        <% if @user.FBTokens.nil? %>
+          <div id="fb-link" class="btn-fb col-sm-offset-3 btn btn-default"><%= 'Link to Facebook' %></div>
+        <% else %>
+          <div id="fb-unlink" class="col-sm-offset-3 btn btn-default"><%= 'Unlink with Facebook' %></div>
+        <% end %>
       </div>
-      
+      <script type="text/javascript"> 
+
+        $(function(){
+          // $('#fb-link').on('click', function() {
+          //   $.ajax({
+          //       url: '/user/facebook/link',
+          //       type: 'POST'
+          //   })
+          //   .always(function() {
+          //     document.location.reload(); 
+          //   });
+          // })
+          $('#fb-unlink').on('click', function() {
+            $.ajax({
+                url: '/user/facebook/unlink',
+                type: 'POST'
+            })
+            .always(function() {
+              document.location.reload(); 
+            });
+          })
+        })
+      </script>
       <div class="form-group">
         <button type="submit" class="col-sm-offset-3 btn btn-default">Save</button>
       </div>

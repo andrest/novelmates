@@ -39,9 +39,31 @@ Novelmates::App.controllers :user do
   end
 
   get :edit do
-    halt 401 unless signed_in?
+    redirect '/' unless signed_in?
     @user = current_user
     render 'user/edit'
+  end
+
+  post :edit do
+    halt 401 unless signed_in?
+    @user = current_user
+    @user.update_attributes(params)
+    render 'user/edit'
+  end
+
+  post :link, :map => 'user/facebook/link' do
+    halt 401 unless signed_in?
+    warden.authenticate!(:facebook)
+
+  end
+
+  post :unlink, :map => 'user/facebook/unlink' do
+    halt 401 unless signed_in?
+
+    current_user.FBTokens.delete
+    current_user['profile'] = nil
+    current_user.save
+    status 200
   end
 
   get :index, with: :id do

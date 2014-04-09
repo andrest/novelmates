@@ -34,19 +34,23 @@ module Authentication
       fb_user = request.env['omniauth.auth']
       access_token = fb_user['credentials']['token']
       u = User.where(:"FBTokens.uid" => fb_user['uid'], :active => true).first
+      # email_exists = User.where(:email => fb_user['info']['email']).exists?
       if u.nil?
         u = User.new(email: fb_user['info']['email'], firstname: fb_user['info']['first_name'],lastname: fb_user['info']['last_name'], profile: fb_user['info']['image'], location: fb_user['info']['location'])
         u.FBTokens = FBToken.new(uid: fb_user['uid'], token: access_token)
 
         if u.save
           logger.info 'user saved' if dev?
+          success!(u)
         else
           logger.info u.errors.full_messages if dev?
-          throw(:warden)
-          fail!("Error saving user")
+          # throw(:warden)
+          request.env['warden'].errors.add(:warning, u.errors.full_messages)
+          fail!(u.errors.full_messages)
         end
+      else
+        success!(u)
       end
-      !success!(u)
     end  
   end
 

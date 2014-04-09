@@ -131,8 +131,21 @@ module Novelmates
       end
     end
 
-    get '/auth/:provider/callback' do
-      request.env['warden'].authenticate!(:facebook)
+    get '/auth/facebook/callback' do
+      # request.env['warden'].authenticate!(:facebook)
+      # redirect request.env['HTTP_REFERER']
+      @auth = request.env['omniauth.auth']
+      if signed_in?
+        if User.where('FBTokens.uid' => @auth['uid']).exists?
+          flash[:warning] = "This Facebook account is already linked to a user"
+        else
+          current_user.FBTokens = FBToken.new(uid: @auth['uid'], token: @auth['token'])
+          current_user.profile = @auth['info']['image']
+          current_user.save
+        end
+      else
+        warden.authenticate!(:facebook)
+      end
       redirect request.env['HTTP_REFERER']
     end
 
@@ -165,9 +178,9 @@ module Novelmates
       BookController.generate_search_results(books)
     end
 
-    get '/email' do
-      @meetups = Meetup.in(user_ids: ['5333014e2cf31089e7000001']).all.entries
-      erb :email, layout: false
+    get "/unauthenticated" do
+      flash[:warning] = warden.errors.full_messages.join(' ')
+      redirect "/"
     end
     
     ##
