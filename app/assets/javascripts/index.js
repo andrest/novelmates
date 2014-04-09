@@ -106,10 +106,7 @@ function init_gallery(location) {
     // Remove the extra tiles from the end
     $($.parseHTML(mosaic)).appendTo('#wrapper');
     var remove_count = 0;
-    if ($(document).width() >= 1200) {
-      remove_count = $('a', ".gallery").length % 4
-    }
-    else if ($(document).width() >= 992) {
+    if ($(document).width() >= 992) {
       remove_count = $('a', ".gallery").length % 3
     }
     else if ($(document).width() >= 768) {

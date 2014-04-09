@@ -20,24 +20,24 @@
         </div>
         <div class="book-details col-md-12">
           <div class="row">
-            <div class="detail col-xs-3">Title</div>
-            <div class="value col-xs-9"><%= @book.full_title %></div>
+            <div class="detail col-xs-4">Title</div>
+            <div class="value col-xs-8"><%= @book.full_title %></div>
           </div>
           <div class="row">
-            <div class="detail col-xs-3">Author</div>
-            <div class="value col-xs-9"><%= @book.author %></div>
+            <div class="detail col-xs-4">Author</div>
+            <div class="value col-xs-8"><%= @book.author %></div>
           </div>
           <div class="row">
-            <div class="detail col-xs-3">Published</div>
-            <div class="value col-xs-9"><%= @book.published_at %></div>
+            <div class="detail col-xs-4">Published</div>
+            <div class="value col-xs-8"><%= @book.published_at %></div>
           </div>
           <div class="row">
-            <div class="detail col-xs-3">Category</div>
-            <div class="value col-xs-9">Science Fiction</div>
+            <div class="detail col-xs-4">Category</div>
+            <div class="value col-xs-8">Science Fiction</div>
           </div>
           <div class="row">
-            <div class="detail col-xs-3">ISBN13</div>
-            <div class="value col-xs-9" id="isbn"><%= @book.isbn %></div>
+            <div class="detail col-xs-4">ISBN13</div>
+            <div class="value col-xs-8" id="isbn"><%= @book.isbn %></div>
           </div>
         </div>
         <span class="clearfix" />
@@ -48,7 +48,11 @@
     <div id="middle" class="col-sm-12 col-md-9">
       <%= partial '/meetups/meetup_info', object: @interests %>
       <%= partial '/books/interest_categories', object: @interests, locals: { :description => 'What the attendants are interested in' } %>
-      <div id="posts"></div>
+      <div id="posts">
+        <div style="height:50px;background:inherit;" class="box">
+          <div class="loader10"></div>
+        </div>
+      </div>
       <script type="text/javascript" class="juvia">
       (function() {
           var urlArray = document.URL.split(/\/+/);
