@@ -220,7 +220,8 @@ function determine_location() {
     console.log("Unable to retrieve your coordinate location: "+error.message);
   };
 
-  navigator.geolocation.getCurrentPosition(success, error);
+  navigator.geolocation.getCurrentPosition(success,error,{timeout:10000});
+
 }
 
 function exists_city(id){
