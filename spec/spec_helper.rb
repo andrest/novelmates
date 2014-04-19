@@ -40,7 +40,7 @@ Capybara.run_server = false
 Capybara.app_host = "http://novelmates.dev"
 Capybara.server_port = 80
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, {phantomjs: "/usr/local/bin/phantomjs",
+  Capybara::Poltergeist::Driver.new(app, {:inspector => true, phantomjs: "/usr/local/bin/phantomjs",
     extensions: [File.expand_path("../support/geolocation.js", __FILE__)]})
 end
 

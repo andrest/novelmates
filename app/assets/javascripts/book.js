@@ -68,7 +68,7 @@ $(function(){
     }
   }
 
-  $('.add-interest').on('click', function() {
+  var add_interest_handler = function() {
     var interest_category = $(this).parents('.interest-category');
     var interest = interest_category.children('.interest-name')[0].value;
     if (interest != undefined) {
@@ -76,12 +76,13 @@ $(function(){
         return;
       }
       var copy = interest_category.clone()
+      $('.add-interest', copy).on('click', function(){ add_interest_handler.call(this); });
+      $('.remove-interest', copy).on('click', function(){ remove_interest_handler.call(this); });
       $('input', copy)[0].value = "";
       $(interest_category).parent().append(copy);
 
-      interest_category.prepend('<h5>'+$('input', interest_category)[0].value +'</h5>');
+      interest_category.prepend('<h5 class="interest-name">'+$('input', interest_category)[0].value +'</h5>');
       $('input', interest_category).remove();
-
     }
 
     interest = (interest == undefined) ?  interest_category.children('h5').text() : interest;
@@ -103,9 +104,8 @@ $(function(){
     
     $( '.remove-interest', $($(this).parent()) ).removeClass('hidden')
     $(this).addClass('hidden')
-  });
-
-  $('.remove-interest').on('click', function() {
+  }
+  var remove_interest_handler = function() {
     var interest = $(this).parents('.interest-category').children('.interest-name').value;
     interest = (interest == undefined) ?  $(this).parents('.interest-category').children('h5').text() : interest;
     $.ajax({
@@ -124,6 +124,14 @@ $(function(){
     });
     $( '.add-interest', $($(this).parent()) ).removeClass('hidden');
     $(this).addClass('hidden');
+  }
+
+  $('.add-interest').on('click', function() {
+    add_interest_handler.call(this);
+  });
+
+  $('.remove-interest').on('click', function() {
+    remove_interest_handler.call(this);
   });
 
   $('.pull-right.people').on('click', function(e) {

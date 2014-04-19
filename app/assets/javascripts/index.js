@@ -7,7 +7,7 @@ $(function(){
     $.ajax('/geoip').done(function(city){ 
       cookie_value = JSON.stringify({id: city[0].id, name: city[0].name});
       $.cookie('city_ip', cookie_value, { expires: 7, path: '/' });
-      // $('body').trigger('auto_location');
+      if ($('.gallery').length == 0) $('body').trigger('auto_location');
     });
   }
   // Create auto-complete input for city-search
@@ -32,7 +32,7 @@ $(function(){
       resultsFormatter: function(item) {
                             return item.html_content;},
       tokenFormatter: function(item) { return item.html_content; },
-      onAdd: function(item) { smooth_load(); refresh_book_links(); }
+      onAdd: function(item) { if ($('.gallery').length == 0) $('body').trigger('auto_location'); smooth_load(); refresh_book_links(); }
   });
   
 
