@@ -45,15 +45,6 @@
             <input type="checkbox" value="true" <%= @user.weekly_digest == true ? 'checked' : '' %>>
             Weekly digest&mdash;keep up yourself up-to-date
           </label>
-<!--           <label>
-            <input type="checkbox" value="">
-            Monkey one is this and that&mdash;be sure to include why it's great
-          </label>
-          <label>
-            <input type="checkbox" value="">
-            Giraffe one is this and that&mdash;be sure to include why it's great
-          </label> -->
-
         </div>
       </div>
       
@@ -67,15 +58,6 @@
       <script type="text/javascript"> 
 
         $(function(){
-          // $('#fb-link').on('click', function() {
-          //   $.ajax({
-          //       url: '/user/facebook/link',
-          //       type: 'POST'
-          //   })
-          //   .always(function() {
-          //     document.location.reload(); 
-          //   });
-          // })
           $('#fb-unlink').on('click', function() {
             $.ajax({
                 url: '/user/facebook/unlink',

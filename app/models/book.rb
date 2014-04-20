@@ -10,14 +10,6 @@ class Book
   attr_accessor :editorial_review
   attr_accessor :published_at
 
-	# def initialize(asin, author, isbn, title, images)
-	# 	@asin   = asin
-	# 	@author = author
-	# 	@isbn   = isbn
-	# 	@title  = title
-	# 	@images  = images
-	# end
-
 	def initialize()
 		@images = {}
 	end
@@ -46,26 +38,3 @@ class Book
  		url_title
 	end
 end
-
-# def books_to_html(books)
-# 	html = "<div id='books'>"
-# 	books.each_value do |book|
-# 		html += book.to_html
-# 	end
-# 	html += "</div>"
-# end
-
-# def books_from_xml(xml)
-
-# end
-
-# def get_books(:query, *:sort, *:page, *:response_group)
-
-# end
-  # field ASIN, type: String 
-  # field author, type: String
-  # field ISBN, type: String
-  # field title, type: String
-  # field SmallImage, type: String
-  # field LargeImage, type: String
-  # field EditorialReview, tpye: String

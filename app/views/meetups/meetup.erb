@@ -3,9 +3,7 @@
   <ol class="breadcrumb">
     <li><a href="#">Home</a></li>
     <li>
-      <% #session[:url_cities].each do |city| %>
-        <a href="#" class="city-id-to-name" data-id="<%= @meetup.city %>"><%= @meetup.city %></a>
-      <% #end %>
+      <a href="#" class="city-id-to-name" data-id="<%= @meetup.city %>"><%= @meetup.city %></a>
     </li>
     <li class="active"><a href="/meetups/at/<%= @meetup.city %>/for/<%= @book.isbn+'/'+@book.get_url_title %>"><%= @book.title %></a></li>
     <li class="active"><%= @meetup.name %></li>
@@ -105,7 +103,6 @@
            document.getElementsByTagName('body')[0]).appendChild(s);
       })();
       </script>
-
       
     </div>
   </div>

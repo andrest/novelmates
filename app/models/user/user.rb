@@ -15,24 +15,10 @@ class Interest
   has_and_belongs_to_many :users
 end
 
-# class Books
-#   include Mongoid::Document
-#   include Mongoid::Timestamps
-#   # embedded_in :user
-#   embeds_many :interests
-#   accepts_nested_attributes_for :interests
-
-#   field :isbn,          type: String
-
-# end
-
-
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
-  # timestamps!
-  
-  # self.include_root_in_json = true
+
   embeds_one :FBTokens
   has_and_belongs_to_many :interests
   has_and_belongs_to_many :meetups
@@ -43,9 +29,6 @@ class User
   field :firstname,       type: String
   field :lastname,        type: String
   field :email,           type: String
-  # meetup id, name String, user notification Bool, creator Bool
-  # field :meetups,        type: Array, :default => []
-  # field :oauth,           type: Hash,     :default => {}
   field :location,        type: String
   field :active,          type: Boolean,  :default => true
   field :profile,         type: String
@@ -55,20 +38,15 @@ class User
   
   validates_presence_of     :firstname, :lastname
   # validates_presence_of     :password #, :on => :create
-  # validates_confirmation_of :password
-  # Make sure email contains an @
-  # validates_format_of       :email, with: /@/
   validates_inclusion_of    :active, :in => [true, false]
   validates_uniqueness_of   :email, :case_sensitive => false,
                             :message => "User with this email already exists."
-  # validates_uniqueness_of   :email
   # validates_format_of       :username,  :with => /\A[A-Za-z0-9_]+\z/, 
   #                                       :message => "must contain only letters, numbers and underscores."
   validates_format_of       :email, :with =>  /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i                                   
   before_save               :_encrypt_password
   before_create             :_encrypt_password
   before_save { self.email = email.downcase }
-
 
   def self.authenticate(email, password)
     user = self.where(:email => email, :active => true).first

@@ -1,18 +1,15 @@
+# Contains user specific routes
 Novelmates::App.controllers :user do
 
   get :profile_pic, map: '/user/:id/profile_pic' do
-
     if !current_user.nil? && params[:id].to_s == current_user._id.to_s
       user = current_user
-      # ap 'CURRENT USER'
     else
       user = User.find(params[:id])
 
       if user.nil?
         return '<img style="display:inline-block;" class="profile img-circle" src="http://placekitten.com/40/40">'
       end
-      # return if user.nil?
-      # ap "OTHER USER"
     end
 
     profile_pic = ''
@@ -67,9 +64,6 @@ Novelmates::App.controllers :user do
   end
 
   get :index, with: :id do
-    # if params[:id] == current_user._id
-    #   @user = current_user
-    # else
     @user = User.find(params[:id])
     halt 404 if @user.nil?
     

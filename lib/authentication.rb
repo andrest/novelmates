@@ -7,7 +7,6 @@ module Authentication
         manager.failure_app = app
         manager.serialize_into_session {|user| user._id}
         manager.serialize_from_session {|id| User.find(Moped::BSON::ObjectId(id.to_s)) }
-        # manager.serialize_from_session {|id| User.find( {_id:ObjectId(id)} ) }
     end
      
     Warden::Manager.before_logout do |user,auth,opts|

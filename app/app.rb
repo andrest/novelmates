@@ -218,26 +218,5 @@ module Novelmates
     # disable :flash                # Disables sinatra-flash (enabled by default if Sinatra::Flash is defined)
     # layout  :my_layout            # Layout can be in views/layouts/foo.ext or views/foo.ext (default :application)
     #
-
-    ##
-    # You can configure for a specified environment like:
-    #
-    #   configure :development do
-    #     set :foo, :bar
-    #     disable :asset_stamp # no asset timestamping for dev
-    #   end
-    #
-
-    ##
-    # You can manage errors like:
-    #
-    #   error 404 do
-    #     render 'errors/404'
-    #   end
-    #
-    #   error 505 do
-    #     render 'errors/505'
-    #   end
-    #
   end
 end

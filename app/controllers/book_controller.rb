@@ -1,61 +1,32 @@
+# Contains book API specific routes
 Novelmates::App.controller do
-
-	# before do
-	#   ap session[:current_cities] # unless request.env["current_cities"].nil?
-	# end
-
-	# get '/book/*' do
-	#   "Page for book: #{params[:name]}"
-	#   params.each do |s|
-	#     puts "Parameter: #{s}"
-	#   end
-	# end
-	
-	# get '/location/:name' do
-	#   "Page for book: #{params[:name]}"
-	#   params.each do |s|
-	#     puts "Parameter: #{s}"
-	#   end
-	# end
 
 	get '/get_book/:isbn' do
 	  content_type 'application/json'
 	  MultiJson.encode(BookController.get_book(params[:isbn]))
 	end
 
-
-
 	post '/book/interest' do
 		halt 401 unless signed_in?
-	  # params[:interest]
-	  # params[:isbn]
-	  # ap Interest.where({isbn: params[:isbn], category: params[:interest] }).all.entries
 	  i = Interest.where({isbn: params[:isbn], category: params[:interest] })
 	  if i.count == 0
 	  	i = Interest.create({isbn: params[:isbn], category: params[:interest] })
 	  	ap 'new interest' if dev?
 	 	end
-
 	  current_user.interests << i
-
 	  status 200
-	  # ap current_user
 	end
 
 	delete '/book/interest' do
 		halt 401 unless signed_in?
-	  # params[:interest]
-	  # params[:isbn]
-	  # ap Interest.where({isbn: params[:isbn], category: params[:interest] }).all.entries
 	  i = Interest.where({isbn: params[:isbn], category: params[:interest], user_ids: current_user._id }).pull(:user_ids, current_user._id)
-	  # ap i
-	  # ap current_user
 	  status 200
   	body ''
 	end
 
 end
 
+# A wrapper to simplify querying books through Amazon API
 module BookController
 	def self.get_books(query, sort: "relevancerank", page: 1, response_group: "Medium", isbn: '')
 		xml = request_books(query, sort, page, response_group, isbn)
@@ -188,8 +159,6 @@ module BookController
 			HTML
 			html.push({id: book.isbn, title: book.title, html_content: content.gsub(/(\t|\n)+/, "")})
 		end
-		# html += "</div>"
-
 		MultiJson.encode(html)
 	end
 
