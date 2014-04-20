@@ -12,7 +12,7 @@ The application can be downloaded from its GitHub hosted repository. This step c
     git clone https://github.com/andrest/novelmates.git
 
 
-The suggested option for deploying the application is Heroku. If Heroku can not be used any other hosting provider that provides Ruby and MongoDB can be used, the configuration for this will not be provided. The source code includes Heroku configuration in \emph{Procfile} and this makes deploying a straightforward process.
+The suggested option for deploying the application is Heroku. If Heroku can not be used any other hosting provider that provides Ruby and MongoDB can be used, the configuration for this will not be provided. The source code includes Heroku configuration in Procfile and this makes deploying a straightforward process.
 
 If the Heroku toolbelt is installed the application can be deployed from the shell:
 
