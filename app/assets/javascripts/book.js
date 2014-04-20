@@ -14,13 +14,6 @@ $(function(){
     // book.html_content = "<li>"+book.title+"</li>";
     books.push(book); 
   });
-  // if(get_for() != null) {
-  //   var books = get_for()
-  //   $.each(books, function(index, val) {
-  //     books.push(get_book(val));
-  //   });
-  // }
-  // Create auto-complete input for city-search
 
   var city_input = $('#city-input').tokenInput("/city/auto/", 
                                                {prePopulate: cities,

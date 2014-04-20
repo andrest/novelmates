@@ -102,7 +102,6 @@ describe "when searching meetups", :js => true do
   end
   it "get first harry" do
     first_harry()
-    page.save_screenshot('tmp/testshot.png', :full => false)
     page.should have_content('Interest Categories')
     page.should have_content('Meetups')
     page.should have_css('.book-listing')
@@ -186,7 +185,6 @@ describe '1. Meet-ups', :type => :feature,  js: 'true' do
     within 'ol.breadcrumb' do 
       page.should have_content('Capybara event')
     end
-    page.save_screenshot('tmp/create-meetup.png')
   end 
   it '1b The meet-up creator should be able to update existing meet-up details and pick a venue.' do
 
@@ -205,8 +203,6 @@ describe '1. Meet-ups', :type => :feature,  js: 'true' do
     fill_in 'venue-name', with: "Prime Ministers Office"
     fill_in 'Address', with: "10 Downing St, London, UK"
     click_button 'Save'
-
-    page.save_screenshot('tmp/edit-meetup.png')
   end
   it '1c Any user should be able to view any meet-up details' do
     click_button 'Add new meetup'
@@ -345,40 +341,3 @@ describe 'Interest Categories', :type => :feature,  js: 'true'  do
     # page.should have_css("#interest-categories .list-group-item:nth-last-child(2) .remove-interest.hidden")
   end
 end
-# describe 'Optional', :type => :feature,  js: 'true'  do
-#   it 'The user should be able to search for multiple books at a time' do
-
-#   end
-#   it 'The user should be able to invite facebook friends to attend'
-#   it 'The application should try to determine user\'s location automatically' do
-#     # Verified before
-#   end
-# end
-
-
-
-
-
-
-
-
-# describe "meetup", :type => :feature do
-
-#   it "find meetup"
-#   it "add interest"
-#   it "create interest"
-#   it "create meetup" do
-
-#   end
-#   it "attend meetup" do
-
-#   end
-# end
-
-# describe "user", :type => :feature do
-
-#   it "has profile"
-#   it "has profile pic"
-#   it "has details"
-#   it "has notifications"
-# end

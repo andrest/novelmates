@@ -26,12 +26,6 @@ $(function() {
        if (response.authResponse) {
         window.location.replace("/auth/facebook/callback");
 
-  	      // since we have cookies enabled, this request will allow omniauth to parse
-  	      // out the auth code from the signed request in the fbsr_XXX cookie
-  	      // $.getJSON('/auth/facebook/callback', function(json) {
-  	      //   	console.log('redirecting..');
-  	      //   	window.location.replace("/auth/facebook/callback");
-  	      // });
    }
   }, { scope: 'email, user_location' });
    });

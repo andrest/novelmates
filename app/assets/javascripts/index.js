@@ -1,6 +1,4 @@
 $(function(){
-  // Wire up book-input
-  // $( "#book-input" ).on('input', book_input() ); 
 
   // Get location from GeoIP
   if ($.cookie('city_ip') == undefined) {
@@ -16,7 +14,7 @@ $(function(){
                                                 preventDuplicates: true,
                                                 onAdd: function(){ update_session_locations(); refresh_book_links() },
                                                 onDelete: function(){ refresh_book_links() }});
-
+  // Wire up book-input
   var bookinput = $('#book-input').tokenInput("/autocomplete/", {
       addTokenTo: '.search-box',
       propertyToSearch: "title",
@@ -50,11 +48,6 @@ $(function(){
 
 });
 
-// function get_location(){
-//   if ($.cookie('city_coords') != undefined) return $.cookie('city_coords')
-//   else if ($.cookie('city_ip') != undefined ) return $.cookie('city_ip')  
-// }
-
 $(function(){
   $('#book-search').on('search_results', function(){
     refresh_book_links('#book-search a.book-link');
@@ -86,15 +79,6 @@ function refresh_book_links(urls) {
     };
 
     $(link).attr('href', newUrlArray.join(' ').split(/\s+/).join('/'));
-    // var newUrlArray = [urlArray[0], urlArray[1]];
-    // newUrlArray.push( $('#city-input').tokenInput('get').map(function(elem) {
-    //   return elem.id
-    // }).join('+'););
-    // $.each(urlArray, function(i){ newUrlArray.push(i) }
-    // $(link).attr('href', urlArray.join(' ').split(/\s+/).join('/'));
-    // $(link).on('click', function() {
-    //   // $(link).attr('href', urlArray.join('/'));
-    // });
   });
 }
 
@@ -159,11 +143,6 @@ function loc_from_coords(latS, lngS) {
         });
         loc = city+", "+country;
         get_geonames_id(loc);
-        // cookie_value = JSON.stringify({id: 0, name: city+', '+country});
-        // JSON.stringify('{"id": 0, "name": "'city+', '+country+'"}');
-
-        // $.cookie('city_coords', cookie_value, { expires: 30, path: '/' });
-        // return address;
       }
     } else {
       alert("Geocoder failed due to: " + status);
@@ -208,9 +187,6 @@ function determine_location() {
     var longitude = position.coords.longitude;
 
     loc_from_coords(latitude, longitude);
-    // add function to convert all mosaic links to right
-    // refresh_book_links();
-    // callback();
   };
 
   function error(error) {
