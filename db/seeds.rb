@@ -15,10 +15,10 @@ meetups = []
 
 puts 'Manual Seeding'
 
-u1 = User.create(firstname: "Janek", lastname: "Kukk", email:"janek@janek.com", password: "janek", active: "true")
-u2 = User.create(firstname: "Julia", lastname: "Tuul", email:"julia@julia.com", password: "julia", active: "true")
-u3 = User.create(firstname: "Andres", lastname: "Tuul", email:"punkar@gmail.com", password: "andres", weekly_digest: "true", active: "true")
-u4 = User.create(firstname: "Yoni", lastname: "Regev", email:"yoni@yoni.com", password: "yoni", active: "true")
+u1 = User.create(firstname: "Mike", lastname: "Mike", email:"mike@mike.com", password: "mike", active: "true")
+u2 = User.create(firstname: "Bob", lastname: "Bob", email:"bob@bob.com", password: "Bob", active: "true")
+u3 = User.create(firstname: "Charles", lastname: "Charles", email:"charles@charles.com", password: "charles", weekly_digest: "true", active: "true")
+u4 = User.create(firstname: "Larry", lastname: "Larry", email:"larry@larry.com", password: "larry", active: "true")
 
 i1 = Interest.create(isbn: "0762448652", category: "Dissecting the storyline")
 i2 = Interest.create(isbn: "0762448652", category: "Author discussion")
